@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {SignUpService} from "../../core/services/sign-up.service";
+import {SignUpService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
