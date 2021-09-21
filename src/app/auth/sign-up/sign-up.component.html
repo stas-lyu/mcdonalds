@@ -1,14 +1,14 @@
 <div class="form-container mt-2">
   <form class="sign-up">
-    <h3>McDonald’s Signup</h3>
+    <h3 class="form-title">McDonald’s Signup</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="John Smith" [formControl]="nameFormControl">
+      <input name="name" matInput placeholder="John Smith" [formControl]="nameFormControl">
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+      <input type="email" name="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
              placeholder="Ex. pat@example.com">
       <mat-hint>Errors appear instantly!</mat-hint>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
@@ -19,7 +19,9 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-flat-button color="accent" class="full-width" (click)="onClickSubmit(formData)">Accent</button>
+    <mat-checkbox name="isAdmin" class="example-margin" [formControl]="checkboxFormControl">Do you admin?</mat-checkbox>
+
+    <button mat-flat-button color="accent" class="full-width form-submit_btn" (click)="onClickSubmit()">Registration</button>
 
   </form>
 </div>

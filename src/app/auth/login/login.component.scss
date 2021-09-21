@@ -1,0 +1,27 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-up {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  @media (max-width: 480px) {
+    width: 80%;
+  }
+}
+
+.form-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-submit_btn {
+  margin: 1rem 0;
+}

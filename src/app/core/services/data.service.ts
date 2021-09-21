@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {InMemoryDbService} from "angular-in-memory-web-api";
+import {SignUpComponent} from "../../auth/sign-up/sign-up.component";
+import {User} from "../../shared/classes/user";
 
 @Injectable({
   providedIn: 'root'
@@ -10,38 +12,38 @@ export class DataService implements InMemoryDbService {
   }
 
   createDb() {
-    const categories = {
-      categories: [
-        {
-          id: 1,
-          category: 'Beverages',
-        },
-        {
-          id: 2,
-          category: 'Breakfast',
-        },
-        {
-          id: 3,
-          category: 'Desserts & Shakes',
-        },
-        {
-          id: 4,
-          category: 'Snacks & Sides',
-        },
-        {
-          id: 5,
-          category: 'Burgers',
-        },
-        {
-          id: 6,
-          category: 'Happy Meal',
-        },
-        {
-          id: 7,
-          category: 'Chicken & Sandwiches',
-        },
-      ],
-      items: [
+    const categories = [
+      {
+        id: 1,
+        name: 'Beverages',
+      },
+      {
+        id: 2,
+        name: 'Breakfast',
+      },
+      {
+        id: 3,
+        name: 'Desserts & Shakes',
+      },
+      {
+        id: 4,
+        name: 'Snacks & Sides',
+      },
+      {
+        id: 5,
+        name: 'Burgers',
+      },
+      {
+        id: 6,
+        name: 'Happy Meal',
+      },
+      {
+        id: 7,
+        name: 'Chicken & Sandwiches',
+      },
+    ];
+
+    const items = [
         {
           "categoryId": 1,
           "info": [
@@ -79,9 +81,14 @@ export class DataService implements InMemoryDbService {
             },
           ]
         }
-      ],
-      users: [],
-    };
-    return {categories}
+      ]
+
+    const users: User[] = [];
+
+    return {categories, users, items}
   }
+
+  // genId(users: User[]): number {
+  //   return users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+  // }
 }

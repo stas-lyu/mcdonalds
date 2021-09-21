@@ -1,8 +1,8 @@
 <nav class="navbar">
   <a mat-flat-button color="warn" class="button" routerLink="/sign-up" routerLinkActive="activebutton">Sign Up</a>
-  <a mat-flat-button color="primary" class="button" routerLink="/login" routerLinkActive="activebutton">Sign In</a>
+  <a mat-flat-button color="primary" class="button" routerLink="/sign-in" routerLinkActive="activebutton">Sign In</a>
   <button mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
   <mat-menu  #menu="matMenu">
-    <button *ngFor="let item of categories | keyvalue" mat-menu-item>{{item.value}}</button>
+    <button *ngFor="let item of categories" mat-menu-item>{{item.name}}</button>
   </mat-menu>
 </nav>

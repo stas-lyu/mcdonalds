@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {SignUpService} from "../../core/services/sign-up.service";
+import {User} from "../../shared/classes/user";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -16,30 +18,45 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class SignUpComponent implements OnInit {
+  users: User[] | any;
   formData: any;
+  id: number | undefined;
   nameFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
+  checkboxFormControl = new FormControl(false)
 
   matcher = new MyErrorStateMatcher();
 
-  constructor() {
+  constructor(private userService: SignUpService) {
   }
 
   ngOnInit(): void {
-    this.formData = {
-      name: this.nameFormControl.value,
-      email: this.emailFormControl.value,
-      isAdmin: false
+
+  }
+
+  onClickSubmit(): void {
+    if (this.nameFormControl.status === 'VALID') {
+      if (this.emailFormControl.status === 'VALID') {
+        this.formData = {
+          id: 1,
+          name: this.nameFormControl.value,
+          email: this.emailFormControl.value,
+          isAdmin: this.checkboxFormControl.value
+        }
+
+        this.userService.addUser(this.formData)
+          .subscribe(
+            (data: any) => {
+              this.users.push(data);
+            },
+            (error: any) => console.log(error)
+          );
+      }
     }
   }
-
-  onClickSubmit(data: any) {
-   console.log(data)
-  }
-
 }
 
 
