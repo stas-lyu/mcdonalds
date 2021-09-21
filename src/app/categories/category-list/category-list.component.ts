@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from "../category.model"
-import { CategoryService } from "../category.service"
+import { CategoriesService } from "../../core/services/categories.service"
+import {Category} from "../../shared/classes/category";
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-product-list',
@@ -8,59 +9,61 @@ import { CategoryService } from "../category.service"
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
+  cols : number | undefined;
+
+  gridByBreakpoint = {
+    xl: 3,
+    lg: 3,
+    md: 3,
+    sm: 2,
+    xs: 1
+  }
+
   product = {
     name: '',
     id: null
   }
   edit = true;
   add = false;
-  products: Product[] | undefined;
+  categories: Category[] = [];
 
-  constructor(private productService: CategoryService) {}
-
-  ngOnInit(): void {
-    this.getProducts()
-  }
-
-  private getProducts() {
-    this.productService.getProducts().subscribe(products => this.products = products);
-  }
-
-  addProduct() {
-    const data = {
-      name: this.product.name,
-      id: this.product.id
-    };
-    this.productService.createProduct(data).subscribe(response => {
-      console.log(response)
-      this.getProducts();
+  constructor(private categoryService: CategoriesService, private breakpointObserver: BreakpointObserver) {
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge,
+    ]).subscribe(result => {
+      if (result.matches) {
+        if (result.breakpoints[Breakpoints.XSmall]) {
+          this.cols = this.gridByBreakpoint.xs;
+        }
+        if (result.breakpoints[Breakpoints.Small]) {
+          this.cols = this.gridByBreakpoint.sm;
+        }
+        if (result.breakpoints[Breakpoints.Medium]) {
+          this.cols = this.gridByBreakpoint.md;
+        }
+        if (result.breakpoints[Breakpoints.Large]) {
+          this.cols = this.gridByBreakpoint.lg;
+        }
+        if (result.breakpoints[Breakpoints.XLarge]) {
+          this.cols = this.gridByBreakpoint.xl;
+        }
+      }
     });
   }
 
-  setProductEdit(product: Product) {
-    this.product.name = product.name;
-    // this.product.id = product.id;
-    this.edit = false;
-    this.add = true;
+  ngOnInit(): void {
+    this.getCategories()
   }
 
-  resetValues() {
-    this.product.name = "";
-    this.product.id = null;
-    this.edit = true;
-    this.add = false;
+
+
+  private getCategories() {
+    this.categoryService.getCategories().subscribe(category => this.categories = category);
+    console.log(this.categories)
   }
 
-  removeProduct(product: Product) {
-    const id = product.id;
-    console.log(product)
-    this.productService.deleteProduct(id).subscribe(product => console.log(product));
-    this.getProducts()
-  }
-
-  updateProduct(){
-    // this.productService.editProduct(this.product).subscribe(response => console.log(response));
-    this.getProducts()
-    this.resetValues()
-  }
 }

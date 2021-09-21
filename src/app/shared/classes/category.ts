@@ -1,4 +1,5 @@
 export class Category {
-  id: any;
-  name: any;
+  id: number | undefined;
+  name: string | undefined;
+  imgUrl: string | undefined;
 }

@@ -4,5 +4,6 @@
   <button mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
   <mat-menu  #menu="matMenu">
     <button *ngFor="let item of categories" mat-menu-item>{{item.name}}</button>
+    <button mat-menu-item routerLink="/categories" routerLinkActive="activebutton">Show Details</button>
   </mat-menu>
 </nav>

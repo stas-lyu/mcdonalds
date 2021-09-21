@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 
-export class NavService implements HttpInterceptor {
+export class CategoriesService implements HttpInterceptor {
   private categoriesUrl = 'api/categories';
 
   constructor(private http: HttpClient) {

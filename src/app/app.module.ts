@@ -10,6 +10,7 @@ import {CustomerModule} from "./customer/customer.module";
 import {CoreModule} from "./core/core.module";
 import {SharedModule} from "./shared/shared.module";
 import {AuthModule} from "./auth/auth.module";
+import {CategoriesModule} from "./categories/categories.module";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {AuthModule} from "./auth/auth.module";
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
+    CategoriesModule,
     HttpClientInMemoryWebApiModule.forRoot(DataService, {dataEncapsulation: false}),
   ],
   providers: [],

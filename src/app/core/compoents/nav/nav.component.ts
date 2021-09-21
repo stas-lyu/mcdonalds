@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {map, take} from "rxjs/operators";
-import {NavService} from "../../services/nav.service";
+import {CategoriesService} from "../../services/nav.service";
 import {Category} from "../../../shared/classes/category";
 
 @Component({
@@ -13,7 +12,7 @@ export class NavComponent implements OnInit {
 
   categories: Category[] = [];
 
-  constructor(private categoryService: NavService) {}
+  constructor(private categoryService: CategoriesService) {}
 
   ngOnInit(): void {
     this.getCategories()
@@ -22,5 +21,6 @@ export class NavComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories()
       .subscribe(category => this.categories = category);
+    console.log(this.categories)
   }
 }

@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
   users: User[] | any;
   formData: any;
   id: number | undefined;
-  nameFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -38,11 +38,11 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickSubmit(): void {
-    if (this.nameFormControl.status === 'VALID') {
+    if (this.passwordFormControl.status === 'VALID') {
       if (this.emailFormControl.status === 'VALID') {
         this.formData = {
           id: 1,
-          name: this.nameFormControl.value,
+          name: this.passwordFormControl.value,
           email: this.emailFormControl.value,
           isAdmin: this.checkboxFormControl.value
         }
