@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryListComponent } from './category-list/category-list.component';
 import {FormsModule} from "@angular/forms";
+import {MaterialModule} from "../shared/material.module";
 
 
 
@@ -12,6 +13,7 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     FormsModule,
+    MaterialModule,
   ]
 })
-export class CategoryModule { }
+export class CategoriesModule { }

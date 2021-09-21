@@ -2,11 +2,6 @@
   <form class="sign-up">
     <h3 class="form-title">McDonald’s Signup</h3>
     <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Name</mat-label>
-      <input name="name" matInput placeholder="John Smith" [formControl]="nameFormControl">
-    </mat-form-field>
-
-    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
       <input type="email" name="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
              placeholder="Ex. pat@example.com">
@@ -18,8 +13,10 @@
         Email is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" name="password" matInput placeholder="******" [formControl]="passwordFormControl">
+    </mat-form-field>
     <button mat-flat-button color="accent" class="full-width form-submit_btn" (click)="onClickSubmit()">Login</button>
-
   </form>
 </div>
