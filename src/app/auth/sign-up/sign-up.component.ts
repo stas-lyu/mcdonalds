@@ -19,6 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class SignUpComponent implements OnInit {
   users: User[] | any;
+  hide = true;
   formData: any;
   id: number | undefined;
   passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);

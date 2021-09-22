@@ -1,4 +1,4 @@
 export class SingleCategory {
-  categoryId: any;
-  info: object | undefined;
+  categoryId!: number;
+  products!: object;
 }

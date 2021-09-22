@@ -1,18 +1,30 @@
-<div *ngFor="let item of dataInfo | keyvalue">
-      <h5 mat-dialog-title *ngIf="item.key === 'name'">{{item.value}}</h5>
+<div>
   <div class="dish-dialog">
-      <div class="dish-dialog-header">
-      <img *ngIf="item.key === 'imgUrl'" src="{{item.value}}" alt="" class="dish-dialog-img responsive-img">
-      </div>
+    <div class="dish-dialog-header">
+      <h5 mat-dialog-title class="dish-dialog-title">{{dataInfo.name}}</h5>
+      <img src="{{dataInfo.imgUrl}}" alt="" class="dish-dialog-img responsive-img">
+    </div>
     <div mat-dialog-content class="dish-dialog-content">
-      <p *ngIf="item.key === 'description'">{{item.value}}</p>
+      <p>{{dataInfo.description}}</p>
       <ul>
-        <li *ngIf="item.key === 'price'" class="dish-dialog-price"><b>Price:</b> {{item.value}} $</li>
-        <li *ngIf="item.key === 'cal'" class="dish-dialog-cal"><b>Calories:</b> {{item.value}} cal</li>
+        <li class="dish-dialog-price"><b>Price:</b> {{dataInfo.price}} $</li>
+        <li class="dish-dialog-cal"><b>Calories:</b> {{dataInfo.cal}} cal</li>
       </ul>
-      <ul *ngIf="item.key === 'size'" class="dish-dialog-list">
-        <li *ngFor="let topping of item.value">{{topping}}</li>
-      </ul>
+
+      <app-select-quantity>
+
+      </app-select-quantity>
+
+      <div class="dish-dialog-radio_group" *ngIf="isShowSize">
+        <label class="example-margin"><b>Choose size:</b></label>
+        <mat-radio-group>
+          <mat-radio-button class="example-margin" *ngFor="let size of dataInfo.size"
+                            value="{{size}}">{{size}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <button color="primary" mat-flat-button class="dish-dialog_btn" (click)="addToCart()">Add to cart
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
     </div>
   </div>
 </div>

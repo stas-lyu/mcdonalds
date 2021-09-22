@@ -64,8 +64,6 @@ export class DishesListComponent implements OnInit {
   }
 
   private getDishesByCategoryId(id: any) {
-    // @ts-ignore
     this.dishesService.getDishesByCategoryId(id).subscribe(dishes => this.dishes = dishes);
   }
-
 }

@@ -41,7 +41,7 @@ export class CategoriesService implements HttpInterceptor {
     return this.http.get<Dish[]>(this.dishesUrl)
       .pipe(map((item: any) => {
         if (item[id].categoryId == id) {
-          return item[id].info
+          return item[id].products
         }
       }), catchError((error: HttpErrorResponse) => {
         console.error(error);

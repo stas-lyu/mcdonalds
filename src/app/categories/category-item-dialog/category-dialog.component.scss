@@ -7,6 +7,21 @@
     align-items: center;
     justify-content: center;
   }
+  .dish-dialog-header {
+    display: flex;
+    flex-direction: column;
+    .dish-dialog-title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
+  .dish-dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+  }
   .dish-dialog-list {
     display: flex;
     list-style: none;
@@ -18,6 +33,12 @@
       padding: 1rem;
       border-radius: 12px;
     }
+  }
+  .dish-dialog_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
   }
   @media (max-width: 460px) {
     .dish-dialog-content, .dish-dialog-header {

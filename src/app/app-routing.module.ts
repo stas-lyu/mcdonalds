@@ -7,13 +7,15 @@ import {AdminComponent} from "./admin/admin/admin.component";
 import {AuthGuard} from "./core/guard/auth.guard";
 import {CategoryListComponent} from "./categories/category-list/category-list.component";
 import {DishesListComponent} from "./categories/dishes-list/dishes-list.component";
+import {CartComponent} from "./core/compoents/cart/cart.component";
 
 const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'sign-in', component: LoginComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'categories', component: CategoryListComponent, canActivate: [AuthGuard]},
-  { path: 'categories/:category', component: DishesListComponent },
+  {path: 'categories/:category', component: DishesListComponent},
+  {path: 'cart', component: CartComponent},
   {path: '**', component: PageNotFoundComponent},
 ];
 

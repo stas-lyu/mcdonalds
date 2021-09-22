@@ -31,9 +31,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 85%;
+  height: 90%;
 }
 
 .responsive-img {
   max-width: 100%;
+}
+
+.mat-grid-list {
+  height: 90%;
+  padding-bottom: 0!important;
 }

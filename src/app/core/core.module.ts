@@ -6,6 +6,7 @@ import {PageNotFoundComponent} from "./compoents/page-not-found/page-not-found.c
 import {NavComponent} from "./compoents/nav/nav.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
+import {CartComponent} from "./compoents/cart/cart.component";
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import {SharedModule} from "../shared/shared.module";
     PageNotFoundComponent,
     NavComponent,
     FooterComponent,
+    CartComponent,
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import {MaterialModule} from "../shared/material.module";
 import {CategoryDialogComponent} from "./category-item-dialog/category-dialog.component";
 import {AppRoutingModule} from "../app-routing.module";
 import {DishesListComponent} from "./dishes-list/dishes-list.component";
+import {SelectQuantityComponent} from "./category-item-dialog/select-quantity/select-quantity.component";
 
 
 
@@ -14,6 +15,7 @@ import {DishesListComponent} from "./dishes-list/dishes-list.component";
     CategoryListComponent,
     CategoryDialogComponent,
     DishesListComponent,
+    SelectQuantityComponent,
   ],
   imports: [
     CommonModule,

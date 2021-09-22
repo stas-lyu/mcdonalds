@@ -8,6 +8,7 @@ import {MyErrorStateMatcher} from "../sign-up/sign-up.component";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  hide = true;
   passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
   emailFormControl = new FormControl('', [
     Validators.required,

@@ -7,6 +7,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   exports: [
@@ -20,6 +22,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatCheckboxModule,
     MatGridListModule,
     MatDialogModule,
+    MatRadioModule,
+    MatBadgeModule,
   ],
 })
 export class MaterialModule { }
