@@ -1,0 +1,19 @@
+<div *ngFor="let item of dataInfo | keyvalue">
+      <h5 mat-dialog-title *ngIf="item.key === 'name'">{{item.value}}</h5>
+  <div class="dish-dialog">
+      <div class="dish-dialog-header">
+      <img *ngIf="item.key === 'imgUrl'" src="{{item.value}}" alt="" class="dish-dialog-img responsive-img">
+      </div>
+    <div mat-dialog-content class="dish-dialog-content">
+      <p *ngIf="item.key === 'description'">{{item.value}}</p>
+      <ul>
+        <li *ngIf="item.key === 'price'" class="dish-dialog-price"><b>Price:</b> {{item.value}} $</li>
+        <li *ngIf="item.key === 'cal'" class="dish-dialog-cal"><b>Calories:</b> {{item.value}} cal</li>
+      </ul>
+      <ul *ngIf="item.key === 'size'" class="dish-dialog-list">
+        <li *ngFor="let topping of item.value">{{topping}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+

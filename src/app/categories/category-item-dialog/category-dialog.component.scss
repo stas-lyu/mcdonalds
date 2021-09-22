@@ -1,0 +1,27 @@
+.dish-dialog {
+  display: flex;
+  flex-wrap: wrap;
+  .dish-dialog-content, .dish-dialog-header {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dish-dialog-list {
+    display: flex;
+    list-style: none;
+    width: 300px;
+    justify-content: space-around;
+    li {
+      background-color: black;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+    }
+  }
+  @media (max-width: 460px) {
+    .dish-dialog-content, .dish-dialog-header {
+      width: 100%;
+    }
+  }
+}

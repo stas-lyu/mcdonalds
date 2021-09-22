@@ -8,14 +8,17 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {catchError, map, retry} from 'rxjs/operators';
 import {Category} from "../../shared/classes/category";
+import {SingleCategory} from "../../shared/classes/singleCategory";
+import {Dish} from "../../shared/classes/dish";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService implements HttpInterceptor{
+export class CategoriesService implements HttpInterceptor {
   private categoriesUrl = 'api/categories/';
+  private dishesUrl = 'api/items/';
 
   constructor(private http: HttpClient) {
   }
@@ -32,6 +35,25 @@ export class CategoriesService implements HttpInterceptor{
         return throwError(error);
       })
     );
+  }
+
+  getDishesByCategoryId(id: any): Observable<Dish[]> {
+    return this.http.get<Dish[]>(this.dishesUrl)
+      .pipe(map((item: any) => {
+        if (item[id].categoryId == id) {
+          return item[id].info
+        }
+      }), catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      }))
+    //   .pipe(
+    //   retry(2),
+    //   catchError((error: HttpErrorResponse) => {
+    //     console.error(error);
+    //     return throwError(error);
+    //   })
+    // );
   }
 
   // getCategories(): Observable<Category[]> {

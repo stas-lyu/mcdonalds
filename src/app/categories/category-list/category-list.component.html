@@ -1,5 +1,11 @@
-<mat-grid-list #grid [cols]="cols" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let item of categories" class="category-item">
+<mat-grid-list
+  #grid [cols]="cols" rowHeight="2:1"
+>
+  <mat-grid-tile
+                 *ngFor="let item of categories"
+                 class="category-item"
+                 [routerLink]="['/categories', item.id]"
+  >
     <img src="{{item.imgUrl}}" alt="{{item.name}}">
     <h5>{{item.name}}</h5>
   </mat-grid-tile>

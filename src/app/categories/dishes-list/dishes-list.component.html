@@ -1,0 +1,12 @@
+<mat-grid-list
+  #grid [cols]="cols" rowHeight="2:1"
+>
+  <mat-grid-tile
+    *ngFor="let dish of dishes"
+    class="dish-item"
+    (click)="openDishesDescriptionModal(dishes[dish.id])"
+  >
+    <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="dish-img">
+    <h5 class="dish-title">{{dish.name}}</h5>
+  </mat-grid-tile>
+</mat-grid-list>

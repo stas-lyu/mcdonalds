@@ -10,6 +10,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class CategoryListComponent implements OnInit {
   cols : number | undefined;
+  category: any;
 
   gridByBreakpoint = {
     xl: 3,
@@ -59,11 +60,7 @@ export class CategoryListComponent implements OnInit {
     this.getCategories()
   }
 
-
-
   private getCategories() {
     this.categoryService.getCategories().subscribe(category => this.categories = category);
-    console.log(this.categories)
   }
-
 }

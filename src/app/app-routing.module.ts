@@ -6,12 +6,14 @@ import {PageNotFoundComponent} from "./core/compoents/page-not-found/page-not-fo
 import {AdminComponent} from "./admin/admin/admin.component";
 import {AuthGuard} from "./core/guard/auth.guard";
 import {CategoryListComponent} from "./categories/category-list/category-list.component";
+import {DishesListComponent} from "./categories/dishes-list/dishes-list.component";
 
 const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'sign-in', component: LoginComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'categories', component: CategoryListComponent, canActivate: [AuthGuard]},
+  { path: 'categories/:category', component: DishesListComponent },
   {path: '**', component: PageNotFoundComponent},
 ];
 
