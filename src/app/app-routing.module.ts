@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SignUpComponent} from "./auth/sign-up/sign-up.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {PageNotFoundComponent} from "./core/compoents/page-not-found/page-not-found.component";
-import {AdminComponent} from "./admin/admin/admin.component";
+import {AdminComponent} from "./admin/admin.component";
 import {AuthGuard} from "./core/guard/auth.guard";
 import {CategoryListComponent} from "./categories/category-list/category-list.component";
 import {DishesListComponent} from "./categories/dishes-list/dishes-list.component";

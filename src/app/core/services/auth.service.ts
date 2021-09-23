@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {catchError, tap} from "rxjs/operators";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {Observable, of, throwError} from "rxjs";
+import {catchError, retry, tap} from "rxjs/operators";
 
 import {User} from '../../shared/classes/user';
 import {Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -17,8 +16,9 @@ const httpOptions = {
 export class AuthService {
   private usersUrl = 'api/users';
   public loggedIn = false;
+  users:any [] = [];
 
-  constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loggedIn = !!localStorage.getItem('user');
   }
 
@@ -48,32 +48,21 @@ export class AuthService {
       );
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: 3000}).onAction()
-      .subscribe(() => this.router.navigate(['sign-in']));
-  }
-
-  addUser(user: User, users: any): Observable<User> {
-    let userObservable: any;
-    users.forEach((person: any) => {
-      if (person.email === user.email) {
-        return this.openSnackBar('This email already registered', 'Do you wont sign in?')
-      } else {
-        if (users.length === 0) {
-          user.id = 11;
-          userObservable = this.http.put(this.usersUrl, user, httpOptions)
-        } else {
-          userObservable = this.http.post<User>(this.usersUrl, user, httpOptions);
-        }
-        this.router.navigate(['categories']);
+  public addUser(user: User, users: User[]): any {
+    if (users.some((person: User) => person.email === user.email)) {
+      throwError('This email already registered');
+    } else  {
+      this.http.post<User>(this.usersUrl, user, httpOptions).subscribe((user: User) => {
         this.setCurrentUser(user.email);
-        return userObservable
-      }
-    })
-    return userObservable
+        this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
+      }, catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      }))
+    }
   }
 
-  genId(user: User[]): number {
+  public genId(user: User[]): number {
     return user.length > 0 ? Math.max(...user.map(person => person.id)) + 1 : 11;
   }
 

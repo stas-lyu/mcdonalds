@@ -1,5 +1,5 @@
 export class CartItem {
-  name!: string;
+  id!: number;
+  size!: string;
   quantity!: number;
-  imgUrl!: string;
 }
