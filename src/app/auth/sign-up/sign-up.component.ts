@@ -45,15 +45,13 @@ export class SignUpComponent implements OnInit {
   public onClickSubmit(): void {
     if (this.passwordFormControl.status === 'VALID' && this.emailFormControl.status === 'VALID') {
       this.formData = {
-        name: this.passwordFormControl.value,
         email: this.emailFormControl.value,
+        password: this.passwordFormControl.value,
         isAdmin: this.checkboxFormControl.value
       }
-      this.authService.addUser(this.formData, this.users.length)
+      this.authService.addUser(this.formData, this.users)
         .subscribe(user => {
           this.users.push(user);
-          console.log(this.users)
-          console.log(this.authService.isLoggedIn);
         });
     }
   }

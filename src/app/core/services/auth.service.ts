@@ -5,6 +5,7 @@ import {catchError, tap} from "rxjs/operators";
 
 import {User} from '../../shared/classes/user';
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -17,16 +18,16 @@ export class AuthService {
   private usersUrl = 'api/users';
   public loggedIn = false;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) {
     this.loggedIn = !!localStorage.getItem('user');
   }
 
-  private setCurrentUser(email: string): void {
+  public setCurrentUser(email: string): void {
     localStorage.setItem('user', email);
     this.loggedIn = true;
   }
 
-   getCurrentUser(): string | any {
+  getCurrentUser(): string | any {
     return localStorage.getItem('user') || undefined;
   }
 
@@ -47,16 +48,28 @@ export class AuthService {
       );
   }
 
-  addUser(user: User, numUsers: number): Observable<User> {
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 3000}).onAction()
+      .subscribe(() => this.router.navigate(['sign-in']));
+  }
+
+  addUser(user: User, users: any): Observable<User> {
     let userObservable: any;
-    if (numUsers === 0) {
-      user.id = 11;
-      userObservable = this.http.put(this.usersUrl, user, httpOptions)
-    } else {
-      userObservable = this.http.post<User>(this.usersUrl, user, httpOptions);
-    }
-    this.router.navigate(['categories']);
-    this.setCurrentUser(user.email);
+    users.forEach((person: any) => {
+      if (person.email === user.email) {
+        return this.openSnackBar('This email already registered', 'Do you wont sign in?')
+      } else {
+        if (users.length === 0) {
+          user.id = 11;
+          userObservable = this.http.put(this.usersUrl, user, httpOptions)
+        } else {
+          userObservable = this.http.post<User>(this.usersUrl, user, httpOptions);
+        }
+        this.router.navigate(['categories']);
+        this.setCurrentUser(user.email);
+        return userObservable
+      }
+    })
     return userObservable
   }
 

@@ -69,7 +69,7 @@ export class DataService implements InMemoryDbService {
           {
             id: 2,
             name: "Fanta® Orange",
-            imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Sprite-Small.jpg?$Product_Desktop$",
+            imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-fanta-orange.jpg?$Product_Desktop$",
             price: 1.99,
             size: ["s", "m", "l"],
             cal: 150,
@@ -294,7 +294,7 @@ export class DataService implements InMemoryDbService {
       }
     ]
 
-    const users = [{id: 1, name: "admin", password: '123456', isAdmin: true}];
+    const users = [{id: 1, email: "admin@admin.admin", password: '123456', isAdmin: true}];
 
     return {categories, users, items}
   }
