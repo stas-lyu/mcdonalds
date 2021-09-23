@@ -8,8 +8,6 @@ import {AppRoutingModule} from "../app-routing.module";
 import {DishesListComponent} from "./dishes-list/dishes-list.component";
 import {SelectQuantityComponent} from "./category-item-dialog/select-quantity/select-quantity.component";
 
-
-
 @NgModule({
   declarations: [
     CategoryListComponent,

@@ -294,7 +294,7 @@ export class DataService implements InMemoryDbService {
       }
     ]
 
-    const users: User[] = [];
+    const users = [{id: 1, name: "admin", password: '123456', isAdmin: true}];
 
     return {categories, users, items}
   }

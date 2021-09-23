@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {SignUpService} from "../../core/services/auth.service";
+import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -18,10 +18,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class SignUpComponent implements OnInit {
-  users: User[] | any;
+  users!: User[];
   hide = true;
   formData: any;
-  id: number | undefined;
+  id!: number;
   passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -31,31 +31,30 @@ export class SignUpComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private userService: SignUpService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
-
+    this.getUsers()
   }
 
-  onClickSubmit(): void {
-    if (this.passwordFormControl.status === 'VALID') {
-      if (this.emailFormControl.status === 'VALID') {
-        this.formData = {
-          id: 1,
-          name: this.passwordFormControl.value,
-          email: this.emailFormControl.value,
-          isAdmin: this.checkboxFormControl.value
-        }
+  private getUsers(): void {
+    this.authService.getUsers().subscribe((user: User[]) => this.users = user);
+  }
 
-        this.userService.addUser(this.formData)
-          .subscribe(
-            (data: any) => {
-              this.users.push(data);
-            },
-            (error: any) => console.log(error)
-          );
+  public onClickSubmit(): void {
+    if (this.passwordFormControl.status === 'VALID' && this.emailFormControl.status === 'VALID') {
+      this.formData = {
+        name: this.passwordFormControl.value,
+        email: this.emailFormControl.value,
+        isAdmin: this.checkboxFormControl.value
       }
+      this.authService.addUser(this.formData, this.users.length)
+        .subscribe(user => {
+          this.users.push(user);
+          console.log(this.users)
+          console.log(this.authService.isLoggedIn);
+        });
     }
   }
 }
