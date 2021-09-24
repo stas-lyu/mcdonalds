@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoriesService} from "../../services/nav.service";
+import {CategoriesService} from "../../services/categories.service";
 import {Category} from "../../../shared/classes/category";
 import {AuthService} from '../../services/auth.service';
 
@@ -26,6 +26,5 @@ export class NavComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories()
       .subscribe(category => this.categories = category);
-    console.log(this.categories)
   }
 }

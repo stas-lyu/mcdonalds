@@ -1,10 +1,10 @@
 @use 'src/assets/styles/variables' as var;
 
 .header {
-  @include var.main-gradient;
-
   color: #fff;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('../../../../assets/img/header.jpeg');
   padding: 1rem 0;
+  background-size: contain;
   height: 5%;
   .container {
     display: flex;

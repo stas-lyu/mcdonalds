@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
         email: this.emailFormControl.value,
         password: this.passwordFormControl.value,
       }
-
       this.authService.login(this.formData, this.users)
       if (!this.authService.isLoggedIn) {
         this.openSnackBar('incorect input field', 'Try again!')

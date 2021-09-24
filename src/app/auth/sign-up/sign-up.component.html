@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form class="sign-up">
+  <form class="sign-up form">
     <h3 class="form-title">McDonald’s Signup</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
@@ -24,8 +24,15 @@
     </mat-form-field>
     <mat-checkbox name="isAdmin" class="example-margin" [formControl]="checkboxFormControl">Do you admin?</mat-checkbox>
 
-    <button mat-flat-button color="accent" class="full-width form-submit_btn gradient" (click)="onClickSubmit()">Registration
+    <button mat-flat-button class="full-width form-submit_btn btn" (click)="onClickSubmit()">Registration
     </button>
 
   </form>
+  <div class="drops">
+    <div class="drop drop-1"></div>
+    <div class="drop drop-2"></div>
+    <div class="drop drop-3"></div>
+    <div class="drop drop-4"></div>
+    <div class="drop drop-5"></div>
+  </div>
 </div>

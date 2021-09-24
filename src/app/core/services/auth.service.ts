@@ -17,8 +17,8 @@ export class AuthService {
   private usersUrl = 'api/users';
   private loggedIn = false;
   users: any [] = [];
-  roleAs!: string;
-  redirectUrl!: string;
+  roleAs!: string[];
+  private admin!: boolean;
 
   constructor(private http: HttpClient, private router: Router) {
     this.loggedIn = !!localStorage.getItem('user');
@@ -27,9 +27,10 @@ export class AuthService {
   public setCurrentUser(email: string): void {
     localStorage.setItem('user', email);
     this.loggedIn = true;
+    this.admin = localStorage.getItem('role') !== 'customer';
   }
 
-  getCurrentUser(): string | any {
+  public getCurrentUser(): string | any {
     return localStorage.getItem('user') || undefined;
   }
 
@@ -42,26 +43,12 @@ export class AuthService {
     return this.loggedIn;
   }
 
-  // login(userEmail: string, password: string) {
-  //   this.getUsers().subscribe((users) => {
-  //    return users.forEach((user) => {
-  //       if (user.email === userEmail && user.password === password) {
-  //            this.http.post<any>(this.usersUrl, {userEmail, password})
-  //           .pipe(map(user => {
-  //             console.log('test')
-  //             this.setCurrentUser(user)
-  //             this.router.navigate(['categories']);
-  //             return user;
-  //           }));
-  //       }
-  //       return
-  //     })
-  //   })
-  // }
+  public get isAdmin(): boolean {
+    return this.admin
+  }
 
   public get getRole() {
-    this.roleAs = <string>localStorage.getItem('role');
-    return this.roleAs;
+    return <string>localStorage.getItem('role');
   }
 
   getUsers(): Observable<User[]> {
@@ -74,15 +61,15 @@ export class AuthService {
 
   public login(user: User, users: User[]): any {
     if (users.some((person: User) => {
+      this.admin = person.isAdmin
       return person.email === user.email && person.password === user.password
     })) {
       this.setCurrentUser(user.email);
-      this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
+      this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
     } else {
       throwError('This email already registered');
     }
   }
-
 
   public addUser(user: User, users: User[]): any {
     if (users.some((person: User) => person.email === user.email)) {

@@ -11,6 +11,9 @@
 
 .dishes-item-body {
   @include var.center-row;
+  border-radius: 12px;
+  margin: 1rem;
+  padding: 1rem;
   cursor: pointer;
 }
 
@@ -23,5 +26,12 @@
 .dishes-item-body:hover .dishes-item_title{
   color: var.$primary;
   transition: linear all .3s;
-  text-transform: uppercase;
+  transform: scale(1.1);
+}
+
+.dishes-item-body:hover {
+  transition: linear all .3s;
+  -webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
+  -moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
+  box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
 }

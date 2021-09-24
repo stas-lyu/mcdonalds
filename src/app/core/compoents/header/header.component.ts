@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
   constructor(public cartService: CartService) { }
 
   ngOnInit(): void {
-    this.cartService.getCartCounter
+    this.cartService.cartCounter
   }
 
 

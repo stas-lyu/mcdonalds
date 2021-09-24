@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
+import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DishDataDialog} from "../../shared/classes/dishDataDialog";
 import {CartService} from "../../core/services/cart.service";
@@ -9,7 +9,7 @@ import {CartService} from "../../core/services/cart.service";
   styleUrls: ['./category-dialog.component.scss']
 })
 export class CategoryDialogComponent implements OnInit {
-  dataInfo: DishDataDialog
+  dataInfo!: DishDataDialog
   isShowSize = false;
   size: string = '';
   quantity!: number;
@@ -20,21 +20,25 @@ export class CategoryDialogComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private cartService: CartService,
   ) {
-    this.dataInfo = data
   }
 
   ngOnInit(): void {
+    this.dataInfo = this.data
     this.isShowSize = !!this.dataInfo.size;
     this.size = this.dataInfo.size[0];
     this.price = this.dataInfo.price * (this.quantity | 1);
   }
 
   addToCart(product: object) {
-    this.dialogRef.afterClosed().subscribe(result => {
-      let cart = JSON.parse(<string>localStorage.getItem("cart")) || [];
-      cart.push(Object.assign(product, {size: this.size, id: new Date().getMilliseconds(), quantity: this.quantity ?? 1}));
+    this.dialogRef.afterClosed().subscribe(() => {
+      const cart = JSON.parse(<string>localStorage.getItem("cart")) || [];
+      cart.push(Object.assign(product, {
+        size: this.size,
+        id: new Date().getMilliseconds(),
+        quantity: this.quantity ?? 1
+      }));
       localStorage.setItem('cart', JSON.stringify(cart))
-      this.cartService.getCartCounter
+      this.cartService.cartCounter
     });
     this.dialogRef.close('Successfully add to cart');
   }

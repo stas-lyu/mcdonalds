@@ -1,8 +1,8 @@
 @use 'src/assets/styles/variables' as var;
 
 .footer {
-  @include var.main-gradient;
   display: flex;
+  background-color: var.$dark-color;
   flex-direction: column;
   align-items: center;
   justify-content: center;

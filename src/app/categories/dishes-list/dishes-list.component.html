@@ -1,7 +1,5 @@
-<mat-grid-list
-  #grid [cols]="cols" rowHeight="2:1"
->
-  <mat-grid-tile
+<div class="row py-2">
+  <div
     *ngFor="let dish of dishes"
     class="dishes-item"
     (click)="openDishesDescriptionModal(dishes[dish.id])"
@@ -10,5 +8,5 @@
       <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="dishes-item_img">
       <h5 class="dishes-item_title">{{dish.name}}</h5>
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+</div>

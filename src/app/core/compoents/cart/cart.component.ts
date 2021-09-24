@@ -36,7 +36,7 @@ export class CartComponent implements OnInit {
     })
     localStorage.setItem('cart', JSON.stringify(this.cart))
     this.totalPrice = this.getTotalPrice
-    this.cartService.getCartCounter
+    this.cartService.cartCounter
   }
 
   public get getTotalPrice() {

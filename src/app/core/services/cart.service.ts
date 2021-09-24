@@ -5,13 +5,12 @@ import {CartItem} from "../../shared/classes/cartItem";
   providedIn: 'root'
 })
 export class CartService {
-  public cartCounter = 0;
 
   constructor() { }
 
-  public get getCartCounter() {
-    if (localStorage.getItem("cart") !== null) {
-      return this.cartCounter = JSON.parse(<string>localStorage.getItem("cart")).length
+  public get cartCounter() {
+    if (localStorage.getItem("cart")) {
+      return JSON.parse(<string>localStorage.getItem("cart")).length
     }
   }
 }

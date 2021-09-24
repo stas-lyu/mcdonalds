@@ -9,6 +9,9 @@
 .category-item-body {
   @include var.center-row;
   cursor: pointer;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
 }
 
 .category-item_title {
@@ -19,6 +22,13 @@
 
 .category-item-body:hover .category-item_title{
   color: var.$primary;
+  transform: scale(1.1);
   transition: linear all .3s;
-  text-transform: uppercase;
+}
+
+.category-item-body:hover {
+  transition: linear all .3s;
+  -webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
+  -moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
+  box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.58);
 }
