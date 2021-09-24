@@ -3,10 +3,12 @@
 >
   <mat-grid-tile
     *ngFor="let dish of dishes"
-    class="dish-item"
+    class="dishes-item"
     (click)="openDishesDescriptionModal(dishes[dish.id])"
   >
-    <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="dish-img">
-    <h5 class="dish-title">{{dish.name}}</h5>
+    <div class="dishes-item-body">
+      <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="dishes-item_img">
+      <h5 class="dishes-item_title">{{dish.name}}</h5>
+    </div>
   </mat-grid-tile>
 </mat-grid-list>

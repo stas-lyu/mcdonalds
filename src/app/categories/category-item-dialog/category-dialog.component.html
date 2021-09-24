@@ -6,12 +6,9 @@
     </div>
     <div mat-dialog-content class="dish-dialog-content">
       <p>{{dataInfo.description}}</p>
-      <ul>
-        <li class="dish-dialog-price"><b>Price:</b> {{dataInfo.price}} $</li>
-        <li class="dish-dialog-cal"><b>Calories:</b> {{dataInfo.cal}} cal</li>
-      </ul>
-
-      <app-select-quantity (counterChange)="test($event)">
+        <p class="dish-dialog-price"><b>Price: </b><span>{{price}} $</span></p>
+        <p class="dish-dialog-cal"><b>Calories: </b>{{dataInfo.cal}} cal.</p>
+      <app-select-quantity (counterChange)="quantityValue($event)">
 
       </app-select-quantity>
 
@@ -27,7 +24,7 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
-      <button color="primary" mat-flat-button class="dish-dialog_btn" (click)="addToCart(dataInfo.id)">Add to cart
+      <button color="primary" mat-flat-button class="dish-dialog_btn" (click)="addToCart(dataInfo)">Add to cart
         <mat-icon>add_shopping_cart</mat-icon>
       </button>
     </div>

@@ -1,31 +1,61 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+  UrlSegment,
+  Route
+} from '@angular/router';
+import {AuthService} from "../services/auth.service";
+import {Observable} from "rxjs";
 
 // import { AuthenticationService } from '@app/_services';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    // private authenticationService: AuthenticationService
-  ) { }
+    private authService: AuthService
+  ) {
+  }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  //   const user = this.authenticationService.userValue;
-  //   if (user) {
-  //     // check if route is restricted by role
-  //     if (route.data.roles && route.data.roles.indexOf(user.role) === -1) {
-  //       // role not authorised so redirect to home page
-  //       this.router.navigate(['/']);
-  //       return false;
-  //     }
-  //
-  //     // authorised so return true
-      return true;
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    let url: string = state.url;
+    console.log(this.authService.isLoggedIn)
+    return this.checkUserLogin(next, url);
+  }
+
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.canActivate(next, state);
+  }
+
+  canDeactivate(
+    component: unknown,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return true;
+  }
+
+  canLoad(
+    route: Route,
+    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    return true;
+  }
+
+  checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
+    if (this.authService.isLoggedIn) {
+      const userRole = this.authService.getRole;
+      return !(route.data.role && route.data.role.indexOf(userRole) === -1);
     }
-  //
-  //   // not logged in so redirect to auth page with the return url
-  //   this.router.navigate(['/auth'], { queryParams: { returnUrl: state.url } });
-  //   return false;
-  // }
+
+    // this.router.navigate(['/categories']);
+    return false;
+  }
 }

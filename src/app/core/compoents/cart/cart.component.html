@@ -1,1 +1,31 @@
-<p>cart works!</p>
+<div class="container">
+  <mat-list class="cart-list">
+    <mat-list-item *ngFor="let item of cart">
+      <div class="cart-item">
+        <div class="cart-item-header">
+          <h5>{{item.name}}</h5>
+          <img src="{{item.imgUrl}}" alt="{{item.name}}" class="cart-item_img">
+        </div>
+        <div class="cart-item-body">
+          <app-select-quantity (counterChange)="quantityValue($event)">
+
+          </app-select-quantity>
+          <ul>
+            <li>Cal: {{item.cal}}.</li>
+            <li>{{item.description}}</li>
+            <li>Price: {{item.price}}</li>
+          </ul>
+        </div>
+        <div class="cart-item-footer">
+          <button mat-fab (click)="removeCartItem(item.id)">
+            <mat-icon>remove_shopping_cart</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-list-item>
+    <div class="center">
+      <span>{{totalPrice}}</span>
+    <button mat-flat-button color="accent" class="cart-item-order_btn">Order</button>
+    </div>
+  </mat-list>
+</div>

@@ -9,17 +9,20 @@ import {DishesListComponent} from "./dishes-list/dishes-list.component";
 import {SelectQuantityComponent} from "../core/compoents/select-quantity/select-quantity.component";
 
 @NgModule({
-  declarations: [
-    CategoryListComponent,
-    CategoryDialogComponent,
-    DishesListComponent,
-    SelectQuantityComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MaterialModule,
-    AppRoutingModule,
-  ]
+    declarations: [
+        CategoryListComponent,
+        CategoryDialogComponent,
+        DishesListComponent,
+        SelectQuantityComponent,
+    ],
+    exports: [
+        SelectQuantityComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MaterialModule,
+        AppRoutingModule,
+    ]
 })
 export class CategoriesModule { }

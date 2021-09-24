@@ -12,8 +12,8 @@ import {CartComponent} from "./core/compoents/cart/cart.component";
 const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'sign-in', component: LoginComponent},
-  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
-  {path: 'categories', component: CategoryListComponent, canActivate: [AuthGuard]},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {role: 'admin'}},
+  {path: 'categories', component: CategoryListComponent},
   {path: 'categories/:category', component: DishesListComponent},
   {path: 'cart', component: CartComponent},
   {path: '**', component: PageNotFoundComponent},

@@ -10,7 +10,6 @@ import {
 import {Observable, throwError} from 'rxjs';
 import {catchError, map, retry} from 'rxjs/operators';
 import {Category} from "../../shared/classes/category";
-import {SingleCategory} from "../../shared/classes/singleCategory";
 import {Dish} from "../../shared/classes/dish";
 
 @Injectable({
@@ -37,7 +36,7 @@ export class CategoriesService implements HttpInterceptor {
     );
   }
 
-  getDishesByCategoryId(id: any): Observable<Dish[]> {
+  public getDishesByCategoryId(id: any): Observable<Dish[]> {
     return this.http.get<Dish[]>(this.dishesUrl)
       .pipe(map((item: any) => {
         if (item[id].categoryId == id) {
@@ -47,13 +46,6 @@ export class CategoriesService implements HttpInterceptor {
         console.error(error);
         return throwError(error);
       }))
-    //   .pipe(
-    //   retry(2),
-    //   catchError((error: HttpErrorResponse) => {
-    //     console.error(error);
-    //     return throwError(error);
-    //   })
-    // );
   }
 
   // getCategories(): Observable<Category[]> {

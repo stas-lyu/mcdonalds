@@ -7,6 +7,7 @@ import {NavComponent} from "./compoents/nav/nav.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 import {CartComponent} from "./compoents/cart/cart.component";
+import {CategoriesModule} from "../categories/categories.module";
 
 @NgModule({
   declarations: [
@@ -16,11 +17,12 @@ import {CartComponent} from "./compoents/cart/cart.component";
     FooterComponent,
     CartComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        CategoriesModule,
+    ],
   exports: [
     NavComponent,
     HeaderComponent,

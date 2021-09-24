@@ -12,12 +12,8 @@ export class CategoryDialogComponent implements OnInit {
   dataInfo: DishDataDialog
   isShowSize = false;
   size: string = '';
-  // counterValue = 1;
-  //
-  // @Input()
-  // get counter() {
-  //   return this.counterValue;
-  // }
+  quantity!: number;
+  price!: number;
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
@@ -30,19 +26,21 @@ export class CategoryDialogComponent implements OnInit {
   ngOnInit(): void {
     this.isShowSize = !!this.dataInfo.size;
     this.size = this.dataInfo.size[0];
+    this.price = this.dataInfo.price * (this.quantity | 1);
   }
 
-  addToCart(id: number) {
+  addToCart(product: object) {
     this.dialogRef.afterClosed().subscribe(result => {
       let cart = JSON.parse(<string>localStorage.getItem("cart")) || [];
-      cart.push({id: id, size: this.size});
+      cart.push(Object.assign(product, {size: this.size, id: new Date().getMilliseconds(), quantity: this.quantity ?? 1}));
       localStorage.setItem('cart', JSON.stringify(cart))
       this.cartService.getCartCounter
     });
     this.dialogRef.close('Successfully add to cart');
   }
 
-  test(num: number): void {
-    console.log('NUUUUMBER', num)
+  public quantityValue(num: number): void {
+    this.quantity = num
+    this.price = Number((this.dataInfo.price * this.quantity).toFixed(2))
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
-import {MyErrorStateMatcher, SignUpComponent} from "../sign-up/sign-up.component";
+import {MyErrorStateMatcher} from "../sign-up/sign-up.component";
 import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
 import {Router} from "@angular/router";
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
+  constructor(public authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -41,21 +41,17 @@ export class LoginComponent implements OnInit {
       .subscribe(() => this.router.navigate(['sign-in']));
   }
 
-  public onClickSubmit(): void {
+  public login(): void {
     if (this.passwordFormControl.status === 'VALID' && this.emailFormControl.status === 'VALID') {
       this.formData = {
         email: this.emailFormControl.value,
         password: this.passwordFormControl.value,
       }
-      this.users.forEach((user) => {
-        if (user.email === this.formData.email && user.password === this.formData.password) {
-          this.authService.setCurrentUser(user.email);
-          if (user.isAdmin) {
-            this.router.navigate(['admin']);
-          } else this.router.navigate(['categories']);
-        } else this.openSnackBar('Incorrect email or password', 'Do you wont sign in or try again')
-      })
+
+      this.authService.login(this.formData, this.users)
+      if (!this.authService.isLoggedIn) {
+        this.openSnackBar('incorect input field', 'Try again!')
+      }
     }
   }
-
 }

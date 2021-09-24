@@ -1,12 +1,18 @@
+@use 'src/assets/styles/variables' as var;
+
 .header {
-  background-color: #000;
+  @include var.main-gradient;
+
   color: #fff;
   padding: 1rem 0;
-  margin-top: -50px;
   height: 5%;
   .container {
     display: flex;
     justify-content: space-around;
     align-items: center;
   }
+}
+
+.logo {
+max-width: 50px;
 }

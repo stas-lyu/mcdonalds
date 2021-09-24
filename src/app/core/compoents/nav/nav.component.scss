@@ -12,11 +12,14 @@ a {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  @media (max-width: 480px) {
+    width: 230px;
+  }
   .navbar-list {
     display: flex;
     list-style: none;
     justify-content: space-around;
-    width: 100%;
+    width: 280px;
   }
 }
 

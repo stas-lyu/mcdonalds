@@ -1,12 +1,27 @@
+@use 'src/assets/styles/variables' as var;
+
 ::ng-deep .mat-grid-tile-content {
   flex-direction: column;
   cursor: pointer;
 }
 
-.dish-img {
+.dishes-item_img {
   max-width: 70%;
 }
 
-.dish-title {
+.dishes-item-body {
+  @include var.center-row;
+  cursor: pointer;
+}
+
+.dishes-item_title {
   font-size: 1.5rem;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+.dishes-item-body:hover .dishes-item_title{
+  color: var.$primary;
+  transition: linear all .3s;
+  text-transform: uppercase;
 }

@@ -20,8 +20,7 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
-    sessionStorage.removeItem('user');
-    this.authService.loggedIn = false;
+    this.authService.logout()
   }
 
   getCategories(): void {

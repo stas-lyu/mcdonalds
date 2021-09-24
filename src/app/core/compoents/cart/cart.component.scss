@@ -1,0 +1,29 @@
+@use 'src/assets/styles/variables' as var;
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .cart-item_img {
+    max-width: 300px;
+  }
+}
+
+.cart-list .mat-list-item {
+  height: auto;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.cart-item-order_btn {
+  width: 200px;
+}
+
+.center {
+  @include var.center;
+}

@@ -56,7 +56,13 @@ export class SignUpComponent implements OnInit {
         password: this.passwordFormControl.value,
         isAdmin: this.checkboxFormControl.value
       }
+      localStorage.setItem('role', JSON.stringify(this.checkboxFormControl.value ? 'admin' : 'customer'))
       this.authService.addUser(this.formData, this.users)
+      if (!this.authService.isLoggedIn) {
+        this.openSnackBar('this email already registered', 'Do you wont sign in or try again')
+      } else {
+        this.router.navigate(['categories']);
+      }
     }
   }
 }

@@ -115,6 +115,7 @@ export class DataService implements InMemoryDbService {
             imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Sausage-Burrito.jpg?$Product_Desktop$",
             price: 1.99,
             ingredients: ["Scrambled Egg Sausage And Vegetable Mix", "Flour Tortilla", "Pasteurized Process American Cheese"],
+            size: ["default"],
             cal: 150,
             description: "The Sausage Burrito is McDonald's Breakfast Burrito and is loaded with fluffy scrambled egg, pork sausage, melty cheese, green chiles and onion! It's wrapped in a soft tortilla, making it the perfect grab and go breakfast. There are 310 calories in a McDonald's sausage burrito. Order a McDonald's Sausage Burrito using the McDonald's App to Mobile Order & Pay."
           },
@@ -124,6 +125,7 @@ export class DataService implements InMemoryDbService {
             imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Hotcakes.jpg?$Product_Desktop$",
             price: 2.40,
             ingredients: ["Hotcakes", "Hotcake Syrup", "Salted Whipped Butter"],
+            size: ["default"],
             cal: 580,
             description: "If you love pancakes, you've got to try McDonald's hotcakes with a side of real butter and sweet maple flavored hotcake syrup. This McDonald's breakfast comes with 3 golden brown hotcakes. There are 580 calories in McDonald's hotcakes. Order it with a Premium Roast Coffee for the perfect breakfast combo. Get an order of McDonald's hotcakes for breakfast using Mobile Order & Pay in the McDonald's App."
           },
@@ -147,6 +149,7 @@ export class DataService implements InMemoryDbService {
             imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Hot-Caramel-Sundae.jpg?$Product_Desktop$",
             price: 1.99,
             ingredients: ["English Muffin", "Egg", "Canadian Bacon", "Pasteurized Process American Cheese", "Salted Butter", "Clarified Butter"],
+            size: ["default"],
             cal: 330,
             description: "Treat yourself to a Hot Caramel Sundae at McDonald's! This Caramel Sundae combines creamy vanilla soft serve and warm, buttery caramel topping. Order it to complete your McDonald's meal using Mobile Order & Pay!"
           },
@@ -165,6 +168,7 @@ export class DataService implements InMemoryDbService {
             imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Hotcakes.jpg?$Product_Desktop$",
             price: 2.40,
             ingredients: ["Hotcakes", "Hotcake Syrup", "Salted Whipped Butter"],
+            size: ["default"],
             cal: 580,
             description: "If you love pancakes, you've got to try McDonald's hotcakes with a side of real butter and sweet maple flavored hotcake syrup. This McDonald's breakfast comes with 3 golden brown hotcakes. There are 580 calories in McDonald's hotcakes. Order it with a Premium Roast Coffee for the perfect breakfast combo. Get an order of McDonald's hotcakes for breakfast using Mobile Order & Pay in the McDonald's App."
           },
@@ -277,6 +281,7 @@ export class DataService implements InMemoryDbService {
             imgUrl: "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-spicy-crispy-chicken-sandwich.jpg?$Product_Desktop$",
             price: 5.40,
             ingredients: ["Crispy Chicken Fillet", "Potato Roll", "Spicy Pepper Sauce", "Crinkle Cut Pickle"],
+            size: ["default"],
             cal: 530,
             description: "With our Spicy Pepper Sauce topping the southern style fried chicken fillet on a toasted potato roll, this sandwich was made for those who like it crispy, juicy, tender and hot. The Spicy Crispy Chicken sandwich has 530 calories. Check out all the Crispy Chicken Sandwiches. Order one today in the McDonald’s app."
           },
@@ -299,7 +304,7 @@ export class DataService implements InMemoryDbService {
     return {categories, users, items}
   }
 
-  // genId(users: User[]): number {
-  //   return users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
-  // }
+  genId(users: User[]): number {
+    return users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+  }
 }
