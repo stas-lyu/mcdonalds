@@ -3,6 +3,17 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 90%;
+  display: block;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
 }
 
 $white: rgba(255, 255, 255, 0.3);

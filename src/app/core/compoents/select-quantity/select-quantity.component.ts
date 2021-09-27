@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 
 
 @Component({
@@ -8,28 +8,43 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class SelectQuantityComponent implements OnInit {
 
-  quantity: number = 1
-
   isDisabled = true;
 
-  @Output() counterChange = new EventEmitter<number>();
+  counterValue = 1;
+
+  @Input()
+  get counter() {
+    return this.counterValue;
+  }
+
+  @Output() counterChange = new EventEmitter();
+
+  set counter(val: number) {
+    this.counterValue = val;
+    this.counterChange.emit(this.counterValue);
+  }
 
   constructor() {
   }
 
   ngOnInit(): void {
+    if (this.counter > 1) {
+      this.isDisabled = false
+    }
   }
 
-   changeQuantity(quantity: number, action: string): void {
-    if (action === 'decrement') {
-      if (quantity === 2) {
-        this.quantity--
-        this.isDisabled = true
-      } else this.quantity--
-    } else {
+  public decrement(): void {
+    if (this.counter === 2) {
+      this.counter--
+      this.isDisabled = true
+    } else this.counter--
+  }
+
+
+  public increment(): void {
+    if (this.counter === 1) {
+      this.counter++;
       this.isDisabled = false
-      this.quantity++
-    }
-     this.counterChange.emit(this.quantity);
-   }
+    } else this.counter++;
+  }
 }

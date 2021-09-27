@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoriesService} from "../../services/categories.service";
 import {CartService} from "../../services/cart.service";
 import {CartItem} from "../../../shared/classes/cartItem";
@@ -11,11 +11,10 @@ import {Dish} from "../../../shared/classes/dish";
 })
 export class CartComponent implements OnInit {
   dishes: Dish[] = [];
-  quantity!: number;
-  counter!: number;
+
   totalPrice!: number;
-  @Input()
-  counterValue: string | undefined;
+
+  counter!: number;
 
   cart: CartItem[] = JSON.parse(<string>localStorage.getItem('cart'));
 
@@ -23,11 +22,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.totalPrice = this.getTotalPrice
-  }
-
-  public quantityValue(num: number): void {
-    this.quantity = num
+    this.totalPrice = this.getTotalPrice();
   }
 
   removeCartItem(id: number): void {
@@ -35,14 +30,24 @@ export class CartComponent implements OnInit {
       return item.id !== id
     })
     localStorage.setItem('cart', JSON.stringify(this.cart))
-    this.totalPrice = this.getTotalPrice
+    this.totalPrice = this.getTotalPrice()
     this.cartService.cartCounter
   }
 
-  public get getTotalPrice() {
+  public getTotalPrice(event?: any) {
     return this.cart.reduce((prev, el) => {
-      return Number((prev + el.price * el.quantity).toFixed(2))
+      let test = event || el.quantity;
+      return Number((prev + (el.price * test)).toFixed(2))
     }, 0)
   }
 
+  counterChange(event: any, id: number) {
+    this.cart.forEach((item) => {
+      if (item.id == id) {
+        item.quantity = event
+      }
+    })
+    localStorage.setItem('cart', JSON.stringify(this.cart))
+    this.totalPrice = this.getTotalPrice()
+  }
 }

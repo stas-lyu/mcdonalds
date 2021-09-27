@@ -1,11 +1,11 @@
 <div class="quantity">
   <p><b>Quantity:</b></p>
   <div class="quantity-body">
-    <button mat-mini-fab [disabled]="isDisabled" (click)="changeQuantity(quantity, 'decrement')">
+    <button mat-mini-fab [disabled]="isDisabled" (click)="decrement()">
       <mat-icon>exposure_neg_1</mat-icon>
     </button>
-    <span class="quantity_value">{{quantity}}</span>
-    <button mat-mini-fab (click)="changeQuantity(quantity, 'increment')">
+    <span class="quantity_value">{{counter}}</span>
+    <button mat-mini-fab (click)="increment()">
       <mat-icon>exposure_plus_1</mat-icon>
     </button>
   </div>

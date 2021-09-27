@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Observable, of, throwError} from "rxjs";
-import {catchError, delay, map, retry, tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 
 import {User} from '../../shared/classes/user';
 import {Router} from "@angular/router";
@@ -27,6 +27,7 @@ export class AuthService {
   public setCurrentUser(email: string): void {
     localStorage.setItem('user', email);
     this.loggedIn = true;
+    console.log(this.isLoggedIn, 'setCurrent')
     this.admin = localStorage.getItem('role') !== 'customer';
   }
 
@@ -45,10 +46,6 @@ export class AuthService {
 
   public get isAdmin(): boolean {
     return this.admin
-  }
-
-  public get getRole() {
-    return <string>localStorage.getItem('role');
   }
 
   getUsers(): Observable<User[]> {

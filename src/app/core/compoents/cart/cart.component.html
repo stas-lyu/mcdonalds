@@ -3,18 +3,17 @@
     <mat-list-item *ngFor="let item of cart">
       <div class="cart-item">
         <div class="cart-item-header">
-          <h5>{{item.name}}</h5>
           <img src="{{item.imgUrl}}" alt="{{item.name}}" class="cart-item_img">
         </div>
         <div class="cart-item-body">
-          <app-select-quantity (counterChange)="quantityValue($event)">
+          <h5 class="cart-name">{{item.name}}</h5>
+
+          <app-select-quantity [counter]="item.quantity" (counterChange)="counterChange($event, item.id)">
 
           </app-select-quantity>
-          <ul>
-            <li>Cal: {{item.cal}}.</li>
-            <li>{{item.description}}</li>
-            <li>Price: {{item.price}}</li>
-          </ul>
+
+          <span class="cart-price">Price: {{item.price}} $</span>
+          <p class="cart-text">{{item.description}}</p>
         </div>
         <div class="cart-item-footer">
           <button mat-fab (click)="removeCartItem(item.id)">
@@ -23,9 +22,10 @@
         </div>
       </div>
     </mat-list-item>
-    <div class="center">
-      <span>{{totalPrice}}</span>
-    <button mat-flat-button color="accent" class="cart-item-order_btn">Order</button>
-    </div>
   </mat-list>
+  <hr>
+  <div class="cart-footer">
+    <span>Total price: {{totalPrice}} $</span>
+    <button mat-flat-button color="accent" class="cart-item-order_btn">Order</button>
+  </div>
 </div>

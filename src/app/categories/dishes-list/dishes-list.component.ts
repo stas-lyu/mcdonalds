@@ -26,13 +26,13 @@ export class DishesListComponent implements OnInit {
     });
   }
 
-  openDishesDescriptionModal(dish: Dish) {
+  public openDishesDescriptionModal(dish: Dish):void {
     this.dialog.open(CategoryDialogComponent, {
       data: dish
     });
   }
 
-  private getDishesByCategoryId(id: any) {
+  private getDishesByCategoryId(id: any):void {
     this.dishesService.getDishesByCategoryId(id).subscribe(dishes => this.dishes = dishes, error => console.log(error));
   }
 }

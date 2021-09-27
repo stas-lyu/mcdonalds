@@ -12,7 +12,7 @@ export class CategoryDialogComponent implements OnInit {
   dataInfo!: DishDataDialog
   isShowSize = false;
   size: string = '';
-  quantity!: number;
+  counter!: number;
   price!: number;
 
   constructor(
@@ -26,16 +26,16 @@ export class CategoryDialogComponent implements OnInit {
     this.dataInfo = this.data
     this.isShowSize = !!this.dataInfo.size;
     this.size = this.dataInfo.size[0];
-    this.price = this.dataInfo.price * (this.quantity | 1);
+    this.price = this.dataInfo.price * (this.counter | 1);
   }
 
-  addToCart(product: object) {
+  public addToCart(product: object):void {
     this.dialogRef.afterClosed().subscribe(() => {
       const cart = JSON.parse(<string>localStorage.getItem("cart")) || [];
       cart.push(Object.assign(product, {
         size: this.size,
         id: new Date().getMilliseconds(),
-        quantity: this.quantity ?? 1
+        quantity: this.counter ?? 1
       }));
       localStorage.setItem('cart', JSON.stringify(cart))
       this.cartService.cartCounter
@@ -44,7 +44,7 @@ export class CategoryDialogComponent implements OnInit {
   }
 
   public quantityValue(num: number): void {
-    this.quantity = num
-    this.price = Number((this.dataInfo.price * this.quantity).toFixed(2))
+    this.counter = num
+    this.price = Number((this.dataInfo.price * this.counter).toFixed(2))
   }
 }
