@@ -1,9 +1,9 @@
 <div class="form-container">
-  <form class="sign-up form">
+  <form class="sign-up form" [formGroup]="dataForm">
     <h3 class="form-title">McDonald’s Signup</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
-      <input type="email" name="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+      <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="matcher"
              placeholder="Ex. pat@example.com" autocomplete="email">
       <mat-hint>Errors appear instantly!</mat-hint>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
@@ -15,7 +15,7 @@
     </mat-form-field>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Enter your password</mat-label>
-      <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordFormControl"
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
              autocomplete="current-password">
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hide">

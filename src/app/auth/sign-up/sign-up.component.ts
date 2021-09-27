@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroupDirective, NgForm, Validators, FormBuilder} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
@@ -25,19 +25,20 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class SignUpComponent implements OnInit {
   users!: User[];
   hide = true;
-  formData: any;
+  dataForm: any;
   id!: number;
-  passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-  checkboxFormControl = new FormControl(false)
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
+  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar, private formBuilder: FormBuilder) {
+    this.dataForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.min(6)]],
+      isAdmin: [false],
+      id: new Date().getUTCMilliseconds(),
+    })
   }
+
 
   ngOnInit(): void {
 
@@ -49,14 +50,12 @@ export class SignUpComponent implements OnInit {
   }
 
   public onClickSubmit(): void {
-    if (this.passwordFormControl.status === 'VALID' && this.emailFormControl.status === 'VALID') {
-      this.formData = {
-        email: this.emailFormControl.value,
-        password: this.passwordFormControl.value,
-        isAdmin: this.checkboxFormControl.value
-      }
-      localStorage.setItem('role', JSON.stringify(this.checkboxFormControl.value ? 'admin' : 'customer'))
-      this.authService.addUser(this.formData).pipe(
+    if (this.dataForm.valid) {
+      console.log(this.dataForm.value)
+      localStorage.setItem('role', JSON.stringify(this.dataForm.value.isAdmin ? 'admin' : 'customer'))
+      this.authService.addUser(Object.assign(this.dataForm.value, {
+        id: new Date().toTimeString(),
+      })).pipe(
         catchError((error: HttpErrorResponse) => {
           this.openSnackBar('this email already registered', 'Do you wont sign in or try again')
           return throwError(error);

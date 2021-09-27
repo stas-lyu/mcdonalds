@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "../sign-up/sign-up.component";
 import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
@@ -14,8 +14,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class LoginComponent implements OnInit {
   hide = true;
   users!: User[];
-  formData: any;
   id!: number;
+  dataForm: any;
 
   passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
   emailFormControl = new FormControl('', [
@@ -25,7 +25,11 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(public authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {
+  constructor(public authService: AuthService, private router: Router, private _snackBar: MatSnackBar , private formBuilder: FormBuilder) {
+    this.dataForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.min(6)]],
+    })
   }
 
   ngOnInit(): void {
@@ -42,12 +46,8 @@ export class LoginComponent implements OnInit {
   }
 
   public login(): void {
-    if (this.passwordFormControl.status === 'VALID' && this.emailFormControl.status === 'VALID') {
-      this.formData = {
-        email: this.emailFormControl.value,
-        password: this.passwordFormControl.value,
-      }
-      this.authService.login(this.formData)
+    if (this.dataForm.valid) {
+      this.authService.login(this.dataForm.value)
       if (!this.authService.isLoggedIn) {
         this.openSnackBar('incorect input field', 'Try again!')
       }

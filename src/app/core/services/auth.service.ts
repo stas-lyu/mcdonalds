@@ -39,6 +39,7 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('user');
     this.loggedIn = false;
+    this.admin = false;
   }
 
   public get isLoggedIn(): boolean {
@@ -76,10 +77,6 @@ export class AuthService {
     } else {
       return this.http.post<User>(this.usersUrl, user, httpOptions)
     }
-  }
-
-  public genId(user: User[]): number {
-    return user.length > 0 ? Math.max(...user.map(person => person.id)) + 1 : 11;
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

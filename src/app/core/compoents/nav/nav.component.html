@@ -15,6 +15,15 @@
     <li *ngIf="authService.isLoggedIn">
       <a mat-flat-button color="primary" class="button" (click)="logout()">Log out</a>
     </li>
+    <li *ngIf="authService.isAdmin">
+      <a
+        mat-flat-button
+        color="primary"
+        class="button"
+        routerLink="/admin"
+        routerLinkActive="activebutton">Admin page
+      </a>
+    </li>
     <li>
       <button mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
     </li>
