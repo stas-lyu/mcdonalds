@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of, throwError} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 
@@ -16,12 +16,13 @@ const httpOptions = {
 export class AuthService {
   private usersUrl = 'api/users';
   private loggedIn = false;
-  users: any [] = [];
+  users: any[] = [];
   roleAs!: string[];
   private admin!: boolean;
 
   constructor(private http: HttpClient, private router: Router) {
     this.loggedIn = !!localStorage.getItem('user');
+    this.getUsers().subscribe((user: User[]) => this.users = user);
   }
 
   public setCurrentUser(email: string): void {
@@ -56,29 +57,24 @@ export class AuthService {
       );
   }
 
-  public login(user: User, users: User[]): any {
-    if (users.some((person: User) => {
+  public login(user: User): any {
+    if (this.users.some((person: User) => {
       this.admin = person.isAdmin
       return person.email === user.email && person.password === user.password
     })) {
       this.setCurrentUser(user.email);
-      this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
+      return this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
     } else {
-      throwError('This email already registered');
+      return throwError('This email already registered');
     }
   }
 
-  public addUser(user: User, users: User[]): any {
-    if (users.some((person: User) => person.email === user.email)) {
-      throwError('This email already registered');
+  public addUser(user: User): any {
+    console.log(this.users)
+    if (this.users.some((person: User) => person.email === user.email)) {
+      return throwError('This email already registered');
     } else {
-      this.http.post<User>(this.usersUrl, user, httpOptions).subscribe((user: User) => {
-        this.setCurrentUser(user.email);
-        this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
-      }, catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        return throwError(error);
-      }))
+      return this.http.post<User>(this.usersUrl, user, httpOptions)
     }
   }
 

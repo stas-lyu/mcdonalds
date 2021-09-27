@@ -10,6 +10,7 @@ import {CartComponent} from "./compoents/cart/cart.component";
 import {CategoriesModule} from "../categories/categories.module";
 import {FormsModule} from "@angular/forms";
 import {HomeComponent} from "./compoents/home/home.component";
+import {SearchComponent} from "./compoents/search/search.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {HomeComponent} from "./compoents/home/home.component";
     NavComponent,
     FooterComponent,
     CartComponent,
-    HomeComponent
+    HomeComponent,
+    SearchComponent,
   ],
     imports: [
         CommonModule,

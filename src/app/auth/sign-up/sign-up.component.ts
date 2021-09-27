@@ -5,6 +5,9 @@ import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {catchError} from "rxjs/operators";
+import {HttpErrorResponse} from "@angular/common/http";
+import {throwError} from "rxjs";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -37,11 +40,7 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers()
-  }
 
-  private getUsers(): void {
-    this.authService.getUsers().subscribe((user: User[]) => this.users = user);
   }
 
   public openSnackBar(message: string, action: string): void {
@@ -57,12 +56,15 @@ export class SignUpComponent implements OnInit {
         isAdmin: this.checkboxFormControl.value
       }
       localStorage.setItem('role', JSON.stringify(this.checkboxFormControl.value ? 'admin' : 'customer'))
-      this.authService.addUser(this.formData, this.users)
-      setTimeout(()=>{
-        if (!this.authService.isLoggedIn) {
+      this.authService.addUser(this.formData).pipe(
+        catchError((error: HttpErrorResponse) => {
           this.openSnackBar('this email already registered', 'Do you wont sign in or try again')
-        }
-      },1000)
+          return throwError(error);
+        })
+      ).subscribe((user: User) => {
+        this.authService.setCurrentUser(user.email);
+        this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
+      })
     }
   }
 }
