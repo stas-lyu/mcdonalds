@@ -1,0 +1,33 @@
+<div>
+  <div class="dish-dialog">
+    <div class="dish-dialog-header">
+      <h5 mat-dialog-title class="dish-dialog-title">{{dataInfo.name}}</h5>
+      <img src="{{dataInfo.imgUrl}}" alt="" class="dish-dialog-img responsive-img">
+    </div>
+    <div mat-dialog-content class="dish-dialog-content">
+      <p>{{dataInfo.description}}</p>
+        <p class="dish-dialog-price"><b>Price: </b><span>{{price}} $</span></p>
+        <p class="dish-dialog-cal"><b>Calories: </b>{{dataInfo.cal}} cal.</p>
+      <app-select-quantity (counterChange)="quantityValue($event)">
+
+      </app-select-quantity>
+
+      <div class="dish-dialog-radio_group" *ngIf="isShowSize">
+        <label class="example-margin"><b>Choose size:</b></label>
+        <mat-radio-group [(ngModel)]="size">
+          <mat-radio-button
+            class="example-margin"
+            *ngFor="let size of dataInfo.size"
+            value="{{size}}"
+          >
+            {{size}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <button color="primary" mat-flat-button class="dish-dialog_btn" (click)="addToCart(dataInfo)">Add to cart
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+

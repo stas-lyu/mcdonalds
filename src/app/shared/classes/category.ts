@@ -1,5 +1,6 @@
 export class Category {
-  id: number | undefined;
-  name: string | undefined;
-  imgUrl: string | undefined;
+  id!: number;
+  name!: string;
+  imgUrl!: string;
+  // desciption?: string;
 }

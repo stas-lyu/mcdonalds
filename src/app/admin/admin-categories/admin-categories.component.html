@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row py-2">
+    <div class="category-item" *ngFor="let item of categories">
+      <div class="category-item-body">
+        <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
+        <h5 class="category-item_title">{{item.name}}</h5>
+        <span (click)="deleteCategory(item.id)">delete</span>
+        <span (click)="editCategory(item.id)">edit</span>
+      </div>
+    </div>
+  </div>
+
+  <form class="category-add-form">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Category name</mat-label>
+      <input matInput placeholder="Ex. Pizza" [formControl]="nameFormControl">
+    </mat-form-field>
+
+    <mat-form-field>
+
+      <div class="myfilebrowser">
+
+        <mat-toolbar>
+
+          <input matInput [(ngModel)]="myfilename" readonly name="memberContactNo"/>
+
+          <button mat-flat-button color="primary">
+            Browse
+          </button>
+
+        </mat-toolbar>
+
+        <!-- Fetch selected filed on change -->
+        <input type="file" #UploadFileInput id="fileUpload" (change)="fileChangeEvent($event)" name="fileUpload"
+               multiple="multiple" accept="image/*" [formControl]="fileFormControl"/>
+
+      </div>
+
+    </mat-form-field>
+
+    <button mat-button (click)="addCategory()">Add category</button>
+  </form>
+
+</div>

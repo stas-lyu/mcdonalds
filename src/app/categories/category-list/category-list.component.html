@@ -1,6 +1,23 @@
-<mat-grid-list #grid [cols]="cols" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let item of categories" class="category-item">
-    <img src="{{item.imgUrl}}" alt="{{item.name}}">
-    <h5>{{item.name}}</h5>
-  </mat-grid-tile>
-</mat-grid-list>
+<!--<mat-grid-list-->
+<!--  #grid [cols]="cols" rowHeight="3:1"-->
+<!--&gt;-->
+<!--  <mat-grid-tile-->
+<!--    *ngFor="let item of categories"-->
+<!--    class="category-item"-->
+<!--    [routerLink]="['/categories', item.id]"-->
+<!--  >-->
+<!--    <div class="category-item-body">-->
+<!--    <img src="{{item.imgUrl}}" alt="{{item.name}}">-->
+<!--    <h5 class="category-item_title">{{item.name}}</h5>-->
+<!--    </div>-->
+<!--  </mat-grid-tile>-->
+<!--</mat-grid-list>-->
+
+<div class="row py-2">
+  <div class="category-item" *ngFor="let item of categories" [routerLink]="['/categories', item.id]">
+    <div class="category-item-body">
+      <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
+      <h5 class="category-item_title">{{item.name}}</h5>
+    </div>
+  </div>
+</div>

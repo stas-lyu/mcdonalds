@@ -11,6 +11,10 @@ import {CoreModule} from "./core/core.module";
 import {SharedModule} from "./shared/shared.module";
 import {AuthModule} from "./auth/auth.module";
 import {CategoriesModule} from "./categories/categories.module";
+import {AdminModule} from "./admin/admin.module";
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import {CategoriesModule} from "./categories/categories.module";
     HttpClientModule,
     AuthModule,
     CategoriesModule,
+    AdminModule,
     HttpClientInMemoryWebApiModule.forRoot(DataService, {dataEncapsulation: false}),
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule,
+    LoadingBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

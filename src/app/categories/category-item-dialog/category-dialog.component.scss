@@ -1,0 +1,64 @@
+.dish-dialog {
+  display: flex;
+  flex-wrap: wrap;
+
+  .dish-dialog-content, .dish-dialog-header {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dish-dialog-header {
+    display: flex;
+    flex-direction: column;
+
+    .dish-dialog-title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
+  .dish-dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+  }
+
+  .dish-dialog-price {
+    font-size: 1.2rem;
+    color: orange;
+    span {
+      font-weight: bolder;
+      font-size: 1.4rem;
+    }
+  }
+
+  .dish-dialog-list {
+    display: flex;
+    list-style: none;
+    width: 300px;
+    justify-content: space-around;
+
+    li {
+      background-color: black;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+    }
+  }
+
+  .dish-dialog_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 460px) {
+    .dish-dialog-content, .dish-dialog-header {
+      width: 100%;
+    }
+  }
+}

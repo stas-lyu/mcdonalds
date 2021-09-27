@@ -6,6 +6,13 @@ import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatBadgeModule} from "@angular/material/badge";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatListModule} from "@angular/material/list";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   exports: [
@@ -18,6 +25,13 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatMenuModule,
     MatCheckboxModule,
     MatGridListModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatBadgeModule,
+    MatSnackBarModule,
+    MatListModule,
+    MatTabsModule,
+    MatToolbarModule
   ],
 })
 export class MaterialModule { }

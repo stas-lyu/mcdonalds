@@ -1,30 +1,32 @@
 import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest
+  HttpErrorResponse, HttpHeaders,
 } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {catchError, map, retry} from 'rxjs/operators';
 import {Category} from "../../shared/classes/category";
+import {Dish} from "../../shared/classes/dish";
+
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
+};
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService implements HttpInterceptor{
+
+export class CategoriesService {
   private categoriesUrl = 'api/categories/';
+  private dishesUrl = 'api/items/';
 
   constructor(private http: HttpClient) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-  }
+  postId!: number;
+  errorMessage!: string;
 
-  getCategories(): Observable<Category[]> {
+  public getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoriesUrl).pipe(
       retry(2),
       catchError((error: HttpErrorResponse) => {
@@ -34,25 +36,50 @@ export class CategoriesService implements HttpInterceptor{
     );
   }
 
-  // getCategories(): Observable<Category[]> {
-  //   return this.http.get<Category[]>(this.categoriesUrl)
-  // }
-  //
-  // createProduct(product: { name: string; id: null }): Observable<Product> {
-  //
-  //   return this.http.post<Product>(this.productsUrl, product).pipe(
-  //     catchError((error: HttpErrorResponse) => {
-  //       console.error(error);
-  //       return throwError(error);
-  //     })
-  //   )
-  // }
-  //
-  // editProduct(product: Product): Observable<any> {
-  //   return this.http.put(this.productsUrl + product.id, product);
-  // }
-  //
-  // deleteProduct(id: number): Observable<any> {
-  //   return this.http.delete(this.productsUrl + id);
-  // }
+  public getDishesByCategoryId(id: any): Observable<Dish[]> {
+    return this.http.get<Dish[]>(this.dishesUrl)
+      .pipe(map((item: any) => {
+        if (item[id].categoryId == id) {
+          return item[id].products;
+        }
+      }), catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+  public addCategory(category: {}): any {
+    this.http.post<Category>(this.categoriesUrl, category, httpOptions);
+    catchError((error: HttpErrorResponse) => {
+      console.error(error);
+      return throwError(error);
+    })
+  }
+
+  public editCategory(category: {}, categoryId: number): any {
+
+    this.http.put<any>(`${this.categoriesUrl + categoryId}`, category)
+      .subscribe({
+        next: data => {
+          this.postId = data.id;
+        },
+        error: error => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        }
+      });
+  }
+
+  public deleteCategory(categoryId: number): any {
+    this.http.delete(this.categoriesUrl + categoryId)
+      .subscribe({
+        next: data => {
+          console.log('Delete successful');
+        },
+        error: error => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        }
+      });
+  }
 }

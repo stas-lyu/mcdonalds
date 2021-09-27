@@ -1,0 +1,18 @@
+.home-block {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.home-block_text {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 2rem;
+}
+
+.home-block>div {
+  width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+

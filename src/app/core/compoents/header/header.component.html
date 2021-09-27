@@ -1,8 +1,11 @@
 <header class="header">
 
 <div class="container">
+    <img src="assets/img/logo.png" alt="logo" class="logo">
 <app-nav>
 
 </app-nav>
+  <app-search></app-search>
+  <mat-icon [matBadge]="cartService.cartCounter" [routerLink]="['/cart']">shopping_cart</mat-icon>
 </div>
 </header>
