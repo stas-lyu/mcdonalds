@@ -4,20 +4,18 @@ import { FileUploadService } from '../../services/file-upload.service';
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent implements OnInit {
-
   // Variable to store shortLink from api response
-  shortLink: string = "";
+  shortLink: string = '';
   loading: boolean = false; // Flag variable
   file: null = null; // Variable to store file
 
   // Inject service
-  constructor(private fileUploadService: FileUploadService) { }
+  constructor(private fileUploadService: FileUploadService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   // On file Select
   onChange(event: any) {
@@ -28,16 +26,12 @@ export class FileUploadComponent implements OnInit {
   onUpload() {
     this.loading = !this.loading;
     console.log(this.file);
-    this.fileUploadService.upload(this.file).subscribe(
-      (event: any) => {
-        if (typeof (event) === 'object') {
-
-          // Short link via api response
-          this.shortLink = event.link;
-
-          this.loading = false; // Flag variable
-        }
+    this.fileUploadService.upload(this.file).subscribe((event: any) => {
+      if (typeof event === 'object') {
+        // Short link via api response
+        this.shortLink = event.link;
+        this.loading = false; // Flag variable
       }
-    );
+    });
   }
 }

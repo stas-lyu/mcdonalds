@@ -3,15 +3,8 @@
     <h3 class="form-title">McDonald’s Signup</h3>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
-      <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+      <input type="email" name="email" matInput formControlName="email"
              placeholder="Ex. pat@example.com" autocomplete="email">
-      <mat-hint>Errors appear instantly!</mat-hint>
-<!--      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">-->
-<!--        Please enter a valid email address-->
-<!--      </mat-error>-->
-<!--      <mat-error *ngIf="emailFormControl.hasError('required')">-->
-<!--        Email is <strong>required</strong>-->
-<!--      </mat-error>-->
     </mat-form-field>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Enter your password</mat-label>
@@ -26,6 +19,5 @@
 
     <button mat-flat-button class="full-width form-submit_btn btn" (click)="onClickSubmit()">Registration
     </button>
-
   </form>
 </div>

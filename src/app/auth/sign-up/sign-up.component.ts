@@ -9,13 +9,6 @@ import {catchError} from "rxjs/operators";
 import {HttpErrorResponse} from "@angular/common/http";
 import {throwError} from "rxjs";
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -27,8 +20,6 @@ export class SignUpComponent implements OnInit {
   hide = true;
   dataForm: any;
   id!: number;
-
-  matcher = new MyErrorStateMatcher();
 
   constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar, private formBuilder: FormBuilder) {
     this.dataForm = this.formBuilder.group({

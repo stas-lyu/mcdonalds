@@ -6,8 +6,8 @@
     </div>
     <div mat-dialog-content class="dish-dialog-content">
       <p>{{dataInfo.description}}</p>
-        <p class="dish-dialog-price"><b>Price: </b><span>{{price}} $</span></p>
-        <p class="dish-dialog-cal"><b>Calories: </b>{{dataInfo.cal}} cal.</p>
+      <p class="dish-dialog-price"><b>Price: </b><span>{{price}} $</span></p>
+      <p class="dish-dialog-cal"><b>Calories: </b>{{dataInfo.cal}} cal.</p>
       <app-select-quantity (counterChange)="quantityValue($event)">
 
       </app-select-quantity>

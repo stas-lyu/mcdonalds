@@ -18,7 +18,8 @@ export class AdminDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AdminDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    public categoryService: CategoriesService,) {}
+    public categoryService: CategoriesService,) {
+  }
 
   ngOnInit(): void {
     this.category = this.data
@@ -32,7 +33,7 @@ export class AdminDialogComponent implements OnInit {
 
   public editCategory() {
     this.data.name = this.nameFormControl.value;
-    this.categoryService.editCategory(this.data).subscribe(()=>{
+    this.categoryService.editCategory(this.data).subscribe(() => {
       this.dialogRef.close('Successfully add to cart');
     })
   }

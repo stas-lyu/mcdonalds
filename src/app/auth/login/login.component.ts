@@ -1,15 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {MyErrorStateMatcher} from "../sign-up/sign-up.component";
-import {AuthService} from "../../core/services/auth.service";
-import {User} from "../../shared/classes/user";
-import {Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { User } from '../../shared/classes/user';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   hide = true;
@@ -17,37 +16,39 @@ export class LoginComponent implements OnInit {
   id!: number;
   dataForm: any;
 
-  matcher = new MyErrorStateMatcher();
-
   constructor(
     public authService: AuthService,
     private router: Router,
-    private _snackBar: MatSnackBar ,
+    private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.getUsers()
+    this.getUsers();
     this.dataForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(6)]],
-    })
+    });
   }
 
   private getUsers(): void {
-    this.authService.getUsers().subscribe((user: User[]) => this.users = user);
+    this.authService
+      .getUsers()
+      .subscribe((user: User[]) => (this.users = user));
   }
 
   public openSnackBar(message: string, action: string): void {
-    this._snackBar.open(message, action, {duration: 3000}).onAction()
+    this._snackBar
+      .open(message, action, { duration: 3000 })
+      .onAction()
       .subscribe(() => this.router.navigate(['sign-in']));
   }
 
   public login(): void {
     if (this.dataForm.valid) {
-      this.authService.login(this.dataForm.value)
+      this.authService.login(this.dataForm.value);
       if (!this.authService.isLoggedIn) {
-        this.openSnackBar('incorect input field', 'Try again!')
+        this.openSnackBar('incorect input field', 'Try again!');
       }
     }
   }
