@@ -35,7 +35,6 @@ export class SignUpComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(6)]],
       isAdmin: [false],
-      id: new Date().getUTCMilliseconds(),
     })
   }
 
@@ -51,17 +50,13 @@ export class SignUpComponent implements OnInit {
 
   public onClickSubmit(): void {
     if (this.dataForm.valid) {
-      console.log(this.dataForm.value)
-      localStorage.setItem('role', JSON.stringify(this.dataForm.value.isAdmin ? 'admin' : 'customer'))
-      this.authService.addUser(Object.assign(this.dataForm.value, {
-        id: new Date().toTimeString(),
-      })).pipe(
+      this.authService.addUser(this.dataForm.value).pipe(
         catchError((error: HttpErrorResponse) => {
           this.openSnackBar('this email already registered', 'Do you wont sign in or try again')
           return throwError(error);
         })
       ).subscribe((user: User) => {
-        this.authService.setCurrentUser(user.email);
+        this.authService.setCurrentUser(user.email, user.isAdmin);
         this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
       })
     }

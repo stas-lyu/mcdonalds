@@ -37,6 +37,7 @@ export class CategoryDialogComponent implements OnInit {
         id: new Date().getMilliseconds(),
         quantity: this.counter ?? 1
       }));
+
       localStorage.setItem('cart', JSON.stringify(cart))
       this.cartService.cartCounter
     });

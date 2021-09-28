@@ -7,18 +7,21 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map, retry} from 'rxjs/operators';
 import {Category} from "../../shared/classes/category";
 import {Dish} from "../../shared/classes/dish";
+import {environment} from '../../../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-};
+  headers: new HttpHeaders().set('Content-Type', 'application/json'),
+  responseType: 'text' as 'json'
+}
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CategoriesService {
-  private categoriesUrl = 'api/categories/';
-  private dishesUrl = 'api/items/';
+  url = environment.urlToBackend;
+  private categoriesUrl = `${this.url}/categories/`;
+  private dishesUrl = `${this.url}/dishes/`;
 
   constructor(private http: HttpClient) {
   }
@@ -56,30 +59,11 @@ export class CategoriesService {
     })
   }
 
-  public editCategory(category: {}, categoryId: number): any {
-
-    this.http.put<any>(`${this.categoriesUrl + categoryId}`, category)
-      .subscribe({
-        next: data => {
-          this.postId = data.id;
-        },
-        error: error => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        }
-      });
+  public editCategory(category: Category): any {
+   return this.http.patch<any>(this.categoriesUrl + category.id, category, httpOptions)
   }
 
   public deleteCategory(categoryId: number): any {
-    this.http.delete(this.categoriesUrl + categoryId)
-      .subscribe({
-        next: data => {
-          console.log('Delete successful');
-        },
-        error: error => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        }
-      });
+    return this.http.delete(this.categoriesUrl + categoryId, httpOptions)
   }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "../sign-up/sign-up.component";
 import {AuthService} from "../../core/services/auth.service";
 import {User} from "../../shared/classes/user";
@@ -17,23 +17,21 @@ export class LoginComponent implements OnInit {
   id!: number;
   dataForm: any;
 
-  passwordFormControl = new FormControl('', [Validators.required, Validators.min(6)]);
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
   matcher = new MyErrorStateMatcher();
 
-  constructor(public authService: AuthService, private router: Router, private _snackBar: MatSnackBar , private formBuilder: FormBuilder) {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private _snackBar: MatSnackBar ,
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.getUsers()
     this.dataForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(6)]],
     })
-  }
-
-  ngOnInit(): void {
-    this.getUsers()
   }
 
   private getUsers(): void {

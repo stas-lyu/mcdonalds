@@ -1,0 +1,16 @@
+.row>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.category-item{
+  max-width: 100%;
+}
+
+::ng-deep .dishes-select {
+  margin: 0 auto;
+  display: block;
+  max-width: 300px;
+}

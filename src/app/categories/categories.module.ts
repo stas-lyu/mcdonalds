@@ -7,6 +7,7 @@ import {CategoryDialogComponent} from "./category-item-dialog/category-dialog.co
 import {AppRoutingModule} from "../app-routing.module";
 import {DishesListComponent} from "./dishes-list/dishes-list.component";
 import {SelectQuantityComponent} from "../core/compoents/select-quantity/select-quantity.component";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
     declarations: [
@@ -18,11 +19,12 @@ import {SelectQuantityComponent} from "../core/compoents/select-quantity/select-
     exports: [
         SelectQuantityComponent
     ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MaterialModule,
-        AppRoutingModule,
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule,
+    AppRoutingModule,
+    SharedModule,
+  ]
 })
 export class CategoriesModule { }

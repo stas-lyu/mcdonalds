@@ -5,16 +5,19 @@ import {catchError, tap} from "rxjs/operators";
 
 import {User} from '../../shared/classes/user';
 import {Router} from "@angular/router";
+import {environment} from '../../../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-};
+  headers: new HttpHeaders().set('Content-Type', 'application/json'),
+  responseType: 'text' as 'json'
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private usersUrl = 'api/users';
+  private url = environment.urlToBackend;
+  private usersUrl = `${this.url}/users`;
   private loggedIn = false;
   users: any[] = [];
   roleAs!: string[];
@@ -25,11 +28,10 @@ export class AuthService {
     this.getUsers().subscribe((user: User[]) => this.users = user);
   }
 
-  public setCurrentUser(email: string): void {
+  public setCurrentUser(email: string, isAdmin: boolean): void {
     localStorage.setItem('user', email);
     this.loggedIn = true;
-    console.log(this.isLoggedIn, 'setCurrent')
-    this.admin = localStorage.getItem('role') !== 'customer';
+    this.admin = isAdmin;
   }
 
   public getCurrentUser(): string | any {
@@ -60,10 +62,10 @@ export class AuthService {
 
   public login(user: User): any {
     if (this.users.some((person: User) => {
-      this.admin = person.isAdmin
-      return person.email === user.email && person.password === user.password
+      localStorage.setItem('role', person.isAdmin ? 'admin' : 'customer')
+      return person.email === user.email && person.password.toString() === user.password.toString()
     })) {
-      this.setCurrentUser(user.email);
+      this.setCurrentUser(user.email, true);
       return this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
     } else {
       return throwError('This email already registered');
@@ -71,7 +73,6 @@ export class AuthService {
   }
 
   public addUser(user: User): any {
-    console.log(this.users)
     if (this.users.some((person: User) => person.email === user.email)) {
       return throwError('This email already registered');
     } else {

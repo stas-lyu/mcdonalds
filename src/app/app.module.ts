@@ -4,8 +4,6 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {DataService} from './core/services/data.service';
 import {CustomerModule} from "./customer/customer.module";
 import {CoreModule} from "./core/core.module";
 import {SharedModule} from "./shared/shared.module";
@@ -15,6 +13,7 @@ import {AdminModule} from "./admin/admin.module";
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { FileUploadComponent } from './core/compoents/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     AuthModule,
     CategoriesModule,
     AdminModule,
-    HttpClientInMemoryWebApiModule.forRoot(DataService, {dataEncapsulation: false}),
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule

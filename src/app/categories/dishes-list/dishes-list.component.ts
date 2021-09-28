@@ -15,6 +15,8 @@ export class DishesListComponent implements OnInit {
 
   dishes: Dish[] = [];
 
+  searchText!: 'a';
+
   constructor(
     private dishesService: CategoriesService,
     public dialog: MatDialog, private route: ActivatedRoute) {

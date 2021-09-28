@@ -1,12 +1,17 @@
 import {NgModule} from '@angular/core';
 import {MaterialModule} from "./material.module";
+import {FilterPipe} from "./pipe/filter.pipe";
 
 @NgModule({
+  declarations: [
+    FilterPipe
+  ],
   imports: [
-    MaterialModule
+    MaterialModule,
   ],
   exports: [
-    MaterialModule
+    MaterialModule,
+    FilterPipe,
   ]
 })
 export class SharedModule {

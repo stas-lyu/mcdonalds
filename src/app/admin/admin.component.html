@@ -1,4 +1,51 @@
-<mat-tab-group>
-  <mat-tab label="Categories"><app-admin-categories></app-admin-categories></mat-tab>
-  <mat-tab label="Dishes"><app-admin-dishes></app-admin-dishes></mat-tab>
-</mat-tab-group>
+<section class="categories">
+  <h2 class="section-title">Categories Edit</h2>
+  <div class="container">
+    <div class="row py-2">
+      <div class="category-item" *ngFor="let item of categories">
+        <div class="category-item-body">
+          <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
+          <h5 class="category-item_name">{{item.name}}</h5>
+          <div class="category-item_controls">
+            <button mat-flat-button (click)="deleteCategory(item.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-flat-button
+                    class="dishes-item" (click)="openEditCategoryModal(item)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dishes">
+  <h2 class="section-title">Dishes Edit</h2>
+
+  <mat-form-field appearance="fill" class="dishes-select">
+    <mat-label>Favorite food</mat-label>
+    <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)">
+      <mat-option *ngFor="let category of categories" [value]="category.name">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="dishes-content">
+    <div class="container">
+      <div class="row py-2">
+        <div class="category-item" *ngFor="let dish of dishes">
+          <div class="category-item-body">
+            <h5 class="dish-item_name">{{dish.name}}</h5>
+            <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="responsive-img">
+            <h5 class="dish-item_description">{{dish.description}}</h5>
+            <span class="dish-item_price">{{dish.price}}</span>
+            <span class="dish-item_calories">{{dish.cal}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
