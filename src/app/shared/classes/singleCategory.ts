@@ -1,4 +1,4 @@
-export class SingleCategory {
-  categoryId!: number;
-  products!: object;
+export interface SingleCategory {
+  categoryId: number;
+  products: object;
 }

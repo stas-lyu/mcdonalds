@@ -33,7 +33,6 @@ const categoriesRoutes = (app, fs) => {
   };
 
   // READ
-  // Notice how we can make this 'read' operation much more simple now.
   app.get("/categories", (req, res) => {
     readFile((data) => {
       res.send(data);
@@ -43,8 +42,6 @@ const categoriesRoutes = (app, fs) => {
   // CREATE
   app.post("/categories", (req, res) => {
     readFile((data) => {
-      // Note: this needs to be more robust for production use.
-      // e.g. use a UUID or some kind of GUID for a unique ID value.
       const newCategoryId = Date.now().toString();
       data[newCategoryId] = req.body;
       req.body.id = newCategoryId;
@@ -84,7 +81,6 @@ const categoriesRoutes = (app, fs) => {
   // DELETE
   app.delete("/categories/:id", (req, res) => {
     readFile((categories) => {
-      console.log(categories);
       writeFile(
         JSON.stringify(
           categories.filter(

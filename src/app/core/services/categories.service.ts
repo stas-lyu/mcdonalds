@@ -19,14 +19,11 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class CategoriesService {
-  url = environment.urlToBackend;
+  private url = environment.urlToBackend;
   private categoriesUrl = `${this.url}/categories/`;
   private dishesUrl = `${this.url}/dishes/`;
 
   constructor(private http: HttpClient) {}
-
-  postId!: number;
-  errorMessage!: string;
 
   public getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoriesUrl).pipe(
@@ -71,6 +68,7 @@ export class CategoriesService {
   public deleteCategory(categoryId: number): any {
     return this.http.delete(this.categoriesUrl + categoryId, httpOptions);
   }
+
   public deleteDish(categoryId: number, dishId: number): any {
     return this.http.delete(this.dishesUrl + dishId, httpOptions);
   }

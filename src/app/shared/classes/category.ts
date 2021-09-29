@@ -1,6 +1,6 @@
-export class Category {
-  id!: number;
-  name!: string;
-  imgUrl!: string;
-  description!: string;
+export interface Category {
+  id: number;
+  name: string;
+  imgUrl: string;
+  description: string;
 }

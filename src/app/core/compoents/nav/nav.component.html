@@ -1,8 +1,8 @@
 <nav class="navbar">
   <ul class="navbar-list">
-    <li><a *ngIf="!authService.isLoggedIn" mat-flat-button color="warn" class="button" routerLink="/sign-up" routerLinkActive="activebutton">Sign Up</a>
+    <li><a *ngIf="!this.isLogin" mat-flat-button color="warn" class="button" routerLink="/sign-up" routerLinkActive="activebutton">Sign Up</a>
     </li>
-    <li *ngIf="!authService.isLoggedIn">
+    <li *ngIf="!this.isLogin">
       <a
         mat-flat-button
         color="primary"
@@ -12,10 +12,10 @@
       </a>
     </li>
     <li>
-    <li *ngIf="authService.isLoggedIn">
+    <li *ngIf="this.isLogin">
       <a mat-flat-button color="primary" class="button" (click)="logout()">Log out</a>
     </li>
-    <li *ngIf="authService.isAdmin">
+    <li *ngIf="this.authService.isAdmin">
       <a
         mat-flat-button
         color="primary"

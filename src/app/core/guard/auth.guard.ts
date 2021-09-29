@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (!this.authService.isAdmin) {
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['categories']);
       return false;
     } else return true;
   }

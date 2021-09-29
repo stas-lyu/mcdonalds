@@ -4,6 +4,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -44,12 +47,30 @@ export class LoginComponent implements OnInit {
       .subscribe(() => this.router.navigate(['sign-in']));
   }
 
-  public login(): void {
-    if (this.dataForm.valid) {
-      this.authService.login(this.dataForm.value);
-      if (!this.authService.isLoggedIn) {
-        this.openSnackBar('incorect input field', 'Try again!');
-      }
-    }
+  public login() {
+    this.authService
+      .singIn(this.dataForm.value)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.openSnackBar(
+            'invalid email or password',
+            'Did you wont sign in or try again'
+          );
+          return throwError(error);
+        })
+      )
+      .subscribe((): void => {
+        this.authService.getUsers().subscribe((users) => {
+          users.forEach((user) => {
+            if (user.email === this.dataForm.value.email) {
+              this.authService.setCurrentUser(
+                this.dataForm.value.email,
+                user.isAdmin
+              );
+              this.router.navigate(user.isAdmin ? ['admin'] : ['categories']);
+            }
+          });
+        });
+      });
   }
 }

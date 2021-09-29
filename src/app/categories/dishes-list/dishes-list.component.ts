@@ -13,8 +13,6 @@ import { CategoryDialogComponent } from '../category-item-dialog/category-dialog
 export class DishesListComponent implements OnInit {
   dishes: Dish[] = [];
 
-  searchText!: 'a';
-
   constructor(
     private dishesService: CategoriesService,
     public dialog: MatDialog,

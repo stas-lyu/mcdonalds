@@ -54,7 +54,7 @@ export class SignUpComponent implements OnInit {
             return throwError(error);
           })
         )
-        .subscribe((user: User) => {
+        .subscribe((): void => {
           this.authService.setCurrentUser(
             this.dataForm.value.email,
             this.dataForm.value.isAdmin

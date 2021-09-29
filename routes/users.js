@@ -1,3 +1,8 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const refreshTokensDB = [];
+require("dotenv").config();
+const { JS } = require("json-server/lib/cli/utils/is");
 const usersRoutes = (app, fs) => {
   //...unchanged ^^^
 
@@ -78,7 +83,88 @@ const usersRoutes = (app, fs) => {
       });
     }, true);
   });
+
+  // This endpoint will register new user
+  app.post("/register", (req, res) => {
+    readFile(async (data) => {
+      try {
+        const foundUser = data.find((item) => req.body.email === item.email);
+        if (!foundUser) {
+          let hashPassword = await bcrypt.hash(req.body.password, 10);
+          let newUser = {
+            id: Date.now(),
+            username: req.body.username,
+            email: req.body.email,
+            password: hashPassword,
+            isAdmin: req.body.isAdmin,
+          };
+
+          data.push(newUser);
+
+          writeFile(JSON.stringify(data, null, 2), () => {
+            res.status(200).send("new user added");
+          });
+
+          res.json({ message: "Registration successful" });
+        } else {
+          res.status(403).json({ message: "Registration failed" });
+        }
+      } catch {
+        res.json({ message: "Internal server error" });
+      }
+    }, true);
+  });
+
+  // '/login' route will authenticate the user
+  // and only after successful authentication,
+  // it will send access and refresh tokens
+  app.post("/login", (req, res) => {
+    readFile(async (users) => {
+      try {
+        let foundUser = users.find((user) => req.body.email === user.email);
+        if (foundUser) {
+          let submittedPass = req.body.password;
+          let storedPass = foundUser.password;
+
+          const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
+          if (passwordMatch) {
+            let username = foundUser.username;
+
+            const tokenEmail = req.body.email;
+            const payload = { email: tokenEmail };
+
+            const aToken = await generateAccessToken(payload);
+
+            const rToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+
+            refreshTokensDB.push(rToken); // it will store the newly generated refresh tokens
+
+            res.json({
+              AccessToken: aToken,
+              RefreshToken: rToken,
+              message: "You are logged-in",
+            });
+          } else {
+            res.status(403).json({ message: "Invalid email or password" });
+          }
+        } else {
+          let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`; //fake password is used just to slow down the time required to send a response to the user
+          bcrypt.compare(req.body.password, fakePass);
+          res.status(403).json({ message: "Invalid email or password" });
+        }
+      } catch {
+        res.status(400).json({ message: "Internal server error" });
+      }
+    }, true);
+  });
 };
+
+async function generateAccessToken(payload) {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "2m",
+  });
+}
+
 const dataPathUsers = "./data/users.json";
 
 module.exports = usersRoutes;

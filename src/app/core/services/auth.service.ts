@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
+import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -17,24 +15,21 @@ const httpOptions = {
 })
 export class AuthService {
   private url = environment.urlToBackend;
-  private usersUrl = `${this.url}/users`;
-  private loggedIn: boolean = false;
-  users: any[] = [];
-  roleAs!: string[];
-  private admin!: boolean;
+  private authSubject = new BehaviorSubject(false);
+  private admin: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.loggedIn = !!localStorage.getItem('user');
-    if (this.loggedIn) {
-      this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
-    }
-    this.getUsers().subscribe((user: User[]) => (this.users = user));
-    console.log(this.getCurrentUser());
+    this.isAuthenticated().subscribe((res) => {
+      if (res) {
+        this.router.navigate(['categories']);
+      }
+    });
   }
 
   public setCurrentUser(email: string, isAdmin: boolean): void {
     localStorage.setItem('user', email);
-    this.loggedIn = true;
+    localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+    this.authSubject.next(true);
     this.admin = isAdmin;
   }
 
@@ -44,12 +39,10 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem('user');
-    this.loggedIn = false;
+    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.setItem('isAdmin', JSON.stringify(false));
     this.admin = false;
-  }
-
-  public get isLoggedIn(): boolean {
-    return this.loggedIn;
+    this.authSubject.next(false);
   }
 
   public get isAdmin(): boolean {
@@ -57,46 +50,20 @@ export class AuthService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl).pipe(
-      tap((users) => this.log(`fetched users`)),
-      catchError(this.handleError('getUsers', []))
-    );
-  }
-
-  public login(user: User): any {
-    if (
-      this.users.some((person: User) => {
-        localStorage.setItem('role', person.isAdmin ? 'admin' : 'customer');
-        return (
-          person.email === user.email &&
-          person.password.toString() === user.password.toString()
-        );
-      })
-    ) {
-      this.setCurrentUser(user.email, true);
-      return this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
-    } else {
-      return throwError('This email already registered');
-    }
+    return this.http.get<User[]>(`${this.url}/users`);
   }
 
   public addUser(user: User): any {
-    if (this.users.some((person: User) => person.email === user.email)) {
-      return throwError('This email already registered');
-    } else {
-      return this.http.post<User>(this.usersUrl, user, httpOptions);
-    }
+    localStorage.setItem('isAuthenticated', 'true');
+    return this.http.post<User>(`${this.url}/register`, user, httpOptions);
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      this.log(`${operation} failed: ${error.message}`);
-
-      return of(result as T);
-    };
+  public singIn(user: User): any {
+    localStorage.setItem('isAuthenticated', 'true');
+    return this.http.post(`${this.url}/login`, user, httpOptions);
   }
 
-  private log(message: string) {
-    console.log(message);
+  isAuthenticated() {
+    return this.authSubject.asObservable();
   }
 }
