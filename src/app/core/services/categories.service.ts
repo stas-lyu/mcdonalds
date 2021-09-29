@@ -1,30 +1,29 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse, HttpHeaders,
+  HttpErrorResponse,
+  HttpHeaders,
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map, retry} from 'rxjs/operators';
-import {Category} from "../../shared/classes/category";
-import {Dish} from "../../shared/classes/dish";
-import {environment} from '../../../environments/environment';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, retry } from 'rxjs/operators';
+import { Category } from '../../shared/classes/category';
+import { Dish } from '../../shared/classes/dish';
+import { environment } from '../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders().set('Content-Type', 'application/json'),
-  responseType: 'text' as 'json'
-}
+  responseType: 'text' as 'json',
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class CategoriesService {
   url = environment.urlToBackend;
   private categoriesUrl = `${this.url}/categories/`;
   private dishesUrl = `${this.url}/dishes/`;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   postId!: number;
   errorMessage!: string;
@@ -40,15 +39,17 @@ export class CategoriesService {
   }
 
   public getDishesByCategoryId(id: any): Observable<Dish[]> {
-    return this.http.get<Dish[]>(this.dishesUrl)
-      .pipe(map((item: any) => {
+    return this.http.get<Dish[]>(this.dishesUrl).pipe(
+      map((item: any) => {
         if (item[id].categoryId == id) {
           return item[id].products;
         }
-      }), catchError((error: HttpErrorResponse) => {
+      }),
+      catchError((error: HttpErrorResponse) => {
         console.error(error);
         return throwError(error);
-      }))
+      })
+    );
   }
 
   public addCategory(category: {}): any {
@@ -56,14 +57,18 @@ export class CategoriesService {
     catchError((error: HttpErrorResponse) => {
       console.error(error);
       return throwError(error);
-    })
+    });
   }
 
   public editCategory(category: Category): any {
-   return this.http.patch<any>(this.categoriesUrl + category.id, category, httpOptions)
+    return this.http.patch<any>(
+      this.categoriesUrl + category.id,
+      category,
+      httpOptions
+    );
   }
 
   public deleteCategory(categoryId: number): any {
-    return this.http.delete(this.categoriesUrl + categoryId, httpOptions)
+    return this.http.delete(this.categoriesUrl + categoryId, httpOptions);
   }
 }

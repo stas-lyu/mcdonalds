@@ -1,13 +1,11 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-select-quantity',
   templateUrl: './select-quantity.component.html',
-  styleUrls: ['./select-quantity.component.scss']
+  styleUrls: ['./select-quantity.component.scss'],
 })
 export class SelectQuantityComponent implements OnInit {
-
   isDisabled = true;
 
   counterValue = 1;
@@ -24,27 +22,25 @@ export class SelectQuantityComponent implements OnInit {
     this.counterChange.emit(this.counterValue);
   }
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     if (this.counter > 1) {
-      this.isDisabled = false
+      this.isDisabled = false;
     }
   }
 
   public decrement(): void {
     if (this.counter === 2) {
-      this.counter--
-      this.isDisabled = true
-    } else this.counter--
+      this.counter--;
+      this.isDisabled = true;
+    } else this.counter--;
   }
-
 
   public increment(): void {
     if (this.counter === 1) {
       this.counter++;
-      this.isDisabled = false
+      this.isDisabled = false;
     } else this.counter++;
   }
 }

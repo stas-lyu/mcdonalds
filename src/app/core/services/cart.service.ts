@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
-
-  constructor() { }
+  constructor() {}
 
   public get cartCounter() {
-    if (localStorage.getItem("cart")) {
-      return JSON.parse(<string>localStorage.getItem("cart")).length
+    if (localStorage.getItem('cart')) {
+      return JSON.parse(<string>localStorage.getItem('cart')).length;
     }
   }
 }

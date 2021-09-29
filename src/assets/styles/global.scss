@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: cornsilk;
+}
+
 .container {
   width: 90%;
   display: block;
@@ -164,9 +168,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-position-y: -181px;
   height: 82vh;
-  background: url("../../assets/img/main.jpg") no-repeat;
-  background-size: cover;
+  background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('../img/main.png');
+  background-size: contain;
 }
 
 .responsive-img {

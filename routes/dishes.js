@@ -6,7 +6,7 @@ const dishesRoutes = (app, fs) => {
     callback,
     returnJson = false,
     filePath = dataPathDishes,
-    encoding = 'utf8'
+    encoding = "utf8"
   ) => {
     fs.readFile(filePath, encoding, (err, data) => {
       if (err) {
@@ -21,9 +21,9 @@ const dishesRoutes = (app, fs) => {
     fileData,
     callback,
     filePath = dataPathDishes,
-    encoding = 'utf8'
+    encoding = "utf8"
   ) => {
-    fs.writeFile(filePath, fileData, encoding, err => {
+    fs.writeFile(filePath, fileData, encoding, (err) => {
       if (err) {
         throw err;
       }
@@ -34,15 +34,15 @@ const dishesRoutes = (app, fs) => {
 
   // READ
   // Notice how we can make this 'read' operation much more simple now.
-  app.get('/dishes', (req, res) => {
-    readFile(data => {
+  app.get("/dishes", (req, res) => {
+    readFile((data) => {
       res.send(data);
     }, true);
   });
 
   // CREATE
-  app.post('/dishes', (req, res) => {
-    readFile(data => {
+  app.post("/dishes", (req, res) => {
+    readFile((data) => {
       // Note: this needs to be more robust for production use.
       // e.g. use a UUID or some kind of GUID for a unique ID value.
       const newDishId = Date.now().toString();
@@ -51,16 +51,16 @@ const dishesRoutes = (app, fs) => {
       data[newDishId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send('new dish added');
+        res.status(200).send("new dish added");
       });
     }, true);
   });
 
   // UPDATE
-  app.put('/dishes/:id', (req, res) => {
-    readFile(data => {
+  app.put("/dishes/:id", (req, res) => {
+    readFile((data) => {
       // add the new user
-      const DishId = req.params['id'];
+      const DishId = req.params["id"];
       data[DishId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
@@ -70,10 +70,10 @@ const dishesRoutes = (app, fs) => {
   });
 
   // DELETE
-  app.delete('/dishes/:id', (req, res) => {
-    readFile(data => {
+  app.delete("/dishes/:id", (req, res) => {
+    readFile((data) => {
       // add the new user
-      const dishId = req.params['id'];
+      const dishId = req.params["id"];
       delete data[dishId];
 
       writeFile(JSON.stringify(data, null, 2), () => {
@@ -82,6 +82,6 @@ const dishesRoutes = (app, fs) => {
     }, true);
   });
 };
-const dataPathDishes = './data/dishes.json';
+const dataPathDishes = "./data/dishes.json";
 
 module.exports = dishesRoutes;
