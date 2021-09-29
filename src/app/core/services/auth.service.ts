@@ -18,14 +18,18 @@ const httpOptions = {
 export class AuthService {
   private url = environment.urlToBackend;
   private usersUrl = `${this.url}/users`;
-  private loggedIn = false;
+  private loggedIn: boolean = false;
   users: any[] = [];
   roleAs!: string[];
   private admin!: boolean;
 
   constructor(private http: HttpClient, private router: Router) {
     this.loggedIn = !!localStorage.getItem('user');
+    if (this.loggedIn) {
+      this.router.navigate(this.isAdmin ? ['admin'] : ['categories']);
+    }
     this.getUsers().subscribe((user: User[]) => (this.users = user));
+    console.log(this.getCurrentUser());
   }
 
   public setCurrentUser(email: string, isAdmin: boolean): void {

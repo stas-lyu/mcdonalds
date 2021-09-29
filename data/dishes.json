@@ -47,7 +47,7 @@
         "id": 3,
         "name": "Hot Tea",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-hot-tea.jpg?$Product_Desktop$",
-        "price": 2.40,
+        "price": 2.4,
         "size": [
           "s",
           "m",
@@ -119,7 +119,7 @@
         "id": 3,
         "name": "Hotcakes",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Hotcakes.jpg?$Product_Desktop$",
-        "price": 2.40,
+        "price": 2.4,
         "ingredients": [
           "Hotcakes",
           "Hotcake Syrup",
@@ -184,7 +184,7 @@
         "id": 3,
         "name": "Hotcakes",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Hotcakes.jpg?$Product_Desktop$",
-        "price": 2.40,
+        "price": 2.4,
         "ingredients": [
           "Hotcakes",
           "Hotcake Syrup",
@@ -291,7 +291,7 @@
         "id": 3,
         "name": "Quarter Pounder®* with Cheese",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-Quarter-Pounder-with-Cheese.jpg?$Product_Desktop$",
-        "price": 2.40,
+        "price": 2.4,
         "size": [
           "default"
         ],
@@ -315,7 +315,7 @@
         "id": 0,
         "name": "Spicy Deluxe Crispy Chicken Sandwich",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-spicy-deluxe-crispy-chicken-sandwich.jpg?$Product_Desktop$",
-        "price": 8.40,
+        "price": 8.4,
         "ingredients": [
           "Crispy Chicken Fillet",
           "Potato Roll",
@@ -367,7 +367,7 @@
         "id": 3,
         "name": "Spicy Crispy Chicken Sandwich",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-spicy-crispy-chicken-sandwich.jpg?$Product_Desktop$",
-        "price": 5.40,
+        "price": 5.4,
         "ingredients": [
           "Crispy Chicken Fillet",
           "Potato Roll",
@@ -384,7 +384,7 @@
         "id": 4,
         "name": "Deluxe Crispy Chicken Sandwich",
         "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-deluxe-crispy-chicken-sandwich.jpg?$Product_Desktop$",
-        "price": 8.40,
+        "price": 8.4,
         "ingredients": [
           "Crispy Chicken Fillet",
           "Potato Roll",

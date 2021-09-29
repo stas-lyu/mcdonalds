@@ -71,14 +71,16 @@ const dishesRoutes = (app, fs) => {
 
   // DELETE
   app.delete("/dishes/:id", (req, res) => {
-    readFile((data) => {
-      // add the new user
-      const dishId = req.params["id"];
-      delete data[dishId];
-
-      writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send(`dish id:${dishId} removed`);
-      });
+    console.log(req + " req", res + " res");
+    readFile((dishes) => {
+      writeFile(
+        JSON.stringify(
+          dishes.filter((dish) => Number(dish.id) !== Number(req.params.id))
+        ),
+        () => {
+          res.status(200).send(`dish id:${req.params.id} removed`);
+        }
+      );
     }, true);
   });
 };

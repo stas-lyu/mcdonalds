@@ -1,8 +1,10 @@
-<div class="row py-2">
-  <div class="category-item" *ngFor="let item of categories" [routerLink]="['/categories', item.id]">
-    <div class="category-item-body">
-      <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
-      <h5 class="category-item_title">{{item.name}}</h5>
-    </div>
+<div class="container">
+  <div class="row py-2">
+    <mat-card class="category-item" *ngFor="let item of categories" [routerLink]="['/categories', item.id]">
+      <div class="category-item-body">
+        <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
+        <h5 class="category-item_title">{{item.name}}</h5>
+      </div>
+    </mat-card>
   </div>
 </div>

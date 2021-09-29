@@ -71,4 +71,7 @@ export class CategoriesService {
   public deleteCategory(categoryId: number): any {
     return this.http.delete(this.categoriesUrl + categoryId, httpOptions);
   }
+  public deleteDish(categoryId: number, dishId: number): any {
+    return this.http.delete(this.dishesUrl + dishId, httpOptions);
+  }
 }

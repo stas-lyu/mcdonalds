@@ -2,7 +2,7 @@
   <h2 class="section-title">Categories Edit</h2>
   <div class="container">
     <div class="row py-2">
-      <div class="category-item" *ngFor="let item of categories">
+      <mat-card class="category-item" *ngFor="let item of categories">
         <div class="category-item-body">
           <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
           <h5 class="category-item_name">{{item.name}}</h5>
@@ -11,12 +11,22 @@
               <mat-icon>delete</mat-icon>
             </button>
             <button mat-flat-button
-                    class="dishes-item" (click)="openEditCategoryModal(item)">
+                    class="category-item_edit" (click)="openEditCategoryModal(item)">
               <mat-icon>edit</mat-icon>
             </button>
           </div>
         </div>
-      </div>
+      </mat-card>
+    </div>
+    <button mat-flat-button class="btn category-item_add" (click)="toggleAddCategoryClass = !toggleAddCategoryClass">{{toggleAddCategoryClass ? 'Close' : 'Add Category'}}</button>
+    <div class="category-add" *ngIf="toggleAddCategoryClass">
+      <form>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Category name</mat-label>
+            <input matInput placeholder="Burgers">
+            <button mat-flat-button>Add category</button>
+          </mat-form-field>
+      </form>
     </div>
   </div>
 </section>
@@ -36,7 +46,7 @@
   <div class="dishes-content">
     <div class="container">
       <div class="row py-2">
-        <div class="category-item" *ngFor="let dish of dishes">
+        <mat-card class="category-item" *ngFor="let dish of dishes">
           <div class="category-item-body">
             <h5 class="dish-item_name">{{dish.name}}</h5>
             <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="responsive-img">
@@ -44,7 +54,16 @@
             <span class="dish-item_price">{{dish.price}}</span>
             <span class="dish-item_calories">{{dish.cal}}</span>
           </div>
-        </div>
+          <div class="dish-item_controls">
+            <button mat-flat-button (click)="deleteDish(dish.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-flat-button
+                    class="dishes-item" (click)="openEditDishModal()">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </mat-card>
       </div>
     </div>
   </div>

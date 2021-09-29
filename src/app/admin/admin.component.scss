@@ -1,7 +1,6 @@
 .row>div {
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
@@ -9,8 +8,26 @@
   max-width: 100%;
 }
 
+.category-item-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 ::ng-deep .dishes-select {
   margin: 0 auto;
   display: block;
   max-width: 300px;
+}
+
+.dish-item_controls {
+  display: flex;
+  justify-content: center;
+}
+
+.category-item_add {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
 }

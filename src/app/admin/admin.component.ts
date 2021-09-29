@@ -14,6 +14,8 @@ import { Dish } from '../shared/classes/dish';
 export class AdminComponent implements OnInit {
   categories!: Category[];
   dishes!: Dish[];
+  toggleAddCategoryClass: boolean = false;
+  categoryId: number = 0;
 
   constructor(
     private categoryService: CategoriesService,
@@ -59,12 +61,22 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  public deleteDish(dishId: number): void {
+    this.categoryService.deleteDish(this.categoryId, dishId).subscribe(() => {
+      this.categoryService
+        .getCategories()
+        .subscribe((category) => (this.categories = category));
+    });
+  }
+
+  public openEditDishModal() {}
+
   selectOnChange(category: string) {
-    const id = this.categories.findIndex((item: Category) => {
+    this.categoryId = this.categories.findIndex((item: Category) => {
       return item.name === category;
     });
     this.categoryService
-      .getDishesByCategoryId(id)
+      .getDishesByCategoryId(this.categoryId)
       .subscribe((dishes) => (this.dishes = dishes));
   }
 }
