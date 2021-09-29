@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriesService } from '../../core/services/categories.service';
 import { Category } from '../../shared/classes/category';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -9,6 +11,7 @@ import { Category } from '../../shared/classes/category';
 })
 export class CategoryListComponent implements OnInit {
   category: any;
+  notifier = new Subject();
   product = {
     name: '',
     id: null,
@@ -26,6 +29,11 @@ export class CategoryListComponent implements OnInit {
   private getCategories() {
     this.categoryService
       .getCategories()
+      .pipe(takeUntil(this.notifier))
       .subscribe((category) => (this.categories = category));
+  }
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

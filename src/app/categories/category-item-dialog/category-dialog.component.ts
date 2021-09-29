@@ -2,6 +2,8 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DishDataDialog } from '../../shared/classes/dishDataDialog';
 import { CartService } from '../../core/services/cart.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-category-dialog',
@@ -10,6 +12,7 @@ import { CartService } from '../../core/services/cart.service';
 })
 export class CategoryDialogComponent implements OnInit {
   dataInfo!: DishDataDialog;
+  notifier = new Subject();
   isShowSize = false;
   size: string = '';
   counter!: number;
@@ -34,8 +37,8 @@ export class CategoryDialogComponent implements OnInit {
       cart.push(
         Object.assign(product, {
           size: this.size,
-          id: new Date().getMilliseconds(),
           quantity: this.counter ?? 1,
+          cartId: new Date().getMilliseconds(),
         })
       );
 
@@ -48,5 +51,10 @@ export class CategoryDialogComponent implements OnInit {
   public quantityValue(num: number): void {
     this.counter = num;
     this.price = Number((this.dataInfo.price * this.counter).toFixed(2));
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

@@ -58,9 +58,9 @@ export class LoginComponent implements OnInit {
             'Did you wont sign in or try again'
           );
           return throwError(error);
-        }),
-        takeUntil(this.notifier)
+        })
       )
+      .pipe(takeUntil(this.notifier))
       .subscribe((response: any): void => {
         const responseData = JSON.parse(response);
         this.authService.setCurrentUser(

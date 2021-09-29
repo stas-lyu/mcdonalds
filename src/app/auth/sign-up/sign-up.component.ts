@@ -4,9 +4,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,6 +15,7 @@ import { throwError } from 'rxjs';
 })
 export class SignUpComponent implements OnInit {
   users!: User[];
+  notifier = new Subject();
   hide = true;
   dataForm: any;
   id!: number;
@@ -54,6 +55,7 @@ export class SignUpComponent implements OnInit {
             return throwError(error);
           })
         )
+        .pipe(takeUntil(this.notifier))
         .subscribe((): void => {
           this.authService.setCurrentUser(
             this.dataForm.value.email,
@@ -64,5 +66,10 @@ export class SignUpComponent implements OnInit {
           );
         });
     }
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }
