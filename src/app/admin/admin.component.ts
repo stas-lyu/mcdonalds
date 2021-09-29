@@ -30,11 +30,10 @@ export class AdminComponent implements OnInit {
   nameFormControl = new FormControl('', [Validators.required]);
 
   private getCategories() {
-    setTimeout(() => {
-      this.categoryService
-        .getCategories()
-        .subscribe((category) => (this.categories = category));
-    }, 1000);
+    this.categoryService.getCategories().subscribe((category) => {
+      console.log(category);
+      this.categories = category;
+    });
   }
 
   public addCategory() {

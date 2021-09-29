@@ -128,8 +128,6 @@ const usersRoutes = (app, fs) => {
 
           const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
           if (passwordMatch) {
-            let username = foundUser.username;
-
             const tokenEmail = req.body.email;
             const payload = { email: tokenEmail };
 
@@ -142,6 +140,7 @@ const usersRoutes = (app, fs) => {
             res.json({
               AccessToken: aToken,
               RefreshToken: rToken,
+              isAdmin: foundUser.isAdmin,
               message: "You are logged-in",
             });
           } else {

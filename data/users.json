@@ -28,5 +28,23 @@
     "email": "1231@gmail.com",
     "password": "$2b$10$W4ik9Yj8pDLh274i03YYPuWjXdAkgv7urhYdZennVA3cvnnrR102q",
     "isAdmin": true
+  },
+  {
+    "id": 1632923441334,
+    "email": "a@a.comfdfd",
+    "password": "$2b$10$Zv/JUyYO3oRWelcDLg34IOOFgOZaWzy84pcQiNRVd0thANqoQPmt.",
+    "isAdmin": true
+  },
+  {
+    "id": 1632923537010,
+    "email": "a@a.comfdfddfd",
+    "password": "$2b$10$Jjb06yrcCRqCKdbCeGFKTuA6z6P3lbdI/.nV841iKoq.ScMYDN.ma",
+    "isAdmin": true
+  },
+  {
+    "id": 1632923639313,
+    "email": "a@a.comfdfdcddf",
+    "password": "$2b$10$w4Pg6rg2bBLibKZugneKBue6Blz1wrJs7U8KVwIeuZE/4eJXItH/W",
+    "isAdmin": true
   }
 ]

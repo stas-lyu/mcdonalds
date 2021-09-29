@@ -23,6 +23,7 @@ export class DishesListComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.getDishesByCategoryId(params.category);
     });
+    console.log(this.dishes);
   }
 
   public openDishesDescriptionModal(dish: Dish): void {
@@ -31,7 +32,7 @@ export class DishesListComponent implements OnInit {
     });
   }
 
-  private getDishesByCategoryId(id: any): void {
+  private getDishesByCategoryId(id: number): void {
     this.dishesService.getDishesByCategoryId(id).subscribe(
       (dishes) => (this.dishes = dishes),
       (error) => console.log(error)

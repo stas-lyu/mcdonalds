@@ -20,8 +20,8 @@ const httpOptions = {
 })
 export class CategoriesService {
   private url = environment.urlToBackend;
-  private categoriesUrl = `${this.url}/categories/`;
-  private dishesUrl = `${this.url}/dishes/`;
+  private categoriesUrl = `${this.url}/categories`;
+  private dishesUrl = `${this.url}/dishes`;
 
   constructor(private http: HttpClient) {}
 
@@ -35,13 +35,8 @@ export class CategoriesService {
     );
   }
 
-  public getDishesByCategoryId(id: any): Observable<Dish[]> {
-    return this.http.get<Dish[]>(this.dishesUrl).pipe(
-      map((item: any) => {
-        if (item[id].categoryId == id) {
-          return item[id].products;
-        }
-      }),
+  public getDishesByCategoryId(id: number): Observable<Dish[]> {
+    return this.http.get<Dish[]>(`${this.url}/dishes/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         return throwError(error);
@@ -59,7 +54,7 @@ export class CategoriesService {
 
   public editCategory(category: Category): any {
     return this.http.patch<any>(
-      this.categoriesUrl + category.id,
+      `${this.categoriesUrl}/${category.id}`,
       category,
       httpOptions
     );

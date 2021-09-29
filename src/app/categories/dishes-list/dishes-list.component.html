@@ -3,7 +3,7 @@
   <mat-card
     *ngFor="let dish of dishes"
     class="dishes-item"
-    (click)="openDishesDescriptionModal(dishes[dish.id])"
+    (click)="openDishesDescriptionModal(dish)"
   >
     <div class="dishes-item-body">
       <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="dishes-item_img">

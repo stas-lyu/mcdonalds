@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { filter } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -19,11 +20,11 @@ export class AuthService {
   private admin: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.isAuthenticated().subscribe((res) => {
-      if (res) {
+    this.isAuthenticated()
+      .pipe(filter((res) => res))
+      .subscribe((res) => {
         this.router.navigate(['categories']);
-      }
-    });
+      });
   }
 
   public setCurrentUser(email: string, isAdmin: boolean): void {
@@ -63,7 +64,7 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, user, httpOptions);
   }
 
-  isAuthenticated() {
+  public isAuthenticated() {
     return this.authSubject.asObservable();
   }
 }

@@ -40,6 +40,14 @@ const dishesRoutes = (app, fs) => {
     }, true);
   });
 
+  app.get("/dishes/:id", (req, res) => {
+    readFile((dishes) => {
+      const response = dishes.filter((dish) => {
+        return Number(dish.categoryId) === Number(req.params["id"]);
+      });
+      res.send(response);
+    }, true);
+  });
   // CREATE
   app.post("/dishes", (req, res) => {
     readFile((data) => {
