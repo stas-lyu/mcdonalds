@@ -11,8 +11,10 @@ import { Dish } from '../../shared/classes/dish';
 import { environment } from '../../../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders().set('Content-Type', 'application/json'),
-  responseType: 'text' as 'json',
+  headers: new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('No-Auth', 'True'),
+  // responseType: 'text' as 'json',
 };
 
 @Injectable({
@@ -21,12 +23,11 @@ const httpOptions = {
 export class CategoriesService {
   private url = environment.urlToBackend;
   private categoriesUrl = `${this.url}/categories`;
-  private dishesUrl = `${this.url}/dishes`;
 
   constructor(private http: HttpClient) {}
 
   public getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoriesUrl).pipe(
+    return this.http.get<Category[]>(`${this.url}/categories`).pipe(
       retry(2),
       catchError((error: HttpErrorResponse) => {
         console.error(error);
@@ -45,11 +46,13 @@ export class CategoriesService {
   }
 
   public addCategory(category: {}): any {
-    this.http.post<Category>(this.categoriesUrl, category, httpOptions);
-    catchError((error: HttpErrorResponse) => {
-      console.error(error);
-      return throwError(error);
-    });
+    return this.http
+      .post<Category>(`${this.url}/categories`, category, httpOptions)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
   }
 
   public editCategory(category: Category): any {
@@ -61,10 +64,29 @@ export class CategoriesService {
   }
 
   public deleteCategory(categoryId: number): any {
-    return this.http.delete(this.categoriesUrl + categoryId, httpOptions);
+    return this.http.delete(
+      `${this.url}/categories/${categoryId}`,
+      httpOptions
+    );
+  }
+
+  public uploadCategoryImg(formData: any): any {
+    return this.http.post<any>(
+      'http://localhost:3000/upload',
+      formData,
+      httpOptions
+    );
+  }
+
+  public editDish(dish: Dish): any {
+    return this.http.patch<any>(
+      `${this.url}/dishes/${dish.id}`,
+      dish,
+      httpOptions
+    );
   }
 
   public deleteDish(categoryId: number, dishId: number): any {
-    return this.http.delete(this.dishesUrl + dishId, httpOptions);
+    return this.http.delete(`${this.url}/dishes/${dishId}`, httpOptions);
   }
 }

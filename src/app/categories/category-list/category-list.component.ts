@@ -32,6 +32,7 @@ export class CategoryListComponent implements OnInit {
       .pipe(takeUntil(this.notifier))
       .subscribe((category) => (this.categories = category));
   }
+
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();

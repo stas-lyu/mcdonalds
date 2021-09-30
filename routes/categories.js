@@ -1,7 +1,39 @@
-const categoriesRoutes = (app, fs) => {
-  //...unchanged ^^^
+const multer = require("multer");
+const fileExtension = require("file-extension");
+const bcrypt = require("bcrypt");
 
-  // refactored helper methods
+const storage = multer.diskStorage({
+  // Setting directory on disk to save uploaded files
+  destination: function (req, file, cb) {
+    cb(null, "my_uploaded_files");
+  },
+
+  // Setting name of file saved
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + "." + fileExtension(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    // Setting Image Size Limit to 2MBs
+    fileSize: 20000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      //Error
+      cb(new Error("Please upload JPG and PNG images only!"));
+    }
+    //Success
+    cb(undefined, true);
+  },
+});
+
+const categoriesRoutes = (app, fs) => {
   const readFile = (
     callback,
     returnJson = false,
@@ -41,16 +73,56 @@ const categoriesRoutes = (app, fs) => {
 
   // CREATE
   app.post("/categories", (req, res) => {
-    readFile((data) => {
-      const newCategoryId = Date.now().toString();
-      data[newCategoryId] = req.body;
-      req.body.id = newCategoryId;
-      data.push(req.body);
-      writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send("new category added");
-      });
+    readFile((categories) => {
+      try {
+        const foundCategory = categories.find(
+          (category) => req.body.name === category.name
+        );
+        if (!foundCategory) {
+          let newCategory = {
+            id: Date.now(),
+            name: req.body.name,
+            imgUrl: req.body.imgUrl,
+          };
+
+          categories.push(newCategory);
+
+          writeFile(JSON.stringify(categories, null, 2), () => {
+            res.status(200).send("new category added");
+          });
+
+          res.json({ categories: categories });
+        } else {
+          res.status(403).json({ message: "Category already created!" });
+        }
+      } catch {
+        res.json({ message: "Internal server error" });
+      }
     }, true);
   });
+
+  app.post(
+    "/upload",
+    upload.single("uploadedImage"),
+    (req, res, next) => {
+      const file = req.file;
+      if (!file) {
+        const error = new Error("Please upload a file");
+        error.httpStatusCode = 400;
+        return next(error);
+      }
+      res.status(200).send({
+        statusCode: 200,
+        status: "success",
+        uploadedFile: file,
+      });
+    },
+    (error, req, res, next) => {
+      res.status(400).send({
+        error: error.message,
+      });
+    }
+  );
 
   // UPDATE
   app.put("/categories/:id", (req, res) => {
@@ -83,14 +155,15 @@ const categoriesRoutes = (app, fs) => {
     readFile((categories) => {
       writeFile(
         JSON.stringify(
-          categories.filter(
+          (categories = categories.filter(
             (category) => Number(category.id) !== Number(req.params.id)
-          )
+          ))
         ),
         () => {
           res.status(200).send(`category id:${req.params.id} removed`);
         }
       );
+      res.json({ categories: categories });
     }, true);
   });
 };

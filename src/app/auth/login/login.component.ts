@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   users!: User[];
   id!: number;
-  dataForm: any;
+  loginForm: any;
   notifier = new Subject();
 
   constructor(
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    this.dataForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(6)]],
     });
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.authService
-      .singIn(this.dataForm.value)
+      .singIn(this.loginForm.value)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.openSnackBar(
@@ -58,16 +58,13 @@ export class LoginComponent implements OnInit {
             'Did you wont sign in or try again'
           );
           return throwError(error);
-        })
+        }),
+        takeUntil(this.notifier)
       )
-      .pipe(takeUntil(this.notifier))
       .subscribe((response: any): void => {
-        const responseData = JSON.parse(response);
-        this.authService.setCurrentUser(
-          this.dataForm.value.email,
-          responseData.isAdmin
-        );
-        this.router.navigate(responseData.isAdmin ? ['admin'] : ['categories']);
+        const { isAdmin } = JSON.parse(response);
+        this.authService.setCurrentUser(this.loginForm.value.email, isAdmin);
+        this.router.navigate(isAdmin ? ['admin'] : ['categories']);
       });
   }
 

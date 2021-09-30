@@ -8,6 +8,7 @@
 
 body {
   background-color: cornsilk;
+  font-family: 'Noto Sans Display', sans-serif;
 }
 
 .container {
@@ -25,7 +26,7 @@ $white: rgba(255, 255, 255, 0.3);
   position: relative;
 }
 
-form {
+.form {
   background: $white;
   padding: 3em;
   height: 320px;
@@ -62,7 +63,7 @@ form {
     }
   }
 
-  input {
+  .input {
     background: transparent;
     width: 200px;
     padding: 1em;
@@ -146,7 +147,7 @@ html, body {
 }
 
 #content {
-  min-height: 82vh;
+  min-height: 84.1vh;
   padding: 0;
   margin: 0;
 }
@@ -169,7 +170,7 @@ html, body {
   align-items: center;
   justify-content: center;
   background-position-y: -181px;
-  height: 82vh;
+  min-height: 84.1vh;
   background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('../img/main.png');
   background-size: contain;
 }

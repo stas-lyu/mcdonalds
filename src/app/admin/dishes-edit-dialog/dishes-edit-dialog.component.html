@@ -1,0 +1,26 @@
+<form class="dish-form" [formGroup]="dishForm">
+  <mat-form-field>
+    <mat-label>
+      Dish name
+    </mat-label>
+    <input matInput placeholder="Dish name" formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      Price
+    </mat-label>
+    <input matInput placeholder="Price" formControlName="price">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="textarea">
+    <mat-label>Description:</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              class="dish-textarea_description"
+              formControlName="description"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5">
+    </textarea>
+  </mat-form-field>
+
+  <button mat-button (click)="editDish()">Save change</button>
+</form>

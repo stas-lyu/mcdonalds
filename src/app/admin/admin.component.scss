@@ -31,3 +31,17 @@
   margin-right: auto;
   margin-bottom: 1rem;
 }
+
+.category-add {
+  display: flex;
+  justify-content: center;
+  button {
+    margin-top: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mat-form-field {
+    min-width: 320px;
+  }
+}

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  isLogin!: boolean;
+  isLogin: boolean = !!localStorage.getItem('user');
 
   categories: Category[] = [];
 
@@ -22,7 +22,6 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.authService.isAuthenticated().subscribe((res) => (this.isLogin = res));
   }
 
   logout() {

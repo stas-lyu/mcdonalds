@@ -18,16 +18,15 @@
         </div>
       </mat-card>
     </div>
-    <button mat-flat-button class="btn category-item_add" (click)="toggleAddCategoryClass = !toggleAddCategoryClass">{{toggleAddCategoryClass ? 'Close' : 'Add Category'}}</button>
-    <div class="category-add" *ngIf="toggleAddCategoryClass">
-      <form>
-          <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Category name</mat-label>
-            <input matInput placeholder="Burgers">
-            <button mat-flat-button>Add category</button>
-          </mat-form-field>
-      </form>
-    </div>
+    <button mat-flat-button class="btn category-item_add"
+            (click)="toggleAddCategoryClass = !toggleAddCategoryClass">{{toggleAddCategoryClass ? 'Close' : 'Add Category'}}</button>
+    <form class="category-add" *ngIf="toggleAddCategoryClass">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Category name</mat-label>
+        <input matInput placeholder="Burgers" [formControl]="nameFormControl">
+        <button mat-flat-button (click)="addCategory()">Add category</button>
+      </mat-form-field>
+    </form>
   </div>
 </section>
 
@@ -36,8 +35,9 @@
 
   <mat-form-field appearance="fill" class="dishes-select">
     <mat-label>Favorite food</mat-label>
-    <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)">
-      <mat-option *ngFor="let category of categories" [value]="category.name">
+    <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)" [formControl]="categorySelectFormControl">
+      <mat-option *ngFor="let category of categories; let index = index" [value]="category.name"
+                  [attr.selected]='index > 0? "selected":null'>
         {{category.name}}
       </mat-option>
     </mat-select>
@@ -59,12 +59,21 @@
               <mat-icon>delete</mat-icon>
             </button>
             <button mat-flat-button
-                    class="dishes-item" (click)="openEditDishModal()">
+                    class="dishes-item" (click)="openEditDishModal(dish)">
               <mat-icon>edit</mat-icon>
             </button>
           </div>
         </mat-card>
       </div>
     </div>
+    <button mat-flat-button class="btn category-item_add"
+            (click)="toggleAddDishesClass = !toggleAddDishesClass">{{toggleAddDishesClass ? 'Close' : 'Add dish by category'}}</button>
+    <form class="category-add" *ngIf="toggleAddDishesClass">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Category name</mat-label>
+        <input matInput placeholder="Burgers" [formControl]="nameFormControl">
+        <button mat-flat-button (click)="addCategory()">Add category</button>
+      </mat-form-field>
+    </form>
   </div>
 </section>

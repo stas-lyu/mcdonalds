@@ -79,7 +79,6 @@ const dishesRoutes = (app, fs) => {
 
   // DELETE
   app.delete("/dishes/:id", (req, res) => {
-    console.log(req + " req", res + " res");
     readFile((dishes) => {
       writeFile(
         JSON.stringify(

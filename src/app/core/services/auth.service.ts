@@ -17,7 +17,7 @@ const httpOptions = {
 export class AuthService {
   private url = environment.urlToBackend;
   private authSubject = new BehaviorSubject(false);
-  private admin: boolean = false;
+  private admin: boolean = JSON.parse(<string>localStorage.getItem('isAdmin'));
 
   constructor(private http: HttpClient, private router: Router) {
     this.isAuthenticated()
@@ -40,7 +40,6 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem('user');
-    localStorage.setItem('isAuthenticated', 'false');
     localStorage.setItem('isAdmin', JSON.stringify(false));
     this.admin = false;
     this.authSubject.next(false);
@@ -55,12 +54,10 @@ export class AuthService {
   }
 
   public addUser(user: User): any {
-    localStorage.setItem('isAuthenticated', 'true');
     return this.http.post<User>(`${this.url}/register`, user, httpOptions);
   }
 
   public singIn(user: User): any {
-    localStorage.setItem('isAuthenticated', 'true');
     return this.http.post(`${this.url}/login`, user, httpOptions);
   }
 
