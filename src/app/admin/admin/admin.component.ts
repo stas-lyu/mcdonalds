@@ -9,9 +9,30 @@ import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dia
 import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-admin',
+  animations: [
+    trigger('slideIn', [
+      state('*', style({ 'overflow-y': 'hidden' })),
+      state('void', style({ 'overflow-y': 'hidden' })),
+      transition('* => void', [
+        style({ height: '*' }),
+        animate(250, style({ height: 0 })),
+      ]),
+      transition('void => *', [
+        style({ height: '0' }),
+        animate(250, style({ height: '*' })),
+      ]),
+    ]),
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })

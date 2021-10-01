@@ -35,5 +35,9 @@
 }
 
 ::ng-deep mat-card {
-  margin: 1rem;
+  margin: 1rem 0;
+}
+
+.container {
+  width: 100%;
 }

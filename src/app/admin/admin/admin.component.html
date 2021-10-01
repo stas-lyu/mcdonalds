@@ -20,7 +20,7 @@
     </div>
     <button mat-flat-button class="btn category-item_add"
             (click)="toggleAddCategoryClass = !toggleAddCategoryClass">{{toggleAddCategoryClass ? 'Close' : 'Add Category'}}</button>
-    <form class="category-add" *ngIf="toggleAddCategoryClass">
+    <form class="category-add" *ngIf="toggleAddCategoryClass" [@slideIn]>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Category name</mat-label>
         <input matInput placeholder="Burgers" (input)="categoryNameInputHandler()"
@@ -70,7 +70,7 @@
     </div>
     <button mat-flat-button class="btn category-item_add"
             (click)="toggleAddDishesClass = !toggleAddDishesClass">{{toggleAddDishesClass ? 'Close' : 'Add dish by category'}}</button>
-    <form class="category-add" *ngIf="toggleAddDishesClass">
+    <form class="category-add" *ngIf="toggleAddDishesClass" [@slideIn]>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Category name</mat-label>
         <input matInput placeholder="Big Mac" (input)="dishNameInputHandler()" [formControl]="dishNameFormControl">
