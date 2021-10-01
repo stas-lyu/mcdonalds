@@ -143,7 +143,6 @@ const categoriesRoutes = (app, fs) => {
       // add the new user
       const categoryId = req.params["id"];
       category[categoryId] = req.body;
-      console.log(req.body);
       writeFile(JSON.stringify(category, null, 2), () => {
         res.status(200).send(`category id:${categoryId} updated`);
       });

@@ -77,7 +77,6 @@ export class AdminDialogComponent implements OnInit {
 
     return this.categoryService.uploadCategoryImg(formData).subscribe(
       (response: { statusCode: number }) => {
-        console.log(response);
         if (response.statusCode === 200) {
           // Reset the file input
 

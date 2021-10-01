@@ -5,7 +5,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 import { Category } from '../../shared/classes/category';
 import { Dish } from '../../shared/classes/dish';
 import { environment } from '../../../environments/environment';
@@ -14,7 +14,6 @@ const httpOptions = {
   headers: new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('No-Auth', 'True'),
-  // responseType: 'text' as 'json',
 };
 
 @Injectable({
@@ -22,7 +21,6 @@ const httpOptions = {
 })
 export class CategoriesService {
   private url = environment.urlToBackend;
-  private categoriesUrl = `${this.url}/categories`;
 
   constructor(private http: HttpClient) {}
 
@@ -57,7 +55,7 @@ export class CategoriesService {
 
   public editCategory(category: Category): any {
     return this.http.patch<any>(
-      `${this.categoriesUrl}/${category.id}`,
+      `${this.url}/categories/${category.id}`,
       category,
       httpOptions
     );

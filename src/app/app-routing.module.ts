@@ -9,6 +9,7 @@ import { CategoryListComponent } from './categories/category-list/category-list.
 import { DishesListComponent } from './categories/dishes-list/dishes-list.component';
 import { HomeComponent } from './core/compoents/home/home.component';
 import { CartComponent } from './core/compoents/cart/cart.component';
+import { OrdersComponent } from './admin/orders/orders.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,12 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'admin' },
+  },
+  {
+    path: 'orders',
+    component: OrdersComponent,
     canActivate: [AuthGuard],
     data: { role: 'admin' },
   },

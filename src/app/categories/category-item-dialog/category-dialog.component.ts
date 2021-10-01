@@ -41,7 +41,7 @@ export class CategoryDialogComponent implements OnInit {
       } else {
         cart.push(
           Object.assign(product, {
-            size: this.currentSize,
+            size: this.sizeList,
             quantity: this.counter || 1,
             cartId: new Date().getMilliseconds(),
           })

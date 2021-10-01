@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminDialogComponent } from './categories-edit-dialog/admin-dialog.component';
 import { FileUploadComponent } from '../core/compoents/file-upload/file-upload.component';
 import { DishesEditDialogComponent } from './dishes-edit-dialog/dishes-edit-dialog.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { DishesEditDialogComponent } from './dishes-edit-dialog/dishes-edit-dial
     AdminDialogComponent,
     FileUploadComponent,
     DishesEditDialogComponent,
+    OrdersComponent,
   ],
   imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
 })

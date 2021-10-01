@@ -31,6 +31,15 @@
         routerLinkActive="activebutton">Admin page
       </a>
     </li>
+    <li *ngIf="this.authService.isAdmin">
+      <a
+        mat-flat-button
+        color="primary"
+        class="btn nav-btn"
+        routerLink="/orders"
+        routerLinkActive="activebutton">Orders page
+      </a>
+    </li>
     <li>
       <button class="btn nav-btn" mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
     </li>

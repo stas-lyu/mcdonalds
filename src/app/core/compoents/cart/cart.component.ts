@@ -3,6 +3,7 @@ import { CategoriesService } from '../../services/categories.service';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../../shared/classes/cartItem';
 import { Dish } from '../../../shared/classes/dish';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,12 +20,12 @@ export class CartComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private cartService: CartService
+    private cartService: CartService,
+    private ordersService: OrdersService
   ) {}
 
   ngOnInit(): void {
     this.totalPrice = this.getTotalPrice();
-    console.log(this.isCartEmpty);
   }
 
   removeCartItem(id: number): void {
@@ -52,5 +53,9 @@ export class CartComponent implements OnInit {
     });
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.totalPrice = this.getTotalPrice();
+  }
+
+  postOrderListener() {
+    this.ordersService.postOrder(this.cart).subscribe();
   }
 }

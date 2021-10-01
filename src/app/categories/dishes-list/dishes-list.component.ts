@@ -23,9 +23,11 @@ export class DishesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.getDishesByCategoryId(params.category);
-    });
+    this.route.params
+      .pipe(takeUntil(this.notifier))
+      .subscribe((params: Params) => {
+        this.getDishesByCategoryId(params.category);
+      });
   }
 
   public openDishesDescriptionModal(dish: Dish): void {
