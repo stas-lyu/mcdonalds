@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Category } from '../shared/classes/category';
-import { AdminDialogComponent } from './admin-dialog/admin-dialog.component';
-import { CategoriesService } from '../core/services/categories.service';
+import { Category } from '../../shared/classes/category';
+import { AdminDialogComponent } from '../categories-edit-dialog/admin-dialog.component';
+import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Dish } from '../shared/classes/dish';
-import { DishesEditDialogComponent } from './dishes-edit-dialog/dishes-edit-dialog.component';
+import { Dish } from '../../shared/classes/dish';
+import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -32,11 +32,13 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCategories();
-    this.categoryService
-      .getDishesByCategoryId(this.categoryId)
-      .pipe(takeUntil(this.notifier))
-      .subscribe((dishes) => (this.dishes = dishes));
+    setTimeout(() => {
+      this.getCategories();
+      this.categoryService
+        .getDishesByCategoryId(this.categoryId)
+        .pipe(takeUntil(this.notifier))
+        .subscribe((dishes) => (this.dishes = dishes));
+    }, 1000);
   }
 
   public openSnackBar(message: string, action: string): void {

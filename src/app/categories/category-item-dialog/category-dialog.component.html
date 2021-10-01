@@ -12,12 +12,12 @@
 
       </app-select-quantity>
 
-      <div class="dish-dialog-radio_group" *ngIf="isShowSize">
+      <div class="dish-dialog-radio_group">
         <label class="example-margin"><b>Choose size:</b></label>
-        <mat-radio-group [(ngModel)]="size">
+        <mat-radio-group [(ngModel)]="currentSize">
           <mat-radio-button
             class="example-margin"
-            *ngFor="let size of dataInfo.size"
+            *ngFor="let size of sizeList"
             value="{{size}}"
           >
             {{size}}

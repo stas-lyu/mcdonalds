@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DishDataDialog } from '../../shared/classes/dishDataDialog';
 import { CartService } from '../../core/services/cart.service';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -12,11 +11,11 @@ import { Subject } from 'rxjs';
 })
 export class CategoryDialogComponent implements OnInit {
   dataInfo!: DishDataDialog;
-  notifier = new Subject();
-  isShowSize = false;
-  size: string = '';
-  counter!: number;
+  currentSize: string = '';
+  counter: number = 1;
   price!: number;
+  sizeList: [] = [];
+  notifier = new Subject();
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
@@ -26,21 +25,28 @@ export class CategoryDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataInfo = this.data;
-    this.isShowSize = !!this.dataInfo.size;
-    this.size = this.dataInfo.size[0];
+    this.sizeList = this.dataInfo.size;
+    this.currentSize = this.dataInfo.size[0];
     this.price = this.dataInfo.price * (this.counter | 1);
   }
 
-  public addToCart(product: object): void {
+  public addToCart(product: any): void {
     this.dialogRef.afterClosed().subscribe(() => {
       const cart = JSON.parse(<string>localStorage.getItem('cart')) || [];
-      cart.push(
-        Object.assign(product, {
-          size: this.size,
-          quantity: this.counter ?? 1,
-          cartId: new Date().getMilliseconds(),
-        })
-      );
+      if (cart.some((dish: any) => dish.id == product.id)) {
+        const index = cart.findIndex((item: any) => {
+          return item.id === product.id;
+        });
+        cart[index].quantity += this.counter;
+      } else {
+        cart.push(
+          Object.assign(product, {
+            size: this.currentSize,
+            quantity: this.counter || 1,
+            cartId: new Date().getMilliseconds(),
+          })
+        );
+      }
 
       localStorage.setItem('cart', JSON.stringify(cart));
       this.cartService.cartCounter;

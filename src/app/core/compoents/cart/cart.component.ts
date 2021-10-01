@@ -14,8 +14,6 @@ export class CartComponent implements OnInit {
 
   totalPrice!: number;
 
-  counter!: number;
-
   cart: CartItem[] = JSON.parse(<string>localStorage.getItem('cart'));
 
   constructor(
@@ -29,7 +27,6 @@ export class CartComponent implements OnInit {
 
   removeCartItem(id: number): void {
     this.cart = this.cart.filter((item: CartItem) => {
-      console.log(`${id} id`, `${item.cartId}, cartId`);
       return item.cartId !== id;
     });
     localStorage.setItem('cart', JSON.stringify(this.cart));

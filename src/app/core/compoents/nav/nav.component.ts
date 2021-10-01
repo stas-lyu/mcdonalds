@@ -3,6 +3,8 @@ import { CategoriesService } from '../../services/categories.service';
 import { Category } from '../../../shared/classes/category';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   isLogin: boolean = !!localStorage.getItem('user');
-
+  notifier = new Subject();
   categories: Category[] = [];
 
   constructor(
@@ -21,6 +23,10 @@ export class NavComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService
+      .isAuthenticated()
+      .pipe(takeUntil(this.notifier))
+      .subscribe((isAuthenticated) => (this.isLogin = isAuthenticated));
     this.getCategories();
   }
 
@@ -33,6 +39,11 @@ export class NavComponent implements OnInit {
   getCategories(): void {
     this.categoryService
       .getCategories()
+      .pipe(takeUntil(this.notifier))
       .subscribe((category) => (this.categories = category));
+  }
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

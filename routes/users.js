@@ -74,7 +74,6 @@ const usersRoutes = (app, fs) => {
   // DELETE
   app.delete("/users/:id", (req, res) => {
     readFile((data) => {
-      // add the new user
       const userId = req.params["id"];
       delete data[userId];
 
@@ -100,17 +99,16 @@ const usersRoutes = (app, fs) => {
           };
 
           data.push(newUser);
-
           writeFile(JSON.stringify(data, null, 2), () => {
             res.status(200).send("new user added");
           });
 
-          res.json({ message: "Registration successful" });
+          return res.json({ message: "Registration successful" });
         } else {
-          res.status(403).json({ message: "Registration failed" });
+          return res.status(403).json({ message: "Registration failed" });
         }
       } catch {
-        res.json({ message: "Internal server error" });
+        return res.json({ message: "Internal server error" });
       }
     }, true);
   });

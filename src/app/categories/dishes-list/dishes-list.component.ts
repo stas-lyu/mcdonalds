@@ -26,7 +26,6 @@ export class DishesListComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.getDishesByCategoryId(params.category);
     });
-    console.log(this.dishes);
   }
 
   public openDishesDescriptionModal(dish: Dish): void {

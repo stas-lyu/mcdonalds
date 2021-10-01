@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   private getUsers(): void {
     this.authService
       .getUsers()
+      .pipe(takeUntil(this.notifier))
       .subscribe((user: User[]) => (this.users = user));
   }
 
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
     this._snackBar
       .open(message, action, { duration: 3000 })
       .onAction()
+      .pipe(takeUntil(this.notifier))
       .subscribe(() => this.router.navigate(['sign-in']));
   }
 
