@@ -88,7 +88,8 @@ export class AdminComponent implements OnInit {
       .subscribe();
   }
 
-  public addCategory() {
+  public addCategory(event: any) {
+    event.preventDefault();
     const category = {
       name: this.categoryNameFormControl.value,
       imgUrl:
@@ -146,6 +147,8 @@ export class AdminComponent implements OnInit {
       .pipe(takeUntil(this.notifier))
       .subscribe((dishes) => (this.dishes = dishes));
   }
+
+  addDish() {}
 
   ngOnDestroy() {
     this.notifier.next();

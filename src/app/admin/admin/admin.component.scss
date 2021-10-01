@@ -53,8 +53,8 @@
 }
 
 @keyframes slidein {
-  0%   {margin-left:1500px; opacity: 0; transition: opacity}
-  100% {margin-left:0; opacity: 1; transition: opacity}
+  0%   { opacity: 0; transition: opacity}
+  100% { opacity: 1; transition: opacity}
 }
 .category-add {
   animation-name: slidein;

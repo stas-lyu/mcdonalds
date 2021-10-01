@@ -5,6 +5,7 @@ import { MaterialModule } from '../shared/material.module';
 import { CoreModule } from '../core/core.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [SidebarComponent],
@@ -14,6 +15,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     CoreModule,
     AppRoutingModule,
     LoadingBarModule,
+    MatProgressBarModule,
   ],
   exports: [SidebarComponent],
 })
