@@ -6,5 +6,4 @@ export interface DishDataDialog {
   ingredients: string;
   cal: number;
   price: number;
-  size: any;
 }

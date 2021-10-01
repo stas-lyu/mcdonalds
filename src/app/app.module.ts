@@ -13,10 +13,10 @@ import { AdminModule } from './admin/admin.module';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarModule } from './sidebar/sidebar.module';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     SharedModule,
@@ -31,6 +31,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule,
+    SidebarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

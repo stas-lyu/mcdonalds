@@ -117,7 +117,7 @@ const categoriesRoutes = (app, fs) => {
         uploadedFile: file,
       });
     },
-    (error, req, res, next) => {
+    (error, req, res) => {
       res.status(400).send({
         error: error.message,
       });
@@ -139,12 +139,12 @@ const categoriesRoutes = (app, fs) => {
 
   // UPDATE
   app.patch("/categories/:id", (req, res) => {
-    readFile((category) => {
-      // add the new user
+    readFile((categories) => {
       const categoryId = req.params["id"];
-      category[categoryId] = req.body;
-      writeFile(JSON.stringify(category, null, 2), () => {
-        res.status(200).send(`category id:${categoryId} updated`);
+      categories[categoryId] = req.body;
+      writeFile(JSON.stringify(categories, null, 2), () => {
+        // res.status(200).send(`category id:${categoryId} updated`);
+        return res.json({ categories: categories });
       });
     }, true);
   });

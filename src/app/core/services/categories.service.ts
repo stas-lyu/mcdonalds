@@ -14,6 +14,7 @@ const httpOptions = {
   headers: new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('No-Auth', 'True'),
+  // responseType: 'text' as 'json',
 };
 
 @Injectable({

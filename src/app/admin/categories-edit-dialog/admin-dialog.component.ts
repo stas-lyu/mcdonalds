@@ -51,7 +51,8 @@ export class AdminDialogComponent implements OnInit {
 
   public editCategory() {
     this.data.name = this.nameFormControl.value;
-    this.categoryService.editCategory(this.data).subscribe(() => {
+    this.categoryService.editCategory(this.data).subscribe((response: any) => {
+      console.log(response);
       this.dialogRef.close('Successfully add to cart');
     });
   }

@@ -14,7 +14,6 @@ export class CategoryDialogComponent implements OnInit {
   currentSize: string = '';
   counter: number = 1;
   price!: number;
-  sizeList: [] = [];
   notifier = new Subject();
 
   constructor(
@@ -25,8 +24,6 @@ export class CategoryDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataInfo = this.data;
-    this.sizeList = this.dataInfo.size;
-    this.currentSize = this.dataInfo.size[0];
     this.price = this.dataInfo.price * (this.counter | 1);
   }
 
@@ -41,7 +38,6 @@ export class CategoryDialogComponent implements OnInit {
       } else {
         cart.push(
           Object.assign(product, {
-            size: this.sizeList,
             quantity: this.counter || 1,
             cartId: new Date().getMilliseconds(),
           })

@@ -1,1 +1,32 @@
-[{"id":0,"name":"Beverages","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_drinks_160x160_.jpg?$Category_Mobile$"},{"id":1,"name":"Breakfast","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_breakfast_160x160.jpg?$Category_Mobile$"},{"id":2,"name":"Desserts & Shakes","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_desserts_&_shakes_160x160_.jpg?$Category_Mobile$"},{"id":3,"name":"Snacks & Sides","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_snacks_sides_160x160.jpg?$Category_Mobile$"},{"id":4,"name":"Burgers","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_burgers_160x160_.jpg?$Category_Mobile$"},{"id":5,"name":"Chicken & Sandwiches","imgUrl":"https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/category-chicken-n-sandwiches.jpg?$Category_Mobile$"}]
+[
+  {
+    "id": 0,
+    "name": "Beverages",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_drinks_160x160_.jpg?$Category_Mobile$"
+  },
+  {
+    "id": 1,
+    "name": "Breakfast",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_breakfast_160x160.jpg?$Category_Mobile$"
+  },
+  {
+    "id": 2,
+    "name": "Desserts & Shakes",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_desserts_&_shakes_160x160_.jpg?$Category_Mobile$"
+  },
+  {
+    "id": 3,
+    "name": "Snacks & Sides",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_snacks_sides_160x160.jpg?$Category_Mobile$"
+  },
+  {
+    "id": 4,
+    "name": "Burgers",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/nav_burgers_160x160_.jpg?$Category_Mobile$"
+  },
+  {
+    "id": 5,
+    "name": "Chicken & Sandwiches",
+    "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/assets/nav/category-chicken-n-sandwiches.jpg?$Category_Mobile$"
+  }
+]

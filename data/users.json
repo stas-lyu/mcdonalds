@@ -4,5 +4,11 @@
     "email": "a@a.com",
     "password": "$2b$10$7E4N/hAkpJQQFW3Pd5rFbuNN0z0sFUBikChEApz0NqFNyZxO6d9LW",
     "isAdmin": true
+  },
+  {
+    "id": 1633098452514,
+    "email": "a@a.coma",
+    "password": "$2b$10$5Hy8cW/KQe0LXf53w7KWc.WRQXKGI0w4gXSY68EBd4f9T3fF7R36u",
+    "isAdmin": true
   }
 ]
