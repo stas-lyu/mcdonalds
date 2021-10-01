@@ -7,11 +7,11 @@
           <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
           <h5 class="category-item_name">{{item.name}}</h5>
           <div class="category-item_controls">
-            <button mat-flat-button (click)="deleteCategory(item.id)">
+            <button mat-flat-button (click)="deleteCategory(item.id)" class="btn">
               <mat-icon>delete</mat-icon>
             </button>
             <button mat-flat-button
-                    class="category-item_edit" (click)="openEditCategoryModal(item)">
+                    class="category-item_edit btn" (click)="openEditCategoryModal(item)">
               <mat-icon>edit</mat-icon>
             </button>
           </div>
@@ -34,15 +34,16 @@
 <section class="dishes">
   <h2 class="section-title">Dishes Edit By Category</h2>
   <div class="center">
-  <mat-form-field appearance="fill" class="dishes-select">
-    <mat-label>Favorite food</mat-label>
-    <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)" [formControl]="categorySelectFormControl">
-      <mat-option *ngFor="let category of categories; let index = index" [value]="category.name"
-                  [attr.selected]='index > 0? "selected":null'>
-        {{category.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill" class="dishes-select">
+      <mat-label>Favorite food</mat-label>
+      <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)"
+                  [formControl]="categorySelectFormControl">
+        <mat-option *ngFor="let category of categories; let index = index" [value]="category.name"
+                    [attr.selected]='index > 0? "selected":null'>
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="dishes-content">
     <div class="container">
@@ -56,11 +57,11 @@
             <span class="dish-item_calories">{{dish.cal}}</span>
           </div>
           <div class="dish-item_controls">
-            <button mat-flat-button (click)="deleteDish(dish.id)">
+            <button mat-flat-button (click)="deleteDish(dish.id)" class="btn">
               <mat-icon>delete</mat-icon>
             </button>
             <button mat-flat-button
-                    class="dishes-item" (click)="openEditDishModal(dish)">
+                    class="dishes-item btn" (click)="openEditDishModal(dish)">
               <mat-icon>edit</mat-icon>
             </button>
           </div>

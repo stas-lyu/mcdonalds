@@ -1,0 +1,27 @@
+<header>
+  <mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+        menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+        close
+      </mat-icon>
+    </button>
+    <mat-icon [matBadge]="cartService.cartCounter" [routerLink]="['/cart']">shopping_cart</mat-icon>
+  </mat-toolbar>
+</header>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <app-nav></app-nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content id="wrapper">
+
+    <main id="content">
+      <ngx-loading-bar color="#CD67BA" height="4px"></ngx-loading-bar>
+
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

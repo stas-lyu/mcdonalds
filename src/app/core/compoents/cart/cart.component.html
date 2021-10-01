@@ -1,5 +1,6 @@
 <div class="container">
-  <mat-list class="cart-list">
+    <p *ngIf="!isCartEmpty" class="empty-warning">Nothing add to cart <mat-icon>warning</mat-icon></p>
+  <mat-list class="cart-list mat-elevation-z10" *ngIf="isCartEmpty">
     <mat-list-item *ngFor="let item of cart">
       <mat-card class="cart-item">
         <div class="cart-item-header">
@@ -23,9 +24,9 @@
       </mat-card>
     </mat-list-item>
   </mat-list>
-  <hr>
-  <div class="cart-footer">
+
+  <div class="cart-footer mat-elevation-z10">
     <span>Total price: {{totalPrice}} $</span>
-    <button mat-flat-button color="accent" class="cart-item-order_btn">Order</button>
+    <button mat-flat-button color="accent" class="cart-item-order_btn btn">Order</button>
   </div>
 </div>

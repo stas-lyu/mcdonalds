@@ -9,6 +9,12 @@
   margin: .5rem;
 }
 
+.category-item_controls, .dish-item_controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
 .category-item_img {
   max-width: 100%;
 }
@@ -23,11 +29,6 @@
   margin: 0 auto;
   display: block;
   max-width: 300px;
-}
-
-.dish-item_controls {
-  display: flex;
-  justify-content: center;
 }
 
 .category-item_add {

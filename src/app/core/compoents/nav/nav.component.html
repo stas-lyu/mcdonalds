@@ -1,31 +1,38 @@
 <nav class="navbar">
+  <a mat-flat-button color="warn" class="btn nav-btn" routerLink=""
+     routerLinkActive="activebutton">
+    <mat-icon>home</mat-icon>
+  </a>
+
+
   <ul class="navbar-list">
-    <li><a *ngIf="!this.isLogin" mat-flat-button color="warn" class="button" routerLink="/sign-up" routerLinkActive="activebutton">Sign Up</a>
+    <li><a *ngIf="!this.isLogin" mat-flat-button color="warn" class="btn nav-btn" routerLink="/sign-up"
+           routerLinkActive="activebutton">Sign Up</a>
     </li>
     <li *ngIf="!this.isLogin">
       <a
         mat-flat-button
         color="primary"
-        class="button"
+        class="btn nav-btn"
         routerLink="/sign-in"
         routerLinkActive="activebutton">Sign In
       </a>
     </li>
     <li>
     <li *ngIf="this.isLogin">
-      <a mat-flat-button color="primary" class="button" (click)="logout()">Log out</a>
+      <a mat-flat-button color="primary" class="btn nav-btn" (click)="logout()">Log out</a>
     </li>
     <li *ngIf="this.authService.isAdmin">
       <a
         mat-flat-button
         color="primary"
-        class="button"
+        class="btn nav-btn"
         routerLink="/admin"
         routerLinkActive="activebutton">Admin page
       </a>
     </li>
     <li>
-      <button mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
+      <button class="btn nav-btn" mat-flat-button [matMenuTriggerFor]="menu">Menu</button>
     </li>
   </ul>
   <mat-menu #menu="matMenu">

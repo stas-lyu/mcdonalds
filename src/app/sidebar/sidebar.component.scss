@@ -1,0 +1,31 @@
+@use 'src/assets/styles/variables' as var;
+
+mat-toolbar {
+  background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+  color: white;
+}
+
+mat-sidenav {
+  background-image: linear-gradient( 135deg, #FD6E6A 10%, #FFC600 100%);
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  //background: var.$main-color;
+  color: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+#content {
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 16px 16px 16px 32px;
+  background: #FF8008;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFC837, #FF8008);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFC837, #FF8008); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 124px);
+}

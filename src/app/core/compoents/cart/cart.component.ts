@@ -11,7 +11,8 @@ import { Dish } from '../../../shared/classes/dish';
 })
 export class CartComponent implements OnInit {
   dishes: Dish[] = [];
-
+  isCartEmpty: boolean = !!JSON.parse(<string>localStorage.getItem('cart'))
+    .length;
   totalPrice!: number;
 
   cart: CartItem[] = JSON.parse(<string>localStorage.getItem('cart'));
@@ -23,6 +24,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.totalPrice = this.getTotalPrice();
+    console.log(this.isCartEmpty);
   }
 
   removeCartItem(id: number): void {
@@ -32,6 +34,7 @@ export class CartComponent implements OnInit {
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.totalPrice = this.getTotalPrice();
     this.cartService.cartCounter;
+    this.isCartEmpty = !!this.cart.length;
   }
 
   public getTotalPrice(event?: any) {
