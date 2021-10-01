@@ -4,9 +4,6 @@ const refreshTokensDB = [];
 require("dotenv").config();
 const { JS } = require("json-server/lib/cli/utils/is");
 const usersRoutes = (app, fs) => {
-  //...unchanged ^^^
-
-  // refactored helper methods
   const readFile = (
     callback,
     returnJson = false,
@@ -37,8 +34,6 @@ const usersRoutes = (app, fs) => {
     });
   };
 
-  // READ
-  // Notice how we can make this 'read' operation much more simple now.
   app.get("/users", (req, res) => {
     readFile((data) => {
       res.send(data);
@@ -100,10 +95,8 @@ const usersRoutes = (app, fs) => {
 
           data.push(newUser);
           writeFile(JSON.stringify(data, null, 2), () => {
-            res.status(200).send("new user added");
+            return res.status(200).send("new user added");
           });
-
-          return res.json({ message: "Registration successful" });
         } else {
           return res.status(403).json({ message: "Registration failed" });
         }
@@ -113,9 +106,6 @@ const usersRoutes = (app, fs) => {
     }, true);
   });
 
-  // '/login' route will authenticate the user
-  // and only after successful authentication,
-  // it will send access and refresh tokens
   app.post("/login", (req, res) => {
     readFile(async (users) => {
       try {

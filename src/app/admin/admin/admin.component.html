@@ -23,16 +23,17 @@
     <form class="category-add" *ngIf="toggleAddCategoryClass">
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Category name</mat-label>
-        <input matInput placeholder="Burgers" [formControl]="nameFormControl">
-        <button mat-flat-button (click)="addCategory()">Add category</button>
+        <input matInput placeholder="Burgers" (input)="categoryNameInputHandler()"
+               [formControl]="categoryNameFormControl">
+        <button mat-flat-button (click)="addCategory()" [disabled]="categoryAddIsDisabled">Add category</button>
       </mat-form-field>
     </form>
   </div>
 </section>
 
 <section class="dishes">
-  <h2 class="section-title">Dishes Edit</h2>
-
+  <h2 class="section-title">Dishes Edit By Category</h2>
+  <div class="center">
   <mat-form-field appearance="fill" class="dishes-select">
     <mat-label>Favorite food</mat-label>
     <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)" [formControl]="categorySelectFormControl">
@@ -42,7 +43,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
+  </div>
   <div class="dishes-content">
     <div class="container">
       <div class="row py-2">
@@ -71,8 +72,8 @@
     <form class="category-add" *ngIf="toggleAddDishesClass">
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Category name</mat-label>
-        <input matInput placeholder="Burgers" [formControl]="nameFormControl">
-        <button mat-flat-button (click)="addCategory()">Add category</button>
+        <input matInput placeholder="Big Mac" (input)="dishNameInputHandler()" [formControl]="dishNameFormControl">
+        <button [disabled]="dishAddIsDisabled" mat-flat-button (click)="addCategory()">Add category</button>
       </mat-form-field>
     </form>
   </div>

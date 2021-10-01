@@ -6,7 +6,7 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dish } from '../../shared/classes/dish';
 import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
-import { takeUntil } from 'rxjs/operators';
+import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -22,8 +22,17 @@ export class AdminComponent implements OnInit {
   toggleAddDishesClass: boolean = false;
   categoryId: number = 0;
   notifier = new Subject();
-  nameFormControl = new FormControl('', [Validators.required]);
-  categorySelectFormControl = new FormControl('');
+  categoryAddIsDisabled: boolean = true;
+  dishAddIsDisabled: boolean = true;
+  categoryNameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.min(3),
+  ]);
+  dishNameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.min(3),
+  ]);
+  categorySelectFormControl = new FormControl('Beverages');
 
   constructor(
     private categoryService: CategoriesService,
@@ -32,13 +41,23 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.getCategories();
-      this.categoryService
-        .getDishesByCategoryId(this.categoryId)
-        .pipe(takeUntil(this.notifier))
-        .subscribe((dishes) => (this.dishes = dishes));
-    }, 1000);
+    this.categoryService
+      .getCategories()
+      .pipe(
+        tap((categories) => (this.categories = categories)),
+        map((categories: Category[]) => {
+          return categories[0];
+        }),
+        mergeMap((category) =>
+          this.categoryService.getDishesByCategoryId(category.id)
+        ),
+        takeUntil(this.notifier)
+      )
+      .subscribe((dishes) => (this.dishes = dishes));
+  }
+
+  public categoryNameInputHandler() {
+    this.categoryAddIsDisabled = !this.categoryNameFormControl.valid;
   }
 
   public openSnackBar(message: string, action: string): void {
@@ -48,15 +67,9 @@ export class AdminComponent implements OnInit {
       .subscribe();
   }
 
-  private getCategories() {
-    this.categoryService.getCategories().subscribe((category) => {
-      this.categories = category;
-    });
-  }
-
   public addCategory() {
     const category = {
-      name: this.nameFormControl.value,
+      name: this.categoryNameFormControl.value,
       imgUrl:
         'https://www.mcdonalds.com/is/image/content/dam/ua/nutrition/nfl-product/product/hero/DonutHeart.png?$Product_Desktop$',
     };
@@ -97,6 +110,10 @@ export class AdminComponent implements OnInit {
     this.dialog.open(DishesEditDialogComponent, {
       data: dish,
     });
+  }
+
+  public dishNameInputHandler() {
+    this.dishAddIsDisabled = !this.dishNameFormControl.valid;
   }
 
   selectOnChange(category: string) {

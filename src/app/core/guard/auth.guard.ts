@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('is admin?', this.authService.isAdmin);
     if (!this.authService.isAdmin) {
       this.router.navigate(['categories']);
       return false;
