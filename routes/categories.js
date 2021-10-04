@@ -101,29 +101,6 @@ const categoriesRoutes = (app, fs) => {
     }, true);
   });
 
-  app.post(
-    "/upload",
-    upload.single("uploadedImage"),
-    (req, res, next) => {
-      const file = req.file;
-      if (!file) {
-        const error = new Error("Please upload a file");
-        error.httpStatusCode = 400;
-        return next(error);
-      }
-      res.status(200).send({
-        statusCode: 200,
-        status: "success",
-        uploadedFile: file,
-      });
-    },
-    (error, req, res) => {
-      res.status(400).send({
-        error: error.message,
-      });
-    }
-  );
-
   // UPDATE
   app.put("/categories/:id", (req, res) => {
     readFile((data) => {

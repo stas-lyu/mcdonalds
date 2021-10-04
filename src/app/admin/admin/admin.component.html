@@ -20,13 +20,18 @@
     </div>
     <button mat-flat-button class="btn category-item_add"
             (click)="toggleAddCategoryClass = !toggleAddCategoryClass">{{toggleAddCategoryClass ? 'Close' : 'Add Category'}}</button>
-    <form class="category-add" *ngIf="toggleAddCategoryClass" [@slideIn]>
+    <form class="category-add" *ngIf="toggleAddCategoryClass" [@slideIn] [formGroup]="categoryAddGroup">
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Category name</mat-label>
-        <input matInput placeholder="Burgers" (input)="categoryNameInputHandler()"
-               [formControl]="categoryNameFormControl">
-        <button mat-flat-button (click)="addCategory($event)" [disabled]="categoryAddIsDisabled">Add category</button>
+        <input matInput placeholder="Burgers"
+               formControlName="name" type="text" (input)="categoryNameInputHandler()">
       </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Category img url</mat-label>
+        <input matInput placeholder="past your link"
+               formControlName="imgUrl" type="text" (input)="categoryNameInputHandler()">
+      </mat-form-field>
+      <button mat-flat-button (click)="addCategory($event)" [disabled]="categoryAddIsDisabled">Add category</button>
     </form>
   </div>
 </section>
@@ -70,12 +75,31 @@
     </div>
     <button mat-flat-button class="btn category-item_add"
             (click)="toggleAddDishesClass = !toggleAddDishesClass">{{toggleAddDishesClass ? 'Close' : 'Add dish by category'}}</button>
-    <form class="category-add" *ngIf="toggleAddDishesClass" [@slideIn]>
+    <form class="category-add" *ngIf="toggleAddDishesClass" [@slideIn] [formGroup]="dishAddGroup">
       <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Category name</mat-label>
-        <input matInput placeholder="Big Mac" (input)="dishNameInputHandler()" [formControl]="dishNameFormControl">
-        <button [disabled]="dishAddIsDisabled" mat-flat-button (click)="addDish()">Add dish</button>
+        <mat-label>name</mat-label>
+        <input matInput placeholder="Big Mac" type="text" formControlName="name">
       </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>img url</mat-label>
+        <input matInput placeholder="past your img url" type="text" formControlName="imgUrl">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="5" placeholder="add description" type="text"
+                  formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput placeholder="7.99" type="number" formControlName="price">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Calories</mat-label>
+        <input matInput placeholder="110" type="number" formControlName="cal">
+      </mat-form-field>
+      <button mat-flat-button (click)="addDish()">Add dish</button>
     </form>
   </div>
 </section>

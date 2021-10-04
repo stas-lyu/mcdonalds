@@ -49,18 +49,33 @@ const dishesRoutes = (app, fs) => {
     }, true);
   });
   // CREATE
+
   app.post("/dishes", (req, res) => {
-    readFile((data) => {
-      // Note: this needs to be more robust for production use.
-      // e.g. use a UUID or some kind of GUID for a unique ID value.
-      const newDishId = Date.now().toString();
+    readFile((dishes) => {
+      try {
+        const foundDishes = dishes.find(
+          (category) => req.body.name === category.name
+        );
+        if (!foundDishes) {
+          req.body.id = Date.now();
 
-      // add the new user
-      data[newDishId] = req.body;
+          dishes.push(req.body);
 
-      writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send("new dish added");
-      });
+          writeFile(JSON.stringify(dishes, null, 2), () => {
+            res.status(200).send(
+              res.json(
+                dishes.filter((dish) => {
+                  return dish.categoryId === req.body.categoryId;
+                })
+              )
+            );
+          });
+        } else {
+          res.status(403).json({ message: "Category already created!" });
+        }
+      } catch {
+        res.json({ message: "Internal server error" });
+      }
     }, true);
   });
 
@@ -72,7 +87,7 @@ const dishesRoutes = (app, fs) => {
       data[DishId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send(`dish id:${DishId} updated`);
+        return res.status(200).send(DishId);
       });
     }, true);
   });
@@ -85,7 +100,7 @@ const dishesRoutes = (app, fs) => {
           dishes.filter((dish) => Number(dish.id) !== Number(req.params.id))
         ),
         () => {
-          res.status(200).send(`dish id:${req.params.id} removed`);
+          res.status(200).send(req.params.id);
         }
       );
     }, true);

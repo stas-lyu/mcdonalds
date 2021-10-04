@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Category } from '../../shared/classes/category';
 import { AdminDialogComponent } from '../categories-edit-dialog/admin-dialog.component';
 import { CategoriesService } from '../../core/services/categories.service';
@@ -8,7 +8,6 @@ import { Dish } from '../../shared/classes/dish';
 import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
 import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   animate,
   state,
@@ -44,11 +43,9 @@ export class AdminComponent implements OnInit {
   categoryId: number = 0;
   notifier = new Subject();
   categoryAddIsDisabled: boolean = true;
-  dishAddIsDisabled: boolean = true;
-  categoryNameFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(3),
-  ]);
+  categoryAddGroup: any;
+  dishAddGroup: any;
+
   dishNameFormControl = new FormControl('', [
     Validators.required,
     Validators.min(3),
@@ -58,7 +55,8 @@ export class AdminComponent implements OnInit {
   constructor(
     private categoryService: CategoriesService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private formBuilder: FormBuilder,
+    private _ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -75,30 +73,29 @@ export class AdminComponent implements OnInit {
         takeUntil(this.notifier)
       )
       .subscribe((dishes) => (this.dishes = dishes));
+    this.categoryAddGroup = this.formBuilder.group({
+      name: [null, [Validators.required, Validators.minLength(3)]],
+      imgUrl: [null, [Validators.required, Validators.minLength(3)]],
+    });
+
+    this.dishAddGroup = this.formBuilder.group({
+      name: [null, [Validators.required, Validators.minLength(3)]],
+      imgUrl: [null, [Validators.required, Validators.minLength(3)]],
+      description: [null, [Validators.required, Validators.minLength(10)]],
+      price: [null, [Validators.required]],
+      cal: [null, [Validators.required]],
+    });
   }
 
   public categoryNameInputHandler() {
-    this.categoryAddIsDisabled = !this.categoryNameFormControl.valid;
-  }
-
-  public openSnackBar(message: string, action: string): void {
-    this._snackBar
-      .open(message, action, { duration: 3000 })
-      .onAction()
-      .subscribe();
+    this.categoryAddIsDisabled = !this.categoryAddGroup.valid;
   }
 
   public addCategory(event: any) {
     event.preventDefault();
-    const category = {
-      name: this.categoryNameFormControl.value,
-      imgUrl:
-        'https://www.mcdonalds.com/is/image/content/dam/ua/nutrition/nfl-product/product/hero/DonutHeart.png?$Product_Desktop$',
-    };
-
     this.toggleAddCategoryClass = false;
     this.categoryService
-      .addCategory(category)
+      .addCategory(this.categoryAddGroup.value)
       .subscribe((categoriesData: any) => {
         this.categories = categoriesData.categories;
       });
@@ -134,10 +131,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  public dishNameInputHandler() {
-    this.dishAddIsDisabled = !this.dishNameFormControl.valid;
-  }
-
   selectOnChange(category: string) {
     this.categoryId = this.categories.findIndex((item: Category) => {
       return item.name === category;
@@ -148,7 +141,15 @@ export class AdminComponent implements OnInit {
       .subscribe((dishes) => (this.dishes = dishes));
   }
 
-  addDish() {}
+  addDish() {
+    if (this.dishAddGroup.valid) {
+      this.dishAddGroup.value.categoryId = this.categoryId;
+      this.categoryService
+        .addDish(this.dishAddGroup.value)
+        .pipe((this.toggleAddDishesClass = false), takeUntil(this.notifier))
+        .subscribe((dishes: any) => (this.dishes = dishes));
+    }
+  }
 
   ngOnDestroy() {
     this.notifier.next();

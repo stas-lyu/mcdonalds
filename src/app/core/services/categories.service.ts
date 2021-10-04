@@ -77,8 +77,18 @@ export class CategoriesService {
     );
   }
 
+  public addDish(dish: {}): any {
+    return this.http
+      .post<Category>(`${this.url}/dishes`, dish, httpOptions)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+
   public editDish(dish: Dish): any {
-    return this.http.patch<any>(
+    return this.http.put<any>(
       `${this.url}/dishes/${dish.id}`,
       dish,
       httpOptions
