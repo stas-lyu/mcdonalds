@@ -10,6 +10,7 @@ import { DishesListComponent } from './categories/dishes-list/dishes-list.compon
 import { HomeComponent } from './core/compoents/home/home.component';
 import { CartComponent } from './core/compoents/cart/cart.component';
 import { OrdersComponent } from './admin/orders/orders.component';
+import { ThankYouPageComponent } from './core/compoents/thank-you-page/thank-you-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'categories', component: CategoryListComponent },
   { path: 'categories/:category', component: DishesListComponent },
   { path: 'cart', component: CartComponent },
+  { path: 'thank-you-page', component: ThankYouPageComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

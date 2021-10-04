@@ -95,7 +95,10 @@ const usersRoutes = (app, fs) => {
 
           data.push(newUser);
           writeFile(JSON.stringify(data, null, 2), () => {
-            return res.status(200).send("new user added");
+            return res.status(200).json({
+              isAdmin: newUser.isAdmin,
+              id: newUser.id,
+            });
           });
         } else {
           return res.status(403).json({ message: "Registration failed" });
@@ -129,6 +132,7 @@ const usersRoutes = (app, fs) => {
               AccessToken: aToken,
               RefreshToken: rToken,
               isAdmin: foundUser.isAdmin,
+              id: foundUser.id,
               message: "You are logged-in",
             });
           } else {

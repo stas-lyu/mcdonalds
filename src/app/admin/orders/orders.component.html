@@ -1,1 +1,9 @@
-<p>orders works!</p>
+<mat-list>
+  <mat-list-item *ngFor="let order of orders">
+    <ul class="">
+    <li>User id: {{order.userId}}</li>
+      <li>Date: {{order.date}}</li>
+    </ul>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>

@@ -25,6 +25,7 @@ body {
 
 .section-title {
   text-align: center;
+  text-transform: uppercase;
 }
 
 $white: rgba(255, 255, 255, 0.3);
@@ -226,6 +227,17 @@ html, body {
   text-decoration: none;
 }
 
+.hr-line {
+  height: .4rem;
+  background: #000;
+  border-radius: 12px;
+  border: none;
+  margin: 1rem 0;
+}
+
+.mat-menu-content:not(:empty) {
+  padding: 0!important;
+}
 
 .row {
   display: grid;

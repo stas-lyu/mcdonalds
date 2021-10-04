@@ -10,5 +10,35 @@
     "email": "a@a.coma",
     "password": "$2b$10$5Hy8cW/KQe0LXf53w7KWc.WRQXKGI0w4gXSY68EBd4f9T3fF7R36u",
     "isAdmin": true
+  },
+  {
+    "id": 1633347178289,
+    "email": "a@a.coms",
+    "password": "$2b$10$Nq5YZCuJmQY72n2ifqvwxOepzuAFfMZ.pPKN.lz6vxuVZ9GmIFdZa",
+    "isAdmin": true
+  },
+  {
+    "id": 1633347185657,
+    "email": "s@gmail.com",
+    "password": "$2b$10$JD03jIWMY.3FoWBrfVx2audShWXabEEz8roGMSm/kP5hyMvCFMTAO",
+    "isAdmin": true
+  },
+  {
+    "id": 1633347189893,
+    "email": "s@ssgmail.com",
+    "password": "$2b$10$TSaKhR3lb/wq/qbRdFFPGOEssUBsaUdYY/8ds4XRnZKwm8Yun9Inu",
+    "isAdmin": true
+  },
+  {
+    "id": 1633347193796,
+    "email": "s@ssgmail.dadwwecom",
+    "password": "$2b$10$bD57.H6ShQ1mXqPZv8EcKO.jg92n/nhYYcpdLPtJAfWi/n4MPDKua",
+    "isAdmin": true
+  },
+  {
+    "id": 1633347280547,
+    "email": "s@ssgmail.dadwsdswecom",
+    "password": "$2b$10$N2VmgjaYyxHj6FulxWdj2efsUGkk7W4T1ocjxyf/OOHtd70SMSWEW",
+    "isAdmin": true
   }
 ]

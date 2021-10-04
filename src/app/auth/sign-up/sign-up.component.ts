@@ -56,14 +56,10 @@ export class SignUpComponent implements OnInit {
           })
         )
         .pipe(takeUntil(this.notifier))
-        .subscribe((): void => {
-          this.authService.setCurrentUser(
-            this.dataForm.value.email,
-            this.dataForm.value.isAdmin
-          );
-          this.router.navigate(
-            this.dataForm.value.isAdmin ? ['admin'] : ['categories']
-          );
+        .subscribe((response: any) => {
+          const { id, isAdmin } = JSON.parse(response);
+          this.authService.setCurrentUser(isAdmin, id);
+          this.router.navigate(isAdmin ? ['admin'] : ['categories']);
         });
     }
   }

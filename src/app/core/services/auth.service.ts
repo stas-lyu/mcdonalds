@@ -23,8 +23,8 @@ export class AuthService {
     this.authSubject.next(!!this.isLogin);
   }
 
-  public setCurrentUser(email: string, isAdmin: boolean): void {
-    localStorage.setItem('user', email);
+  public setCurrentUser(id: number, isAdmin: boolean): void {
+    localStorage.setItem('user', String(id));
     localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
     this.authSubject.next(true);
     this.admin = isAdmin;

@@ -14,6 +14,8 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { StoreModule } from '@ngrx/store';
+import { quantityReducer } from './store/reducers/quantity.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +34,7 @@ import { SidebarModule } from './sidebar/sidebar.module';
     LoadingBarRouterModule,
     LoadingBarModule,
     SidebarModule,
+    StoreModule.forRoot({ quantity: quantityReducer }, {}),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -4,6 +4,9 @@ import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../../shared/classes/cartItem';
 import { Dish } from '../../../shared/classes/dish';
 import { OrdersService } from '../../services/orders.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -12,6 +15,7 @@ import { OrdersService } from '../../services/orders.service';
 })
 export class CartComponent implements OnInit {
   dishes: Dish[] = [];
+  notifier = new Subject();
   isCartEmpty: boolean = !!JSON.parse(<string>localStorage.getItem('cart'))
     .length;
   totalPrice!: number;
@@ -21,7 +25,8 @@ export class CartComponent implements OnInit {
   constructor(
     private categoriesService: CategoriesService,
     private cartService: CartService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +61,30 @@ export class CartComponent implements OnInit {
   }
 
   postOrderListener() {
-    this.ordersService.postOrder(this.cart).subscribe();
+    const today = new Date();
+    const date = `${today.getDate()}.${
+      today.getMonth() + 1
+    }.${today.getFullYear()}`;
+    const time =
+      today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    const dateTime = `${date} ${time}`;
+    const order = {
+      userId: Number(localStorage.getItem('user')),
+      date: dateTime,
+      status: 'success',
+      items: this.cart,
+    };
+    this.ordersService
+      .postOrder(order)
+      .pipe(takeUntil(this.notifier))
+      .subscribe((): void => {
+        localStorage.removeItem('cart');
+        this.router.navigate(['thank-you-page']);
+      });
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

@@ -40,24 +40,11 @@ const ordersRoutes = (app, fs) => {
   app.post("/orders", (req, res) => {
     readFile((orders) => {
       try {
-        const foundorder = orders.find((order) => req.body.name === order.name);
-        if (!foundorder) {
-          let newOrder = {
-            id: Date.now(),
-            name: req.body.name,
-            imgUrl: req.body.imgUrl,
-          };
-
-          orders.push(newOrder);
-
-          writeFile(JSON.stringify(orders, null, 2), () => {
-            res.status(200).send("new order added");
-          });
-
-          res.json({ orders: orders });
-        } else {
-          res.status(403).json({ message: "order already created!" });
-        }
+        orders.push(req.body);
+        writeFile(JSON.stringify(orders, null, 2), () => {
+          res.status(200);
+          res.json(orders);
+        });
       } catch {
         res.json({ message: "Internal server error" });
       }

@@ -64,8 +64,8 @@ export class LoginComponent implements OnInit {
         takeUntil(this.notifier)
       )
       .subscribe((response: any): void => {
-        const { isAdmin } = JSON.parse(response);
-        this.authService.setCurrentUser(this.loginForm.value.email, isAdmin);
+        const { id, isAdmin } = JSON.parse(response);
+        this.authService.setCurrentUser(id, isAdmin);
         this.router.navigate(isAdmin ? ['admin'] : ['categories']);
       });
   }

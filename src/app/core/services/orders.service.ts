@@ -28,4 +28,12 @@ export class OrdersService {
         })
       );
   }
+
+  public getOrder(): any {
+    return this.http.get(`${this.url}/orders`, httpOptions).pipe(
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
 }

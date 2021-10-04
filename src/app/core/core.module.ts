@@ -9,6 +9,7 @@ import { CartComponent } from './compoents/cart/cart.component';
 import { CategoriesModule } from '../categories/categories.module';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './compoents/home/home.component';
+import { ThankYouPageComponent } from './compoents/thank-you-page/thank-you-page.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HomeComponent } from './compoents/home/home.component';
     FooterComponent,
     CartComponent,
     HomeComponent,
+    ThankYouPageComponent,
   ],
   imports: [
     CommonModule,

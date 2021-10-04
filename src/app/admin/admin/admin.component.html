@@ -36,6 +36,8 @@
   </div>
 </section>
 
+<hr class="hr-line">
+
 <section class="dishes">
   <h2 class="section-title">Dishes Edit By Category</h2>
   <div class="center">
@@ -58,8 +60,8 @@
             <h5 class="dish-item_name">{{dish.name}}</h5>
             <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="responsive-img">
             <h5 class="dish-item_description">{{dish.description}}</h5>
-            <span class="dish-item_price">{{dish.price}}</span>
-            <span class="dish-item_calories">{{dish.cal}}</span>
+            <span class="dish-item_price">price: {{dish.price}} $</span>
+            <span class="dish-item_calories">calories: {{dish.cal}} cal.</span>
           </div>
           <div class="dish-item_controls">
             <button mat-flat-button (click)="deleteDish(dish.id)" class="btn">
