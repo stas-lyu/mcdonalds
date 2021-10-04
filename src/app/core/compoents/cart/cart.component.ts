@@ -34,9 +34,7 @@ export class CartComponent implements OnInit {
   }
 
   removeCartItem(id: number): void {
-    this.cart = this.cart.filter((item: CartItem) => {
-      return item.cartId !== id;
-    });
+    this.cart = this.cart.filter((item: CartItem) => item.cartId !== id);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.totalPrice = this.getTotalPrice();
     this.cartService.cartCounter;
@@ -61,18 +59,12 @@ export class CartComponent implements OnInit {
   }
 
   postOrderListener() {
-    const today = new Date();
-    const date = `${today.getDate()}.${
-      today.getMonth() + 1
-    }.${today.getFullYear()}`;
-    const time =
-      today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-    const dateTime = `${date} ${time}`;
     const order = {
       userId: Number(localStorage.getItem('user')),
-      date: dateTime,
+      date: new Date(),
       status: 'success',
       items: this.cart,
+      orderId: new Date().getMilliseconds(),
     };
     this.ordersService
       .postOrder(order)

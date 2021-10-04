@@ -30,11 +30,14 @@ export class DishesEditDialogComponent implements OnInit {
   }
 
   public editDish() {
-    this.data.name = this.dishForm.value.name;
-    this.data.price = this.dishForm.value.price;
-    this.data.description = this.dishForm.value.description;
-    this.categoryService.editDish(this.data).subscribe(() => {
-      this.dialogRef.close('Successfully add to cart');
-    });
+    // this.data.name = this.dishForm.value.name;
+    // this.data.price = this.dishForm.value.price;
+    // this.data.description = this.dishForm.value.description;
+    console.log(this.data, 'DATA', this.dishForm.getRawValue(), 'ROWVALUE');
+    this.categoryService
+      .editDish({ ...this.data, ...this.dishForm.getRawValue() })
+      .subscribe(() => {
+        this.dialogRef.close('Successfully add to cart');
+      });
   }
 }

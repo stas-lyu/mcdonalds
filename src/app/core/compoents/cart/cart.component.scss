@@ -7,7 +7,8 @@
   margin: 1rem 0;
   width: 100%;
   .cart-item_img {
-    max-width: 100%;
+    max-width: 250px;
+    padding: 1rem;
   }
   @media (max-width: 800px) {
     flex-direction: column;
@@ -42,6 +43,11 @@
 
 .cart-name {
   font-size: 2rem;
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
+  }
 }
 
 .container {

@@ -13,6 +13,7 @@ export class OrdersComponent implements OnInit {
   notifier = new Subject();
   orders: Order[] = [];
   orderItems: [] = [];
+  date: string = '';
 
   constructor(private orderService: OrdersService) {}
 
@@ -20,16 +21,12 @@ export class OrdersComponent implements OnInit {
     this.orderService
       .getOrder()
       .pipe(
-        tap((response) => {
-          // @ts-ignore
+        tap((response: any) => {
           this.orderItems = response.items;
         }),
         takeUntil(this.notifier)
       )
       .subscribe((response: any) => (this.orders = response));
-    setTimeout(() => {
-      console.log(this.orders);
-    }, 100);
   }
 
   ngOnDestroy() {

@@ -1,8 +1,10 @@
 <mat-list>
   <mat-list-item *ngFor="let order of orders">
-    <ul class="">
-    <li>User id: {{order.userId}}</li>
+    <ul class="order">
+      <li>Order id:{{order.orderId}}</li>
+      <li>User id: {{order.userId}}</li>
       <li>Date: {{order.date}}</li>
+      <li>Status: {{order.status}}</li>
     </ul>
   </mat-list-item>
   <mat-divider></mat-divider>
