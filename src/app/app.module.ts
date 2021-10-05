@@ -15,6 +15,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { quantityReducer } from './store/reducers/quantity.reducer';
 
 @NgModule({
@@ -34,7 +35,8 @@ import { quantityReducer } from './store/reducers/quantity.reducer';
     LoadingBarRouterModule,
     LoadingBarModule,
     SidebarModule,
-    StoreModule.forRoot({ quantity: quantityReducer }, {}),
+    EffectsModule.forRoot([]),
+    StoreModule.forRoot({}),
   ],
   providers: [],
   bootstrap: [AppComponent],
