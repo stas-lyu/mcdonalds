@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="row py-2">
+  <mat-spinner *ngIf="isLoading">
+
+  </mat-spinner>
+  <div class="row py-2" *ngIf="!isLoading">
     <mat-card class="category-item" *ngFor="let category of categoriesList" [routerLink]="['/categories', category.id]">
       <div class="category-item-body">
         <img src="{{category.imgUrl}}" alt="{{category.name}}" class="category-item_img">
