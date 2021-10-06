@@ -1,31 +1,23 @@
 import {
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-} from '@ngrx/store';
+  CategoriesError,
+  CategoriesSuccess,
+  CategoriesGetData,
+} from './actions/categories.actions';
 
-import * as categories from './reducers/categories.reducer';
+import { CategoriesEffects } from './effects/categories.effects';
+import { rootReducer, CategoriesState } from './reducers/categories.reducer';
+import {
+  getStateError,
+  getStateSelectedData,
+} from './selectors/categories.selectors';
 
-export interface State {
-  categories: categories.State;
-}
-
-export const reducers: ActionReducerMap<State> = {
-  categories: categories.reducer,
+export const fromRoot = {
+  CategoriesError,
+  CategoriesSuccess,
+  CategoriesGetData,
+  rootReducer,
+  // CategoriesState,
+  CategoriesEffects,
+  getStateError,
+  getStateSelectedData,
 };
-
-export const selectAdminState = createFeatureSelector<State>('admin');
-export const selectCategoriesState = createSelector(
-  selectAdminState,
-  (state: State) => state.categories
-);
-
-export const selectAllCategories = createSelector(
-  selectCategoriesState,
-  categories.selectAllCategories
-);
-
-export const selectCategoriesPending = createSelector(
-  selectCategoriesState,
-  (state: categories.State) => state.pending
-);

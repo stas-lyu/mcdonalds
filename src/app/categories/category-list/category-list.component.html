@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row py-2">
-    <mat-card class="category-item" *ngFor="let item of categories" [routerLink]="['/categories', item.id]">
+    <mat-card class="category-item" *ngFor="let category of categoriesList" [routerLink]="['/categories', category.id]">
       <div class="category-item-body">
-        <img src="{{item.imgUrl}}" alt="{{item.name}}" class="category-item_img">
-        <h5 class="category-item_title">{{item.name}}</h5>
+        <img src="{{category.imgUrl}}" alt="{{category.name}}" class="category-item_img">
+        <h5 class="category-item_title">{{category.name}}</h5>
       </div>
     </mat-card>
   </div>

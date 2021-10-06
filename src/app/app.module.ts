@@ -16,7 +16,10 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { quantityReducer } from './store/reducers/quantity.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CategoriesEffects } from './categories/store/effects/categories.effects';
+import { environment } from '../environments/environment';
+import { categoriesReducer } from './categories/store/reducers/categories.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,8 +38,13 @@ import { quantityReducer } from './store/reducers/quantity.reducer';
     LoadingBarRouterModule,
     LoadingBarModule,
     SidebarModule,
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot({}),
+    EffectsModule.forRoot([CategoriesEffects]),
+    StoreModule.forRoot(categoriesReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

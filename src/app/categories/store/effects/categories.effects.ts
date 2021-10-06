@@ -1,66 +1,30 @@
-import {
-  CategoryActionTypes,
-  CategoriesLoadedSuccess,
-  CategoriesLoadedError,
-  AddCategoryRequest,
-  CategoryAddedSuccess,
-  CategoryAddedError,
-  DeleteCategoryRequest,
-  CategoryDeletedSuccess,
-  CategoryDeletedError,
-} from '../actions/categories.actions';
-
-import { Category } from '../models/categories.model';
-
-import { CategoriesService } from '../../../core/services/categories.service';
 import { Injectable } from '@angular/core';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { ofType, Actions, createEffect } from '@ngrx/effects';
+import { map, switchMap } from 'rxjs/operators';
+import * as CategoriesActions from '../actions/categories.actions';
+import { CategoriesService } from '../../../core/services/categories.service';
 
-@Injectable({ providedIn: 'root' })
-export class CategoryEffects {
-  @Effect()
-  loadCars$ = this.actions$.pipe(
-    ofType(CategoryActionTypes.LoadCategories),
-    mergeMap(() =>
-      this.categoriesService.getCategories().pipe(
-        map(
-          (categories: Category[]) =>
-            new CategoriesLoadedSuccess({ categories: categories })
-        ),
-        catchError(() => of(new CategoriesLoadedError()))
-      )
-    )
-  );
-
-  @Effect()
-  addCategory$ = this.actions$.pipe(
-    ofType(CategoryActionTypes.AddCategoryRequest),
-    mergeMap((action: AddCategoryRequest) =>
-      this.categoriesService.addCategory(action.payload.category).pipe(
-        map(
-          (category: Category) =>
-            new CategoryAddedSuccess({ category: category })
-        ),
-        catchError(() => of(new CategoryAddedError()))
-      )
-    )
-  );
-
-  @Effect()
-  deleteCategory$ = this.actions$.pipe(
-    ofType(CategoryActionTypes.DeleteCategoryRequest),
-    mergeMap((action: DeleteCategoryRequest) =>
-      this.categoriesService.deleteCategory(action.payload.id).pipe(
-        map((id: number) => new CategoryDeletedSuccess({ id: id })),
-        catchError(() => of(new CategoryDeletedError()))
-      )
-    )
-  );
-
+@Injectable()
+export class CategoriesEffects {
   constructor(
-    private actions$: Actions,
+    private actions: Actions,
     private categoriesService: CategoriesService
   ) {}
+
+  loadRateByDate = createEffect(() =>
+    this.actions.pipe(
+      ofType(CategoriesActions.CategoriesActions.LoadCategories),
+      switchMap((action: any) => {
+        return this.categoriesService.getCategories().pipe(
+          map((categories) => {
+            console.log(categories);
+            return new CategoriesActions.LoadCategoriesSuccess(categories);
+          })
+          // catchError(error =>
+          //   of(new CategoriesActions.LoadRateByDateFailure({ error: error }))
+          // )
+        );
+      })
+    )
+  );
 }

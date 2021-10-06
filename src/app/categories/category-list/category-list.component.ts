@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriesService } from '../../core/services/categories.service';
-import { Category } from '../../shared/classes/category';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Category } from '../store/models/categories.model';
+import { Observable, Subscription } from 'rxjs';
+import { select, State, Store } from '@ngrx/store';
+import * as fromCategoriesList from '../store/reducers/categories.reducer';
+import * as CategoriesActions from '../store/actions/categories.actions';
+import { selectedCategories } from '../store/selectors/categories.selectors';
+import { tap } from 'rxjs/operators';
+import { ICategoriesState } from '../store/state/categories.state';
+import { categoriesReducer } from '../store/reducers/categories.reducer';
 
 @Component({
   selector: 'app-product-list',
@@ -10,31 +15,36 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./category-list.component.scss'],
 })
 export class CategoryListComponent implements OnInit {
-  category: any;
-  notifier = new Subject();
-  product = {
-    name: '',
-    id: null,
-  };
-  edit = true;
-  add = false;
-  categories: Category[] = [];
+  categoriesList: Category[] = [];
+  isLoading: boolean = false;
+  storeSub!: Subscription;
+  // selectedCategories: Observable<any> = this.store.pipe(
+  //   select(selectedCategories)
+  // );
 
-  constructor(private categoryService: CategoriesService) {}
+  constructor(private store: Store<ICategoriesState>) {}
 
   ngOnInit(): void {
     this.getCategories();
+
+    // this.spinner$ = this.store.pipe(select(getSpinner));
   }
 
-  private getCategories() {
-    this.categoryService
-      .getCategories()
-      .pipe(takeUntil(this.notifier))
-      .subscribe((category) => (this.categories = category));
+  getCategories(): void {
+    this.store.dispatch(new CategoriesActions.LoadCategories());
+    // console.log(this.store.subscribe((v) => console.log(v)));
+    this.storeSub = this.store
+      // .select(selectedCategories)
+      .subscribe((response: ICategoriesState) => {
+        this.categoriesList = response.categories;
+        this.isLoading = response.isLoading;
+        console.log({ response });
+      });
   }
 
-  ngOnDestroy() {
-    this.notifier.next();
-    this.notifier.complete();
+  ngOnDestroy(): void {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }
