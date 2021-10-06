@@ -27,7 +27,7 @@ import { categoriesReducer } from './store/reducers/categories.reducer';
     MaterialModule,
     AppRoutingModule,
     SharedModule,
-    StoreModule.forFeature('category', categoriesReducer),
+    StoreModule.forFeature('categories', categoriesReducer),
     EffectsModule.forFeature([CategoriesEffects]),
   ],
 })

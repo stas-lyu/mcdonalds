@@ -1,4 +1,7 @@
-import { CategoriesActions, RateActions } from '../actions/categories.actions';
+import {
+  ECategoriesActions,
+  CategoriesActions,
+} from '../actions/categories.actions';
 import {
   initialCategoriesState,
   ICategoriesState,
@@ -6,17 +9,17 @@ import {
 
 export const categoriesReducer = (
   state = initialCategoriesState,
-  action: RateActions
+  action: CategoriesActions
 ): ICategoriesState => {
   switch (action.type) {
-    case CategoriesActions.LoadCategories: {
+    case ECategoriesActions.LoadCategories: {
       return {
         ...state,
         isLoading: true,
         categoriesError: '',
       };
     }
-    case CategoriesActions.LoadCategoriesSuccess: {
+    case ECategoriesActions.LoadCategoriesSuccess: {
       return {
         ...state,
         isLoading: false,

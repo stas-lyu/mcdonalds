@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 const selectCategories = (state: any) => {
+  console.log(state, 'state!!!');
   return state.hasOwnProperty('categories') ? state.categories : '';
 };
 

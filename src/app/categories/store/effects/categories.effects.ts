@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import * as CategoriesActions from '../actions/categories.actions';
 import { CategoriesService } from '../../../core/services/categories.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class CategoriesEffects {
@@ -11,18 +12,18 @@ export class CategoriesEffects {
     private categoriesService: CategoriesService
   ) {}
 
-  loadRateByDate = createEffect(() =>
+  loadCategories = createEffect(() =>
     this.actions.pipe(
-      ofType(CategoriesActions.CategoriesActions.LoadCategories),
+      ofType(CategoriesActions.ECategoriesActions.LoadCategories),
       switchMap((action: any) => {
         return this.categoriesService.getCategories().pipe(
           map((categories) => {
             console.log(categories);
             return new CategoriesActions.LoadCategoriesSuccess(categories);
-          })
-          // catchError(error =>
-          //   of(new CategoriesActions.LoadRateByDateFailure({ error: error }))
-          // )
+          }),
+          catchError((error) =>
+            of(new CategoriesActions.LoadCategoriesFailure({ error: error }))
+          )
         );
       })
     )
