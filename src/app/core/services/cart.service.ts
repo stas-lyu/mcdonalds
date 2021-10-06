@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,5 +11,9 @@ export class CartService {
     if (localStorage.getItem('cart')) {
       return JSON.parse(<string>localStorage.getItem('cart')).length;
     }
+  }
+
+  public loadCart() {
+    return from(JSON.parse(<string>localStorage.getItem('cart')));
   }
 }

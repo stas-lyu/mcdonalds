@@ -5,8 +5,11 @@ import { CartItem } from '../../../shared/classes/cartItem';
 import { Dish } from '../../../shared/classes/dish';
 import { OrdersService } from '../../services/orders.service';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import * as CartActions from './store/actions/cart.actions';
+import { Store } from '@ngrx/store';
+import { ICartState } from './store/state/cart.state';
 
 @Component({
   selector: 'app-cart',
@@ -14,23 +17,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
+  storeSub!: Subscription;
   dishes: Dish[] = [];
   notifier = new Subject();
   isCartEmpty: boolean = !!JSON.parse(<string>localStorage.getItem('cart'))
     .length;
   totalPrice!: number;
+  isLoading: boolean = true;
 
-  cart: CartItem[] = JSON.parse(<string>localStorage.getItem('cart'));
+  cart: any = [];
 
   constructor(
     private categoriesService: CategoriesService,
     private cartService: CartService,
     private ordersService: OrdersService,
-    private router: Router
+    private router: Router,
+    private store: Store<ICartState>
   ) {}
 
   ngOnInit(): void {
     this.totalPrice = this.getTotalPrice();
+    this.loadCart();
   }
 
   removeCartItem(id: number): void {
@@ -42,14 +49,18 @@ export class CartComponent implements OnInit {
   }
 
   public getTotalPrice(event?: any) {
-    return this.cart.reduce((prev, el) => {
-      let test = event || el.quantity;
-      return Number((prev + el.price * test).toFixed(2));
-    }, 0);
+    return this.cart.reduce(
+      (prev: number, el: { quantity: number; price: number }) => {
+        let test = event || el.quantity;
+        return Number((prev + el.price * test).toFixed(2));
+      },
+      0
+    );
   }
 
   counterChange(event: any, id: number) {
-    this.cart.forEach((item) => {
+    this.cart.forEach((item: { id: number; quantity: number }) => {
+      console.log(this.cart, 'cart');
       if (item.id == id) {
         item.quantity = event;
       }
@@ -75,8 +86,20 @@ export class CartComponent implements OnInit {
       });
   }
 
+  loadCart(): void {
+    this.store.dispatch(new CartActions.LoadCart());
+    this.storeSub = this.store.select('cart').subscribe((response: any) => {
+      this.cart = response.cart;
+      // this.categoriesList = response.categories;
+      this.isLoading = response.isLoading;
+    });
+  }
+
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

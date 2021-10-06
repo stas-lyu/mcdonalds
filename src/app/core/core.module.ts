@@ -10,6 +10,10 @@ import { CategoriesModule } from '../categories/categories.module';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './compoents/home/home.component';
 import { ThankYouPageComponent } from './compoents/thank-you-page/thank-you-page.component';
+import { StoreModule } from '@ngrx/store';
+import { cartReducer } from './compoents/cart/store/reducers/cart.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from './compoents/cart/store/effects/cart.effects';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,8 @@ import { ThankYouPageComponent } from './compoents/thank-you-page/thank-you-page
     SharedModule,
     CategoriesModule,
     FormsModule,
+    StoreModule.forFeature('cart', cartReducer),
+    EffectsModule.forFeature([CartEffects]),
   ],
   exports: [NavComponent, FooterComponent],
 })

@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 export class CategoryDialogComponent implements OnInit {
   dataInfo!: DishDataDialog;
   currentSize: string = '';
+  test: any;
   counter: number = 1;
   price!: number;
   notifier = new Subject();

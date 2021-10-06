@@ -2,6 +2,7 @@ const userRoutes = require("./users");
 const categoriesRoutes = require("./categories");
 const dishesRoutes = require("./dishes");
 const ordersRoutes = require("./orders");
+const cartRoutes = require("./cart");
 
 const appRouter = (app, fs) => {
   // default route
@@ -13,6 +14,7 @@ const appRouter = (app, fs) => {
   categoriesRoutes(app, fs);
   dishesRoutes(app, fs);
   ordersRoutes(app, fs);
+  cartRoutes(app, fs);
 };
 
 module.exports = appRouter;
