@@ -4,8 +4,11 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dish } from '../../shared/classes/dish';
 import { CategoryDialogComponent } from '../category-item-dialog/category-dialog.component';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { IDishesState } from '../store/state/dishes.state';
+import * as DishesActions from '../store/actions/dishes.actions';
 
 @Component({
   selector: 'app-dishes-list',
@@ -13,13 +16,16 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./dishes-list.component.scss'],
 })
 export class DishesListComponent implements OnInit {
-  dishes: Dish[] = [];
+  dishesList: Dish[] = [];
   notifier = new Subject();
+  storeSub!: Subscription;
+  isLoading: boolean = true;
 
   constructor(
     private dishesService: CategoriesService,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<IDishesState>
   ) {}
 
   ngOnInit(): void {
@@ -37,13 +43,11 @@ export class DishesListComponent implements OnInit {
   }
 
   private getDishesByCategoryId(id: number): void {
-    this.dishesService
-      .getDishesByCategoryId(id)
-      .pipe(takeUntil(this.notifier))
-      .subscribe(
-        (dishes) => (this.dishes = dishes),
-        (error) => console.log(error)
-      );
+    this.store.dispatch(new DishesActions.LoadDishes(id));
+    this.storeSub = this.store.select('dishes').subscribe((response: any) => {
+      this.dishesList = response.dishes;
+      this.isLoading = response.isLoading;
+    });
   }
 
   ngOnDestroy() {

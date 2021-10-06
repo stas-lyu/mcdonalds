@@ -10,9 +10,10 @@ import { SelectQuantityComponent } from '../core/compoents/select-quantity/selec
 import { SharedModule } from '../shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { CategoriesEffects } from './store/effects/categories.effects';
+import { DishesEffects } from './store/effects/dishes.effects';
 import { StoreModule } from '@ngrx/store';
 import { categoriesReducer } from './store/reducers/categories.reducer';
-
+import { dishesReducer } from './store/reducers/dishes.reducer';
 @NgModule({
   declarations: [
     CategoryListComponent,
@@ -28,7 +29,8 @@ import { categoriesReducer } from './store/reducers/categories.reducer';
     AppRoutingModule,
     SharedModule,
     StoreModule.forFeature('categories', categoriesReducer),
-    EffectsModule.forFeature([CategoriesEffects]),
+    StoreModule.forFeature('dishes', dishesReducer),
+    EffectsModule.forFeature([CategoriesEffects, DishesEffects]),
   ],
 })
 export class CategoriesModule {}

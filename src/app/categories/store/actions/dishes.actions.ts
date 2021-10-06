@@ -9,6 +9,7 @@ export enum EDishesActions {
 
 export class LoadDishes implements Action {
   public readonly type = EDishesActions.LoadDishes;
+  constructor(public payload: number) {}
 }
 
 export class LoadDishesSuccess implements Action {
