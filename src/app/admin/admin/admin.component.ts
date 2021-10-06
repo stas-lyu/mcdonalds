@@ -144,9 +144,10 @@ export class AdminComponent implements OnInit {
   addDish() {
     if (this.dishAddGroup.valid) {
       this.dishAddGroup.value.categoryId = this.categoryId;
+      this.toggleAddDishesClass = false;
       this.categoryService
         .addDish(this.dishAddGroup.value)
-        .pipe((this.toggleAddDishesClass = false), takeUntil(this.notifier))
+        .pipe(takeUntil(this.notifier))
         .subscribe((dishes: any) => (this.dishes = dishes));
     }
   }

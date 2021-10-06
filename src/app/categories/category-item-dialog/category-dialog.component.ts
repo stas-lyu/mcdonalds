@@ -28,6 +28,7 @@ export class CategoryDialogComponent implements OnInit {
   }
 
   public addToCart(product: any): void {
+    console.log(product);
     this.dialogRef.afterClosed().subscribe(() => {
       const cart = JSON.parse(<string>localStorage.getItem('cart')) || [];
       if (cart.some((dish: any) => dish.id == product.id)) {
@@ -36,12 +37,11 @@ export class CategoryDialogComponent implements OnInit {
         });
         cart[index].quantity += this.counter;
       } else {
-        cart.push(
-          Object.assign(product, {
-            quantity: this.counter || 1,
-            cartId: new Date().getMilliseconds(),
-          })
-        );
+        cart.push({
+          ...product,
+          quantity: this.counter || 1,
+          cartId: new Date().getMilliseconds(),
+        });
       }
 
       localStorage.setItem('cart', JSON.stringify(cart));

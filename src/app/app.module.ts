@@ -20,6 +20,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CategoriesEffects } from './categories/store/effects/categories.effects';
 import { environment } from '../environments/environment';
 import { categoriesReducer } from './categories/store/reducers/categories.reducer';
+import { DishesEffects } from './categories/store/effects/dishes.effects';
+import { dishesReducer } from './categories/store/reducers/dishes.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,8 +40,9 @@ import { categoriesReducer } from './categories/store/reducers/categories.reduce
     LoadingBarRouterModule,
     LoadingBarModule,
     SidebarModule,
-    EffectsModule.forRoot([CategoriesEffects]),
+    EffectsModule.forRoot([CategoriesEffects, DishesEffects]),
     StoreModule.forRoot(categoriesReducer),
+    StoreModule.forRoot(dishesReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode

@@ -26,6 +26,34 @@ export const categoriesReducer = (
         categories: action.payload,
       };
     }
+    case ECategoriesActions.UpdateCategory: {
+      return {
+        ...state,
+        isLoading: true,
+        categoriesError: '',
+      };
+    }
+    case ECategoriesActions.UpdateCategorySuccess: {
+      return {
+        ...state,
+        isLoading: false,
+        categories: action.payload,
+      };
+    }
+    case ECategoriesActions.DeleteCategory: {
+      return {
+        ...state,
+        isLoading: true,
+        categoriesError: '',
+      };
+    }
+    case ECategoriesActions.DeleteCategorySuccess: {
+      return {
+        ...state,
+        isLoading: false,
+        categories: action.payload,
+      };
+    }
     default:
       return state;
   }

@@ -18,12 +18,43 @@ export class CategoriesEffects {
       switchMap((action: any) => {
         return this.categoriesService.getCategories().pipe(
           map((categories) => {
-            console.log(categories);
             return new CategoriesActions.LoadCategoriesSuccess(categories);
           }),
           catchError((error) =>
             of(new CategoriesActions.LoadCategoriesFailure({ error: error }))
           )
+        );
+      })
+    )
+  );
+
+  updateCategory = createEffect(() =>
+    this.actions.pipe(
+      ofType(CategoriesActions.ECategoriesActions.UpdateCategory),
+      switchMap((action: CategoriesActions.UpdateCategory) => {
+        return this.categoriesService.editCategory(action.payload).pipe(
+          map((categories: any) => {
+            return new CategoriesActions.UpdateCategorySuccess(categories);
+          })
+          // catchError((error) =>
+          //   of(new CategoriesActions.D({ error: error }))
+          // )
+        );
+      })
+    )
+  );
+
+  deleteCategory = createEffect(() =>
+    this.actions.pipe(
+      ofType(CategoriesActions.ECategoriesActions.DeleteCategory),
+      switchMap((action: CategoriesActions.DeleteCategory) => {
+        return this.categoriesService.deleteCategory(action.payload).pipe(
+          map((categories: any) => {
+            return new CategoriesActions.DeleteCategorySuccess(categories);
+          })
+          // catchError((error) =>
+          //   of(new CategoriesAction.LoadDishesFailure({ error: error }))
+          // )
         );
       })
     )
