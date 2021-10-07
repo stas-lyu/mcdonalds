@@ -45,7 +45,7 @@ const dishesRoutes = (app, fs) => {
       const response = dishes.filter((dish) => {
         return Number(dish.categoryId) === Number(req.params["id"]);
       });
-      res.send(response);
+      return res.status(200).send(response);
     }, true);
   });
   // CREATE

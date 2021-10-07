@@ -60,7 +60,7 @@ export class CartComponent implements OnInit {
 
   counterChange(event: any, id: number) {
     this.cart.forEach((item: { id: number; quantity: number }) => {
-      console.log(this.cart, 'cart');
+      console.log(this.cart[0], 'cart');
       if (item.id == id) {
         item.quantity = event;
       }

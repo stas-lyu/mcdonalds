@@ -6,7 +6,11 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, throwError } from 'rxjs';
+import { Subject, Subscription, throwError } from 'rxjs';
+import * as AuthActions from '../store/actions/auth.actions';
+import { IUserState } from '../store/state/auth.state';
+import { Store } from '@ngrx/store';
+import { selectedAuth } from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,12 +23,14 @@ export class SignUpComponent implements OnInit {
   hide = true;
   dataForm: any;
   id!: number;
+  storeSub!: Subscription;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<IUserState>
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +50,13 @@ export class SignUpComponent implements OnInit {
 
   public onClickSubmit(): void {
     if (this.dataForm.valid) {
-      this.authService
-        .addUser(this.dataForm.value)
+      this.store.dispatch(
+        new AuthActions.RegistrationAuth(this.dataForm.value)
+      );
+      //NEEED FIX
+
+      this.storeSub = this.store
+        .select(selectedAuth)
         .pipe(
           catchError((error: HttpErrorResponse) => {
             this.openSnackBar(
@@ -55,7 +66,6 @@ export class SignUpComponent implements OnInit {
             return throwError(error);
           })
         )
-        .pipe(takeUntil(this.notifier))
         .subscribe((response: any) => {
           const { id, isAdmin } = JSON.parse(response);
           this.authService.setCurrentUser(isAdmin, id);
@@ -67,5 +77,8 @@ export class SignUpComponent implements OnInit {
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

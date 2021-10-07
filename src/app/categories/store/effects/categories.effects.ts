@@ -4,6 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as CategoriesActions from '../actions/categories.actions';
 import { CategoriesService } from '../../../core/services/categories.service';
 import { of } from 'rxjs';
+import { Category } from '../models/categories.model';
 
 @Injectable()
 export class CategoriesEffects {
@@ -22,6 +23,22 @@ export class CategoriesEffects {
           }),
           catchError((error) =>
             of(new CategoriesActions.LoadCategoriesFailure({ error: error }))
+          )
+        );
+      })
+    )
+  );
+
+  addCategory = createEffect(() =>
+    this.actions.pipe(
+      ofType(CategoriesActions.ECategoriesActions.AddCategory),
+      switchMap((action: any) => {
+        return this.categoriesService.addCategory(action.payload).pipe(
+          map((categories) => {
+            return new CategoriesActions.AddCategorySuccess(categories);
+          }),
+          catchError((error) =>
+            of(new CategoriesActions.AddCategoryFailure({ error: error }))
           )
         );
       })

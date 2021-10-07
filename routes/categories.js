@@ -88,15 +88,19 @@ const categoriesRoutes = (app, fs) => {
           categories.push(newCategory);
 
           writeFile(JSON.stringify(categories, null, 2), () => {
-            res.status(200).send("new category added");
+            return res
+              .setHeader("Content-Type", "text/plain")
+              .status(200)
+              .json(categories);
           });
-
-          res.json({ categories: categories });
         } else {
-          res.status(403).json({ message: "Category already created!" });
+          return res
+            .setHeader("Content-Type", "text/plain")
+            .status(403)
+            .json({ message: "Category already created!" });
         }
       } catch {
-        res.json({ message: "Internal server error" });
+        return res.json({ message: "Internal server error" });
       }
     }, true);
   });
@@ -109,7 +113,7 @@ const categoriesRoutes = (app, fs) => {
       data[categoryId] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
-        res.status(200).send(`category id:${categoryId} updated`);
+        res.status(200);
       });
     }, true);
   });
@@ -121,7 +125,7 @@ const categoriesRoutes = (app, fs) => {
       categories[categoryId] = req.body;
       writeFile(JSON.stringify(categories, null, 2), () => {
         // res.status(200).send(`category id:${categoryId} updated`);
-        return res.json({ categories: categories });
+        return res.setHeader("Content-Type", "text/plain").json(categories);
       });
     }, true);
   });
@@ -133,13 +137,17 @@ const categoriesRoutes = (app, fs) => {
         JSON.stringify(
           (categories = categories.filter(
             (category) => Number(category.id) !== Number(req.params.id)
-          ))
+          )),
+          null,
+          2
         ),
         () => {
-          res.status(200).send(`category id:${req.params.id} removed`);
+          return res
+            .status(200)
+            .setHeader("Content-Type", "text/plain")
+            .json(categories);
         }
       );
-      res.json({ categories: categories });
     }, true);
   });
 };

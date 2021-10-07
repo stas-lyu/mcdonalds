@@ -128,12 +128,9 @@ const usersRoutes = (app, fs) => {
 
             refreshTokensDB.push(rToken); // it will store the newly generated refresh tokens
 
-            res.json({
-              AccessToken: aToken,
-              RefreshToken: rToken,
+            return res.status(200).send({
               isAdmin: foundUser.isAdmin,
               id: foundUser.id,
-              message: "You are logged-in",
             });
           } else {
             res.status(403).json({ message: "Invalid email or password" });

@@ -4,9 +4,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, takeUntil } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, throwError } from 'rxjs';
+import { catchError, filter, take, takeUntil, tap } from 'rxjs/operators';
+import { Subject, Subscription, throwError } from 'rxjs';
+import * as AuthActions from '../store/actions/auth.actions';
+import { Store } from '@ngrx/store';
+import { IUserState } from '../store/state/auth.state';
+import { selectedAuth } from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -14,32 +17,25 @@ import { Subject, throwError } from 'rxjs';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  storeSub!: Subscription;
   hide = true;
-  users!: User[];
   id!: number;
   loginForm: any;
   notifier = new Subject();
 
   constructor(
-    public authService: AuthService,
+    private store: Store<IUserState>,
     private router: Router,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.getUsers();
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-  }
-
-  private getUsers(): void {
-    this.authService
-      .getUsers()
-      .pipe(takeUntil(this.notifier))
-      .subscribe((user: User[]) => (this.users = user));
   }
 
   public openSnackBar(message: string, action: string): void {
@@ -51,27 +47,21 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-    this.authService
-      .singIn(this.loginForm.value)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.openSnackBar(
-            'invalid email or password',
-            'Did you wont sign in or try again'
-          );
-          return throwError(error);
-        }),
-        takeUntil(this.notifier)
-      )
-      .subscribe((response: any): void => {
-        const { id, isAdmin } = JSON.parse(response);
-        this.authService.setCurrentUser(id, isAdmin);
-        this.router.navigate(isAdmin ? ['admin'] : ['categories']);
+    this.store.dispatch(new AuthActions.LoginAuth(this.loginForm.value));
+    this.storeSub = this.store
+      .select(selectedAuth)
+      .pipe(filter((response) => !!response))
+      .subscribe((response: User) => {
+        this.authService.setCurrentUser(response.id, response.isAdmin);
+        this.router.navigate(response.isAdmin ? ['admin'] : ['categories']);
       });
   }
 
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

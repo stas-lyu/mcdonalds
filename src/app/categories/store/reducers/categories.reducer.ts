@@ -26,6 +26,19 @@ export const categoriesReducer = (
         categories: action.payload,
       };
     }
+    case ECategoriesActions.AddCategory: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case ECategoriesActions.AddCategorySuccess: {
+      return {
+        ...state,
+        isLoading: false,
+        categories: action.payload,
+      };
+    }
     case ECategoriesActions.UpdateCategory: {
       return {
         ...state,

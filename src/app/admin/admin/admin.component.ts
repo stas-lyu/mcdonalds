@@ -6,8 +6,8 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dish } from '../../shared/classes/dish';
 import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
-import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
 import {
   animate,
   state,
@@ -15,6 +15,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import * as CategoriesActions from '../../categories/store/actions/categories.actions';
+import { Store } from '@ngrx/store';
+import { ICategoriesState } from '../../categories/store/state/categories.state';
+import * as DishesActions from '../../categories/store/actions/dishes.actions';
+import { selectedCategories } from '../../categories/store/selectors/categories.selectors';
+import { selectedDishes } from '../../categories/store/selectors/dishes.selectors';
 
 @Component({
   selector: 'app-admin',
@@ -36,6 +42,7 @@ import {
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
+  storeSub!: Subscription;
   categories: Category[] = [];
   dishes: Dish[] = [];
   toggleAddCategoryClass: boolean = false;
@@ -56,23 +63,13 @@ export class AdminComponent implements OnInit {
     private categoryService: CategoriesService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private storeCategories: Store<ICategoriesState>,
+    private storeDishes: Store<ICategoriesState>
   ) {}
 
   ngOnInit(): void {
-    this.categoryService
-      .getCategories()
-      .pipe(
-        tap((categories) => (this.categories = categories)),
-        map((categories: Category[]) => {
-          return categories[0];
-        }),
-        mergeMap((category) =>
-          this.categoryService.getDishesByCategoryId(category.id)
-        ),
-        takeUntil(this.notifier)
-      )
-      .subscribe((dishes) => (this.dishes = dishes));
+    this.loadCategories();
     this.categoryAddGroup = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
       imgUrl: [null, [Validators.required, Validators.minLength(3)]],
@@ -87,26 +84,55 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  public loadCategories() {
+    this.storeCategories.dispatch(new CategoriesActions.LoadCategories());
+    this.storeSub = this.storeCategories
+      .select(selectedCategories)
+      .pipe(filter((response) => !!response))
+      .subscribe((categories: Category[]) => {
+        this.categories = categories;
+        setTimeout(() => {
+          this.loadDishes(categories[0].id);
+        }, 1000);
+      });
+  }
+
+  public loadDishes(id: number) {
+    this.storeDishes.dispatch(new DishesActions.LoadDishes(id));
+    this.storeSub = this.storeDishes
+      .select(selectedDishes)
+      .subscribe((dishes: Dish[]) => {
+        this.dishes = dishes;
+      });
+  }
+
   public categoryNameInputHandler() {
     this.categoryAddIsDisabled = !this.categoryAddGroup.valid;
   }
 
   public addCategory(event: any) {
     event.preventDefault();
-    this.toggleAddCategoryClass = false;
-    this.categoryService
-      .addCategory(this.categoryAddGroup.value)
-      .subscribe((categoriesData: any) => {
-        this.categories = categoriesData.categories;
+    this.storeCategories.dispatch(
+      new CategoriesActions.AddCategory(this.categoryAddGroup.value)
+    );
+    this.storeSub = this.storeCategories
+      .select(selectedCategories)
+      .pipe(filter((response: Category[]) => !!response))
+      .subscribe((categories: Category[]) => {
+        this.categories = categories;
       });
   }
 
   public deleteCategory(categoryId: number): void {
-    this.categoryService
-      .deleteCategory(categoryId)
-      .pipe(takeUntil(this.notifier))
-      .subscribe((categoriesData: any) => {
-        this.categories = categoriesData.categories;
+    this.storeCategories.dispatch(
+      new CategoriesActions.DeleteCategory(categoryId)
+    );
+    this.storeSub = this.storeCategories
+      .select(selectedCategories)
+      .pipe(filter((response: Category[]) => !!response))
+      .subscribe((categories: Category[]) => {
+        console.log(categories, 'delete Cat');
+        this.categories = categories;
       });
   }
 
@@ -155,5 +181,8 @@ export class AdminComponent implements OnInit {
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

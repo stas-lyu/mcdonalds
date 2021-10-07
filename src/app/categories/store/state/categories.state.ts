@@ -1,13 +1,13 @@
 import { Category } from '../models/categories.model';
 
 export interface ICategoriesState {
-  categories: Category[];
+  categories: any;
   categoriesError: string;
   isLoading: boolean;
 }
 
 export const initialCategoriesState: ICategoriesState = {
-  categories: [],
+  categories: null!,
   categoriesError: '',
   isLoading: false,
 };

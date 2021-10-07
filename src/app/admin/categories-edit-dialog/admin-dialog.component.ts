@@ -16,6 +16,13 @@ import {
 } from '@angular/forms';
 import { Category } from '../../shared/classes/category';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { selectedCategories } from '../../categories/store/selectors/categories.selectors';
+import * as CategoriesActions from '../../categories/store/actions/categories.actions';
+import { Store } from '@ngrx/store';
+import { ICategoriesState } from '../../categories/store/state/categories.state';
+
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-edit-dialog',
@@ -24,9 +31,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminDialogComponent implements OnInit {
   nameFormControl = new FormControl(this.data.name, [Validators.required]);
-  category!: Category;
-  fileInputLabel!: any;
-  fileUploadForm!: FormGroup | any;
+  fileUploadForm!: FormGroup;
+  storeSub!: Subscription;
   @ViewChild('UploadFileInput', { static: false }) uploadFileInput!: ElementRef;
 
   constructor(
@@ -34,61 +40,21 @@ export class AdminDialogComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     public categoryService: CategoriesService,
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<ICategoriesState>
   ) {}
 
   ngOnInit(): void {
-    this.category = this.data;
     this.fileUploadForm = this.formBuilder.group({
       uploadedImage: [''],
     });
   }
 
-  public addCategory(): void {
-    this.dialogRef.afterClosed().subscribe(() => {});
-    this.dialogRef.close('Successfully add to cart');
-  }
-
   public editCategory() {
-    this.data.name = this.nameFormControl.value;
-    this.categoryService.editCategory(this.data).subscribe((response: any) => {
-      console.log(response);
-      this.dialogRef.close('Successfully add to cart');
-    });
-  }
-
-  onFileSelect(event: any) {
-    const file = event.target.files[0];
-    this.fileInputLabel = file.name;
-    this.fileUploadForm.get('uploadedImage').setValue(file);
-  }
-
-  onFormSubmit() {
-    if (!this.fileUploadForm.get('uploadedImage').value) {
-      alert('Please fill valid details!');
-      return false;
-    }
-
-    const formData = new FormData();
-    formData.append(
-      'uploadedImage',
-      this.fileUploadForm.get('uploadedImage').value
-    );
-    formData.append('agentId', '007');
-
-    return this.categoryService.uploadCategoryImg(formData).subscribe(
-      (response: { statusCode: number }) => {
-        if (response.statusCode === 200) {
-          // Reset the file input
-
-          this.uploadFileInput.nativeElement.value = '';
-          this.fileInputLabel = undefined;
-        }
-      },
-      (er: { error: { error: any } }) => {
-        console.log(er);
-        alert(er.error.error);
-      }
-    );
+    this.data = { ...this.data, name: this.nameFormControl.value };
+    this.store.dispatch(new CategoriesActions.UpdateCategory(this.data));
+    this.storeSub = this.store
+      .select(selectedCategories)
+      .subscribe(() => this.dialogRef.close('Successfully add to cart'));
   }
 }

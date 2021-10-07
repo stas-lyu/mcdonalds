@@ -22,6 +22,8 @@ import { environment } from '../environments/environment';
 import { categoriesReducer } from './categories/store/reducers/categories.reducer';
 import { DishesEffects } from './categories/store/effects/dishes.effects';
 import { dishesReducer } from './categories/store/reducers/dishes.reducer';
+import { authReducer } from './auth/store/reducers/auth.reducer';
+import { AuthEffects } from './auth/store/effects/auth.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,9 +42,10 @@ import { dishesReducer } from './categories/store/reducers/dishes.reducer';
     LoadingBarRouterModule,
     LoadingBarModule,
     SidebarModule,
-    EffectsModule.forRoot([CategoriesEffects, DishesEffects]),
+    EffectsModule.forRoot([CategoriesEffects, DishesEffects, AuthEffects]),
     StoreModule.forRoot(categoriesReducer),
     StoreModule.forRoot(dishesReducer),
+    StoreModule.forRoot(authReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode

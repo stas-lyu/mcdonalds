@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as CategoriesActions from '../store/actions/categories.actions';
 import { ICategoriesState } from '../store/state/categories.state';
+import { selectedCategories } from '../store/selectors/categories.selectors';
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +13,6 @@ import { ICategoriesState } from '../store/state/categories.state';
 })
 export class CategoryListComponent implements OnInit {
   categoriesList: Category[] = [];
-  isLoading: boolean = false;
   storeSub!: Subscription;
 
   constructor(private store: Store<ICategoriesState>) {}
@@ -24,10 +24,9 @@ export class CategoryListComponent implements OnInit {
   getCategories(): void {
     this.store.dispatch(new CategoriesActions.LoadCategories());
     this.storeSub = this.store
-      .select('categories')
-      .subscribe((response: any) => {
-        this.categoriesList = response.categories;
-        this.isLoading = response.isLoading;
+      .select(selectedCategories)
+      .subscribe((categories: Category[]) => {
+        this.categoriesList = categories;
       });
   }
 

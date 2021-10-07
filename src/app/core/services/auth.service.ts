@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders().set('Content-Type', 'application/json'),
-  responseType: 'text' as 'json',
 };
 
 @Injectable({
@@ -53,7 +52,7 @@ export class AuthService {
     return this.http.post<User>(`${this.url}/register`, user, httpOptions);
   }
 
-  public singIn(user: User): any {
+  public login(user: User) {
     return this.http.post(`${this.url}/login`, user, httpOptions);
   }
 

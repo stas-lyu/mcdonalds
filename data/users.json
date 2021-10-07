@@ -40,5 +40,17 @@
     "email": "s@ssgmail.dadwsdswecom",
     "password": "$2b$10$N2VmgjaYyxHj6FulxWdj2efsUGkk7W4T1ocjxyf/OOHtd70SMSWEW",
     "isAdmin": true
+  },
+  {
+    "id": 1633593094800,
+    "email": "ssa@a.com",
+    "password": "$2b$10$n4ZRKrTn8p98eW0yFLA.mOron.QfrRtstYDSoVlmIjofUHKzN034i",
+    "isAdmin": true
+  },
+  {
+    "id": 1633598916939,
+    "email": "a@a.comss",
+    "password": "$2b$10$GxJVA85pzXlo6JiCk5rRw.s6mcCNJe49IhIXL0vi1O0YqhRuu373y",
+    "isAdmin": true
   }
 ]

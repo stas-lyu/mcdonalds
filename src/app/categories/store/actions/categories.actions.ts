@@ -9,6 +9,9 @@ export enum ECategoriesActions {
   UpdateCategorySuccess = '[Category] Update Category Success',
   DeleteCategory = '[Category] Delete Category',
   DeleteCategorySuccess = '[Category] Category Success',
+  AddCategory = '[Category] Category Add',
+  AddCategorySuccess = '[Category] Category Add Success',
+  AddCategoryFailure = '[Category] Category Add Failure',
 }
 
 export class LoadCategories implements Action {
@@ -21,15 +24,32 @@ export class LoadCategoriesSuccess implements Action {
   constructor(public payload: Category[]) {}
 }
 
+export class AddCategory implements Action {
+  public readonly type = ECategoriesActions.AddCategory;
+
+  constructor(public payload: Category) {}
+}
+
+export class AddCategorySuccess implements Action {
+  public readonly type = ECategoriesActions.AddCategorySuccess;
+
+  constructor(public payload: Category) {}
+}
+
+export class AddCategoryFailure implements Action {
+  public readonly type = ECategoriesActions.AddCategoryFailure;
+
+  constructor(public payload: { error: any }) {}
+}
+
 export class UpdateCategory implements Action {
   public readonly type = ECategoriesActions.UpdateCategory;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Category) {}
 }
 
 export class UpdateCategorySuccess implements Action {
   public readonly type = ECategoriesActions.UpdateCategorySuccess;
-
   constructor(public payload: Category[]) {}
 }
 
@@ -54,6 +74,9 @@ export class LoadCategoriesFailure implements Action {
 export type CategoriesActions =
   | LoadCategories
   | LoadCategoriesSuccess
+  | AddCategory
+  | AddCategorySuccess
+  | AddCategoryFailure
   | UpdateCategory
   | UpdateCategorySuccess
   | DeleteCategory

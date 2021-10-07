@@ -55,7 +55,7 @@ export class CategoriesService {
   }
 
   public editCategory(category: Category) {
-    return this.http.patch<any>(
+    return this.http.patch(
       `${this.url}/categories/${category.id}`,
       category,
       httpOptions
@@ -65,14 +65,6 @@ export class CategoriesService {
   public deleteCategory(categoryId: number) {
     return this.http.delete(
       `${this.url}/categories/${categoryId}`,
-      httpOptions
-    );
-  }
-
-  public uploadCategoryImg(formData: any) {
-    return this.http.post<any>(
-      'http://localhost:3000/upload',
-      formData,
       httpOptions
     );
   }
