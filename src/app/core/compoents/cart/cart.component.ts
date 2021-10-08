@@ -4,8 +4,8 @@ import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../../shared/classes/cartItem';
 import { Dish } from '../../../shared/classes/dish';
 import { OrdersService } from '../../services/orders.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import * as CartActions from './store/actions/cart.actions';
 import { Store } from '@ngrx/store';
@@ -18,6 +18,7 @@ import { getCart } from './store/selectors/cart.selectors';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
+  shoppingItems!: any;
   storeSub!: Subscription;
   dishes: Dish[] = [];
   notifier = new Subject();
@@ -38,7 +39,20 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.totalPrice = this.getTotalPrice();
-    this.loadCart();
+    this.shoppingItems = this.store
+      .select(getCart)
+      .subscribe((cart) => console.log('this is cart!!,', cart));
+    // this.shoppingItems = this.store
+    //   .select(getCart)
+    //   .pipe(take(5))
+    //   .subscribe((s) => console.log(s));
+    //
+  }
+
+  onQuantityChange(shoppingItem: CartItem) {
+    shoppingItem.quantity = Number(shoppingItem.quantity);
+    // shoppingItem.price = shoppingItem.product.productPrice * Number(quantity);
+    this.store.dispatch(new CartActions.UpdateItemAction(shoppingItem));
   }
 
   removeCartItem(id: number): void {
@@ -63,6 +77,7 @@ export class CartComponent implements OnInit {
     this.cart.forEach((item: { id: number; quantity: number }) => {
       if (item.id == id) {
         // MUTED STATE NEED DOING WITH SPREAD
+        console.log(item);
         item.quantity = event;
       }
     });
@@ -87,12 +102,12 @@ export class CartComponent implements OnInit {
       });
   }
 
-  loadCart(): void {
-    this.store.dispatch(new CartActions.LoadCart());
-    this.storeSub = this.store.select(getCart).subscribe((cart: CartItem) => {
-      this.cart = cart;
-    });
-  }
+  // loadCart(): void {
+  //   this.store.dispatch(new CartActions.LoadCart());
+  //   this.storeSub = this.store.select(getCart).subscribe((cart: CartItem) => {
+  //     this.cart = cart;
+  //   });
+  // }
 
   ngOnDestroy() {
     this.notifier.next();

@@ -2,60 +2,41 @@ import { Action } from '@ngrx/store';
 import { CartItem } from '../models/cart.models';
 
 export enum ECartActions {
-  LoadCart = '[Cart] Load Cart',
-  LoadCartSuccess = '[Cart] Load Cart Success',
-  LoadCartFailure = '[Cart] Load Cart Failure',
-  UpdateCart = '[Cart] Update CartItem',
-  UpdateCartSuccess = '[Cart] Update CartItem Success',
-  DeleteCart = '[Cart] Delete CartItem',
-  DeleteCartSuccess = '[Cart] Delete CartItem Success',
+  AddItem = '[Cart] Add Item',
+  DeleteItem = '[Cart] Delete Item',
+  DeleteAllItems = '[Cart] Delete All Items',
+  UpdateItem = '[Cart] Update Item',
 }
 
-export class LoadCart implements Action {
-  public readonly type = ECartActions.LoadCart;
+export class AddItemAction implements Action {
+  readonly type = ECartActions.AddItem;
+
+  constructor(public payload: CartItem) {}
 }
 
-export class LoadCartSuccess implements Action {
-  public readonly type = ECartActions.LoadCartSuccess;
+// Delete Single
+export class DeleteItemAction implements Action {
+  readonly type = ECartActions.DeleteItem;
 
-  constructor(public payload: CartItem[]) {}
+  constructor(public payload: string) {}
 }
 
-export class UpdateCart implements Action {
-  public readonly type = ECartActions.UpdateCart;
+// Delete All
+export class DeleteAllItemAction implements Action {
+  readonly type = ECartActions.DeleteAllItems;
 
-  constructor(public payload: any) {}
+  constructor() {}
 }
 
-export class UpdateCartSuccess implements Action {
-  public readonly type = ECartActions.UpdateCartSuccess;
+// Update
+export class UpdateItemAction implements Action {
+  readonly type = ECartActions.UpdateItem;
 
-  constructor(public payload: CartItem[]) {}
-}
-
-export class DeleteCart implements Action {
-  public readonly type = ECartActions.DeleteCart;
-
-  constructor(public payload: number) {}
-}
-
-export class DeleteCartSuccess implements Action {
-  public readonly type = ECartActions.DeleteCartSuccess;
-
-  constructor(public payload: CartItem[]) {}
-}
-
-export class LoadCartFailure implements Action {
-  public readonly type = ECartActions.LoadCartFailure;
-
-  constructor(public payload: { error: any }) {}
+  constructor(public payload: CartItem) {}
 }
 
 export type CartActions =
-  | LoadCart
-  | LoadCartSuccess
-  | UpdateCart
-  | UpdateCartSuccess
-  | DeleteCart
-  | DeleteCartSuccess
-  | LoadCartFailure;
+  | AddItemAction
+  | UpdateItemAction
+  | DeleteAllItemAction
+  | DeleteItemAction;

@@ -5,5 +5,6 @@ const selectCart = (state: any) => {
 };
 
 export const getCart = createSelector(selectCart, (state: any) => {
+  console.log(state);
   return state.cart;
 });

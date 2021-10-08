@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CartService } from '../core/services/cart.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-sidebar',

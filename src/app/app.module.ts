@@ -13,7 +13,7 @@ import { AdminModule } from './admin/admin.module';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
-import { SidebarModule } from './sidebar/sidebar.module';
+import { SidebarModule } from './core/compoents/sidebar/sidebar.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -24,6 +24,7 @@ import { DishesEffects } from './categories/store/effects/dishes.effects';
 import { dishesReducer } from './categories/store/reducers/dishes.reducer';
 import { authReducer } from './auth/store/reducers/auth.reducer';
 import { AuthEffects } from './auth/store/effects/auth.effects';
+import { cartReducer } from './core/compoents/cart/store/reducers/cart.reducers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import { AuthEffects } from './auth/store/effects/auth.effects';
     StoreModule.forRoot(categoriesReducer),
     StoreModule.forRoot(dishesReducer),
     StoreModule.forRoot(authReducer),
+    StoreModule.forRoot(cartReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode

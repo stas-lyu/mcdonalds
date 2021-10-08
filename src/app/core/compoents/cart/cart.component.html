@@ -1,7 +1,7 @@
 <div class="container">
     <p *ngIf="!isCartEmpty" class="empty-warning">Nothing add to cart <mat-icon>warning</mat-icon></p>
   <mat-list class="cart-list mat-elevation-z10" *ngIf="isCartEmpty">
-    <mat-list-item *ngFor="let item of cart">
+    <mat-list-item *ngFor="let item of shoppingItems | async">
       <mat-card class="cart-item">
         <div class="cart-item-header">
           <img src="{{item.imgUrl}}" alt="{{item.name}}" class="cart-item_img">

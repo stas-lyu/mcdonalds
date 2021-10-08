@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoriesService } from '../../core/services/categories.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IDishesState } from '../../categories/store/state/dishes.state';
@@ -16,7 +16,7 @@ import { selectedDishes } from '../../categories/store/selectors/dishes.selector
 })
 export class DishesEditDialogComponent implements OnInit {
   public dish = this.data;
-  public dishForm: any;
+  public dishForm!: FormGroup;
   storeSub: Object = Subscription;
 
   constructor(

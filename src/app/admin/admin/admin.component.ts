@@ -1,12 +1,17 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Category } from '../../shared/classes/category';
 import { AdminDialogComponent } from '../categories-edit-dialog/admin-dialog.component';
 import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dish } from '../../shared/classes/dish';
 import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import {
   animate,
@@ -50,8 +55,8 @@ export class AdminComponent implements OnInit {
   categoryId: number = 0;
   notifier = new Subject();
   categoryAddIsDisabled: boolean = true;
-  categoryAddGroup: any;
-  dishAddGroup: any;
+  categoryAddGroup!: FormGroup;
+  dishAddGroup!: FormGroup;
 
   dishNameFormControl = new FormControl('', [
     Validators.required,
@@ -70,7 +75,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
-    this.loadDishes();
+    // this.loadDishes();
     this.categoryAddGroup = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
       imgUrl: [null, [Validators.required, Validators.minLength(3)]],
@@ -86,17 +91,23 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  public loadCategories() {
+  public loadCategories(): void {
     this.storeCategories.dispatch(new CategoriesActions.LoadCategories());
     this.storeSub = this.storeCategories
       .select(selectedCategories)
       .pipe(filter((response) => !!response))
       .subscribe((categories: Category[]) => {
         this.categories = categories;
+        this.storeDishes.dispatch(
+          new DishesActions.LoadDishById(categories[0].id)
+        );
+        this.storeDishes
+          .select(selectedDishes)
+          .subscribe((dishes) => (this.dishes = dishes));
       });
   }
 
-  public loadDishes() {
+  public loadDishes(): void {
     this.storeDishes.dispatch(new DishesActions.LoadDishes());
     this.storeSub = this.storeDishes
       .select(selectedDishes)
@@ -105,11 +116,11 @@ export class AdminComponent implements OnInit {
       });
   }
 
-  public categoryNameInputHandler() {
+  public categoryNameInputHandler(): void {
     this.categoryAddIsDisabled = !this.categoryAddGroup.valid;
   }
 
-  public addCategory(event: any) {
+  public addCategory(event: any): void {
     event.preventDefault();
     this.storeCategories.dispatch(
       new CategoriesActions.AddCategory(this.categoryAddGroup.value)
@@ -141,13 +152,6 @@ export class AdminComponent implements OnInit {
   }
 
   public deleteDish(dishId: number): void {
-    // this.categoryService
-    //   .deleteDish(dishId)
-    //   .pipe(takeUntil(this.notifier))
-    //   .subscribe(() => {
-    //     this.selectOnChange(this.categorySelectFormControl.value);
-    //   });
-
     this.storeDishes.dispatch(new DishesActions.DeleteDishById(dishId));
     this.storeSub = this.storeDishes
       .select(selectedDishes)
@@ -163,17 +167,20 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  selectOnChange(category: string) {
+  selectOnChange(category: string): void {
     this.categoryId = this.categories.findIndex((item: Category) => {
       return item.name === category;
     });
-    this.categoryService
-      .getDishesByCategoryId(this.categoryId)
-      .pipe(takeUntil(this.notifier))
-      .subscribe((dishes) => (this.dishes = dishes));
+    this.storeDishes.dispatch(new DishesActions.LoadDishById(this.categoryId));
+    this.storeSub = this.storeDishes
+      .select(selectedDishes)
+      .pipe(filter((response: Dish[]) => !!response))
+      .subscribe((dishes: Dish[]) => {
+        this.dishes = dishes;
+      });
   }
 
-  addDish(event: any) {
+  addDish(event: any): void {
     event.preventDefault();
     if (this.dishAddGroup.valid) {
       this.toggleAddDishesClass = false;
@@ -192,8 +199,5 @@ export class AdminComponent implements OnInit {
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
   }
 }

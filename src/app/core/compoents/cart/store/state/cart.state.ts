@@ -1,13 +1,14 @@
 import { CartItem } from '../models/cart.models';
 
 export interface ICartState {
-  cart: CartItem[];
-  cartError: string;
-  isLoading: boolean;
+  id: number;
+  cartId: number;
+  quantity: number;
+  cal: number;
+  description: string;
+  name: string;
+  price: number;
+  imgUrl: string;
 }
 
-export const initialCategoriesState: ICartState = {
-  cart: [],
-  cartError: '',
-  isLoading: false,
-};
+export const initialCartState: CartItem[] = [];

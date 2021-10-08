@@ -47,12 +47,11 @@ export class DishesListComponent implements OnInit {
     this.storeSub = this.store
       .select(selectedDishes)
       .subscribe((dishes: Dish[]) => {
-        console.log(dishes, 'DISHES');
         this.dishesList = dishes;
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.notifier.next();
     this.notifier.complete();
     if (this.storeSub) {

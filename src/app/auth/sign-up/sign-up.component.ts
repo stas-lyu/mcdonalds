@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/classes/user';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, takeUntil } from 'rxjs/operators';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, Subscription, throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import * as AuthActions from '../store/actions/auth.actions';
 import { IUserState } from '../store/state/auth.state';
 import { Store } from '@ngrx/store';
@@ -21,9 +21,8 @@ export class SignUpComponent implements OnInit {
   users!: User[];
   notifier = new Subject();
   hide = true;
-  dataForm: any;
+  dataForm!: FormGroup;
   id!: number;
-  storeSub!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -53,32 +52,29 @@ export class SignUpComponent implements OnInit {
       this.store.dispatch(
         new AuthActions.RegistrationAuth(this.dataForm.value)
       );
-      //NEEED FIX
-
-      this.storeSub = this.store
+      this.store
         .select(selectedAuth)
         .pipe(
+          filter((response) => !!response),
           catchError((error: HttpErrorResponse) => {
             this.openSnackBar(
               'this email already registered',
               'Do you wont sign in or try again'
             );
             return throwError(error);
-          })
+          }),
+          takeUntil(this.notifier)
         )
         .subscribe((response: any) => {
-          const { id, isAdmin } = JSON.parse(response);
-          this.authService.setCurrentUser(isAdmin, id);
+          const { id, isAdmin } = response;
+          this.authService.setCurrentUser(id, isAdmin);
           this.router.navigate(isAdmin ? ['admin'] : ['categories']);
         });
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.notifier.next();
     this.notifier.complete();
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
   }
 }

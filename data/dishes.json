@@ -237,7 +237,7 @@
     "categoryId": 5,
     "name": "Spicy Deluxe Crispy Chicken Sandwich",
     "imgUrl": "https://www.mcdonalds.com/is/image/content/dam/usa/nfl/nutrition/items/hero/desktop/t-mcdonalds-spicy-deluxe-crispy-chicken-sandwich.jpg?$Product_Desktop$",
-    "price": 8.4,
+    "price": "8.99",
     "ingredients": [
       "Crispy Chicken Fillet",
       "Potato Roll",
