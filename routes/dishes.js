@@ -53,22 +53,23 @@ const dishesRoutes = (app, fs) => {
   app.post("/dishes", (req, res) => {
     readFile((dishes) => {
       try {
-        const foundDishes = dishes.find(
-          (category) => req.body.name === category.name
-        );
+        const foundDishes = dishes.find((dish) => req.body.name === dish.name);
         if (!foundDishes) {
           req.body.id = Date.now();
 
           dishes.push(req.body);
 
           writeFile(JSON.stringify(dishes, null, 2), () => {
-            res.status(200).send(
-              res.json(
-                dishes.filter((dish) => {
-                  return dish.categoryId === req.body.categoryId;
-                })
-              )
-            );
+            return res
+              .status(200)
+              .setHeader("Content-Type", "text/plain")
+              .send(
+                res.json(
+                  dishes.filter((dish) => {
+                    return dish.categoryId === req.body.categoryId;
+                  })
+                )
+              );
           });
         } else {
           res.status(403).json({ message: "Category already created!" });
@@ -80,14 +81,13 @@ const dishesRoutes = (app, fs) => {
   });
 
   // UPDATE
-  app.put("/dishes/:id", (req, res) => {
-    readFile((data) => {
+  app.patch("/dishes/:id", (req, res) => {
+    readFile((dishes) => {
       // add the new user
       const DishId = req.params["id"];
-      data[DishId] = req.body;
-
-      writeFile(JSON.stringify(data, null, 2), () => {
-        return res.status(200).send(DishId);
+      dishes[DishId] = req.body;
+      writeFile(JSON.stringify(dishes, null, 2), () => {
+        return res.status(200).send(dishes);
       });
     }, true);
   });
@@ -100,7 +100,7 @@ const dishesRoutes = (app, fs) => {
           dishes.filter((dish) => Number(dish.id) !== Number(req.params.id))
         ),
         () => {
-          res.status(200).send(req.params.id);
+          return res.status(200).send(dishes);
         }
       );
     }, true);

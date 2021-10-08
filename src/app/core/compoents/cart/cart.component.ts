@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import * as CartActions from './store/actions/cart.actions';
 import { Store } from '@ngrx/store';
 import { ICartState } from './store/state/cart.state';
+import { getCart } from './store/selectors/cart.selectors';
 
 @Component({
   selector: 'app-cart',
@@ -60,8 +61,8 @@ export class CartComponent implements OnInit {
 
   counterChange(event: any, id: number) {
     this.cart.forEach((item: { id: number; quantity: number }) => {
-      console.log(this.cart[0], 'cart');
       if (item.id == id) {
+        // MUTED STATE NEED DOING WITH SPREAD
         item.quantity = event;
       }
     });
@@ -88,10 +89,8 @@ export class CartComponent implements OnInit {
 
   loadCart(): void {
     this.store.dispatch(new CartActions.LoadCart());
-    this.storeSub = this.store.select('cart').subscribe((response: any) => {
-      this.cart = response.cart;
-      // this.categoriesList = response.categories;
-      this.isLoading = response.isLoading;
+    this.storeSub = this.store.select(getCart).subscribe((cart: CartItem) => {
+      this.cart = cart;
     });
   }
 

@@ -37,7 +37,7 @@ export class AdminDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AdminDialogComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: Category,
     public categoryService: CategoriesService,
     private http: HttpClient,
     private formBuilder: FormBuilder,
@@ -55,6 +55,6 @@ export class AdminDialogComponent implements OnInit {
     this.store.dispatch(new CategoriesActions.UpdateCategory(this.data));
     this.storeSub = this.store
       .select(selectedCategories)
-      .subscribe(() => this.dialogRef.close('Successfully add to cart'));
+      .subscribe(() => this.dialogRef.close('Successfully edit category'));
   }
 }

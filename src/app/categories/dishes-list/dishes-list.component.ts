@@ -43,10 +43,11 @@ export class DishesListComponent implements OnInit {
   }
 
   private getDishesByCategoryId(id: number): void {
-    this.store.dispatch(new DishesActions.LoadDishes(id));
+    this.store.dispatch(new DishesActions.LoadDishById(id));
     this.storeSub = this.store
       .select(selectedDishes)
       .subscribe((dishes: Dish[]) => {
+        console.log(dishes, 'DISHES');
         this.dishesList = dishes;
       });
   }

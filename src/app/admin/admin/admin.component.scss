@@ -53,6 +53,17 @@
   }
 }
 
+.mat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-item-footer {
+  margin: 1rem 0;
+}
+
 @keyframes slidein {
   0%   { opacity: 0; transition: opacity}
   100% { opacity: 1; transition: opacity}

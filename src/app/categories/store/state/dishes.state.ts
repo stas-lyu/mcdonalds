@@ -7,7 +7,7 @@ export interface IDishesState {
 }
 
 export const initialDishesState: IDishesState = {
-  dishes: [],
+  dishes: null!,
   dishesError: '',
   isLoading: false,
 };

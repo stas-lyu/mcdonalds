@@ -3,6 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoriesService } from '../../core/services/categories.service';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { IDishesState } from '../../categories/store/state/dishes.state';
+import * as Actions from '../../categories/store/actions/dishes.actions';
+import { Subscription } from 'rxjs';
+import { selectedDishes } from '../../categories/store/selectors/dishes.selectors';
 
 @Component({
   selector: 'app-dishes-edit-dialog',
@@ -12,12 +17,14 @@ import { Validators } from '@angular/forms';
 export class DishesEditDialogComponent implements OnInit {
   public dish = this.data;
   public dishForm: any;
+  storeSub: Object = Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<DishesEditDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     public categoryService: CategoriesService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<IDishesState>
   ) {}
 
   ngOnInit(): void {
@@ -30,14 +37,11 @@ export class DishesEditDialogComponent implements OnInit {
   }
 
   public editDish() {
-    // this.data.name = this.dishForm.value.name;
-    // this.data.price = this.dishForm.value.price;
-    // this.data.description = this.dishForm.value.description;
-    console.log(this.data, 'DATA', this.dishForm.getRawValue(), 'ROWVALUE');
-    this.categoryService
-      .editDish({ ...this.data, ...this.dishForm.getRawValue() })
-      .subscribe(() => {
-        this.dialogRef.close('Successfully add to cart');
-      });
+    this.store.dispatch(
+      new Actions.UpdateDish({ ...this.data, ...this.dishForm.getRawValue() })
+    );
+    this.storeSub = this.store
+      .select(selectedDishes)
+      .subscribe(() => this.dialogRef.close('Successfully edit dish'));
   }
 }

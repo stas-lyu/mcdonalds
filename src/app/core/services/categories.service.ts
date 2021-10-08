@@ -44,6 +44,16 @@ export class CategoriesService {
     );
   }
 
+  public getDishes(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(`${this.url}/dishes`).pipe(
+      retry(2),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      })
+    );
+  }
+
   public addCategory(category: {}) {
     return this.http
       .post<Category>(`${this.url}/categories`, category, httpOptions)
@@ -79,15 +89,16 @@ export class CategoriesService {
       );
   }
 
-  public editDish(dish: Dish) {
-    return this.http.put<any>(
+  public editDish(dish: Category) {
+    return this.http.patch<Dish>(
       `${this.url}/dishes/${dish.id}`,
       dish,
       httpOptions
     );
   }
 
-  public deleteDish(categoryId: number, dishId: number) {
+  public deleteDish(dishId: number) {
+    console.log(dishId, 'dishID');
     return this.http.delete(`${this.url}/dishes/${dishId}`, httpOptions);
   }
 }

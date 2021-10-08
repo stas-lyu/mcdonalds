@@ -6,8 +6,8 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dish } from '../../shared/classes/dish';
 import { DishesEditDialogComponent } from '../dishes-edit-dialog/dishes-edit-dialog.component';
-import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import {
   animate,
   state,
@@ -70,6 +70,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+    this.loadDishes();
     this.categoryAddGroup = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
       imgUrl: [null, [Validators.required, Validators.minLength(3)]],
@@ -77,6 +78,7 @@ export class AdminComponent implements OnInit {
 
     this.dishAddGroup = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
+      categoryId: [null, [Validators.required]],
       imgUrl: [null, [Validators.required, Validators.minLength(3)]],
       description: [null, [Validators.required, Validators.minLength(10)]],
       price: [null, [Validators.required]],
@@ -91,14 +93,11 @@ export class AdminComponent implements OnInit {
       .pipe(filter((response) => !!response))
       .subscribe((categories: Category[]) => {
         this.categories = categories;
-        setTimeout(() => {
-          this.loadDishes(categories[0].id);
-        }, 1000);
       });
   }
 
-  public loadDishes(id: number) {
-    this.storeDishes.dispatch(new DishesActions.LoadDishes(id));
+  public loadDishes() {
+    this.storeDishes.dispatch(new DishesActions.LoadDishes());
     this.storeSub = this.storeDishes
       .select(selectedDishes)
       .subscribe((dishes: Dish[]) => {
@@ -131,7 +130,6 @@ export class AdminComponent implements OnInit {
       .select(selectedCategories)
       .pipe(filter((response: Category[]) => !!response))
       .subscribe((categories: Category[]) => {
-        console.log(categories, 'delete Cat');
         this.categories = categories;
       });
   }
@@ -143,11 +141,19 @@ export class AdminComponent implements OnInit {
   }
 
   public deleteDish(dishId: number): void {
-    this.categoryService
-      .deleteDish(this.categoryId, dishId)
-      .pipe(takeUntil(this.notifier))
-      .subscribe(() => {
-        this.selectOnChange(this.categorySelectFormControl.value);
+    // this.categoryService
+    //   .deleteDish(dishId)
+    //   .pipe(takeUntil(this.notifier))
+    //   .subscribe(() => {
+    //     this.selectOnChange(this.categorySelectFormControl.value);
+    //   });
+
+    this.storeDishes.dispatch(new DishesActions.DeleteDishById(dishId));
+    this.storeSub = this.storeDishes
+      .select(selectedDishes)
+      .pipe(filter((response: Dish[]) => !!response))
+      .subscribe((dishes: Dish[]) => {
+        this.dishes = dishes;
       });
   }
 
@@ -167,14 +173,19 @@ export class AdminComponent implements OnInit {
       .subscribe((dishes) => (this.dishes = dishes));
   }
 
-  addDish() {
+  addDish(event: any) {
+    event.preventDefault();
     if (this.dishAddGroup.valid) {
-      this.dishAddGroup.value.categoryId = this.categoryId;
       this.toggleAddDishesClass = false;
-      this.categoryService
-        .addDish(this.dishAddGroup.value)
-        .pipe(takeUntil(this.notifier))
-        .subscribe((dishes: any) => (this.dishes = dishes));
+      this.storeDishes.dispatch(
+        new DishesActions.AddDishByCategoryId(this.dishAddGroup.value)
+      );
+      this.storeSub = this.storeDishes
+        .select(selectedDishes)
+        .pipe(filter((response: Dish[]) => !!response))
+        .subscribe((dishes: Dish[]) => {
+          this.dishes = dishes;
+        });
     }
   }
 

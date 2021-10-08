@@ -42,12 +42,14 @@
   <h2 class="section-title">Dishes Edit By Category</h2>
   <div class="center">
     <mat-form-field appearance="fill" class="dishes-select">
-      <mat-label>Favorite food</mat-label>
+      <mat-label>Choose dishes category</mat-label>
       <mat-select #mySelect (selectionChange)="selectOnChange(mySelect.value)"
                   [formControl]="categorySelectFormControl">
-        <mat-option *ngFor="let category of categories; let index = index" [value]="category.name"
-                    [attr.selected]='index > 0? "selected":null'>
+        <mat-option *ngFor="let category of categories; let index = index" [value]="category.name">
           {{category.name}}
+        </mat-option>
+        <mat-option (click)="loadDishes()">
+          Show all dishes
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -60,6 +62,8 @@
             <h5 class="dish-item_name">{{dish.name}}</h5>
             <img src="{{dish.imgUrl}}" alt="{{dish.name}}" class="responsive-img">
             <h5 class="dish-item_description">{{dish.description}}</h5>
+          </div>
+          <div class="category-item-footer">
             <span class="dish-item_price">price: {{dish.price}} $</span>
             <span class="dish-item_calories">calories: {{dish.cal}} cal.</span>
           </div>
@@ -82,6 +86,14 @@
         <mat-label>Name of dish</mat-label>
         <input matInput placeholder="Big Mac" type="text" formControlName="name">
       </mat-form-field>
+      <mat-form-field appearance="fill" class="dishes-select full-width">
+        <mat-label>Choose dishes category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categories; let index = index" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Dish img url</mat-label>
         <input matInput placeholder="past your img url" type="text" formControlName="imgUrl">
@@ -101,7 +113,7 @@
         <mat-label>Calories</mat-label>
         <input matInput placeholder="110" type="number" formControlName="cal">
       </mat-form-field>
-      <button mat-flat-button (click)="addDish()" class="btn">Add dish</button>
+      <button mat-flat-button (click)="addDish($event)" class="btn">Add dish</button>
     </form>
   </div>
 </section>
