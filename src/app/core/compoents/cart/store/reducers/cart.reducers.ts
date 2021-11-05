@@ -1,5 +1,5 @@
 import { CartActions, ECartActions } from '../actions/cart.actions';
-import { ICartState, initialCartState } from '../state/cart.state';
+import { initialCartState } from '../state/cart.state';
 import { CartItem } from '../models/cart.models';
 
 export const cartReducer = (
@@ -7,7 +7,12 @@ export const cartReducer = (
   action: CartActions
 ): CartItem[] => {
   switch (action.type) {
+    case ECartActions.GetCartItems:
+      return [...state]
+
     case ECartActions.AddItem:
+      console.log(state, 'state')
+      localStorage.setItem('cart', JSON.stringify([...state, action.payload]));
       return [...state, action.payload];
 
     case ECartActions.DeleteItem:

@@ -82,5 +82,11 @@
     "email": "a@a.comqweqwewqeq",
     "password": "$2b$10$.w3uAwwxKR5slyiVfZ0Zo.b8wmnYCJdKAhz6OpJaz/y2rrehfJTRG",
     "isAdmin": false
+  },
+  {
+    "id": 1635953975586,
+    "email": "admin@test.com",
+    "password": "$2b$10$75ag4dUn1ayusLYD.FvM7eYWMU82GurekV.pOFses7ODw01PdYtrm",
+    "isAdmin": true
   }
 ]

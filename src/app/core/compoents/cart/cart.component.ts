@@ -18,7 +18,6 @@ import { getCart } from './store/selectors/cart.selectors';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
-  shoppingItems!: any;
   storeSub!: Subscription;
   dishes: Dish[] = [];
   notifier = new Subject();
@@ -26,7 +25,6 @@ export class CartComponent implements OnInit {
     .length;
   totalPrice!: number;
   isLoading: boolean = true;
-
   cart: any = [];
 
   constructor(
@@ -35,18 +33,12 @@ export class CartComponent implements OnInit {
     private ordersService: OrdersService,
     private router: Router,
     private store: Store<ICartState>
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.totalPrice = this.getTotalPrice();
-    this.shoppingItems = this.store
-      .select(getCart)
-      .subscribe((cart) => console.log('this is cart!!,', cart));
-    // this.shoppingItems = this.store
-    //   .select(getCart)
-    //   .pipe(take(5))
-    //   .subscribe((s) => console.log(s));
-    //
+    this.store.select(getCart).pipe(takeUntil(this.notifier)).subscribe((cart) => this.cart = cart)
   }
 
   onQuantityChange(shoppingItem: CartItem) {
@@ -77,11 +69,9 @@ export class CartComponent implements OnInit {
     this.cart.forEach((item: { id: number; quantity: number }) => {
       if (item.id == id) {
         // MUTED STATE NEED DOING WITH SPREAD
-        console.log(item);
-        item.quantity = event;
+        // item.quantity = event;
       }
     });
-    localStorage.setItem('cart', JSON.stringify(this.cart));
     this.totalPrice = this.getTotalPrice();
   }
 

@@ -46,7 +46,6 @@ export class CategoryDialogComponent implements OnInit {
     };
 
     this.store.dispatch(new AddItemAction(product));
-
     this.dialogRef.close('Successfully add to cart');
   }
 

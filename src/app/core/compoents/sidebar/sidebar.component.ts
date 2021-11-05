@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CartService } from '../../services/cart.service';
+import { Store } from '@ngrx/store';
+import { getCart } from '../cart/store/selectors/cart.selectors';
+import { GetCartItems } from '../cart/store/actions/cart.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,14 +15,19 @@ export class SidebarComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   title = 'making-orders';
+  cart: any;
 
   constructor(
     private observer: BreakpointObserver,
     private cdr: ChangeDetectorRef,
-    public cartService: CartService
-  ) {}
+    public cartService: CartService,
+    private store: Store
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(getCart).subscribe((cart) => this.cart = cart);
+  }
 
   ngAfterViewInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {

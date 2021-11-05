@@ -6,6 +6,13 @@ export enum ECartActions {
   DeleteItem = '[Cart] Delete Item',
   DeleteAllItems = '[Cart] Delete All Items',
   UpdateItem = '[Cart] Update Item',
+  GetCartItems = '[Cart] Get Cart Items'
+}
+
+export class GetCartItems implements Action {
+  readonly type = ECartActions.GetCartItems;
+
+  constructor() {}
 }
 
 export class AddItemAction implements Action {
@@ -36,6 +43,7 @@ export class UpdateItemAction implements Action {
 }
 
 export type CartActions =
+  | GetCartItems
   | AddItemAction
   | UpdateItemAction
   | DeleteAllItemAction

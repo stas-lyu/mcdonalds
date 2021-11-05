@@ -11,4 +11,4 @@ export interface ICartState {
   imgUrl: string;
 }
 
-export const initialCartState: CartItem[] = [];
+export const initialCartState: CartItem[] = JSON.parse(<string>localStorage.getItem('cart')) || [];
